@@ -74,7 +74,7 @@
 
     .press-button:active { transform: scale(0.95); }
 
-    /* ============ VIDEO SCREEN - 3D POP OUT EFFECT ============ */
+    /* ============ VIDEO SCREEN - 3D POP OUT (NO ANIMATION) ============ */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -111,146 +111,121 @@
       filter: brightness(0) invert(1);
     }
 
-    /* ===== 3D POP OUT CONTAINER ===== */
+    /* 3D POP OUT CONTAINER - NO ANIMATION */
     .pop-out-scene {
       position: relative;
       transform-style: preserve-3d;
-      animation: sceneFloat 5s ease-in-out infinite;
+      transform: rotateX(3deg); /* Slight tilt for 3D feel */
     }
 
-    @keyframes sceneFloat {
-      0%, 100% { transform: translateZ(0px) rotateX(2deg); }
-      50% { transform: translateZ(30px) rotateX(-2deg); }
-    }
-
-    /* Back shadow on the "wall" */
+    /* Back shadow on the "wall" - SMALLER */
     .back-shadow {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 240px;
-      height: 426px;
+      top: 15px;
+      left: 15px;
+      width: 190px;
+      height: 338px;
       background: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
+      border-radius: 6px;
       transform: translateZ(-80px);
       filter: blur(20px);
     }
 
-    /* The "hole" in the wall - darker recessed area */
+    /* The "hole" in the wall - SMALLER */
     .portal-hole {
       position: absolute;
       top: 0;
       left: 0;
-      width: 260px;
-      height: 462px;
+      width: 200px;
+      height: 356px;
       background: linear-gradient(180deg, #000 0%, #0a1520 50%, #000 100%);
-      border-radius: 12px;
+      border-radius: 10px;
       transform: translateZ(-60px);
-      box-shadow: inset 0 0 50px rgba(0, 150, 255, 0.3);
+      box-shadow: inset 0 0 40px rgba(0, 150, 255, 0.3);
     }
 
-    /* Glowing edge of the portal hole */
+    /* Glowing edge of the portal hole - SMALLER */
     .portal-edge {
       position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border: 4px solid transparent;
-      border-radius: 16px;
+      top: -3px;
+      left: -3px;
+      width: 206px;
+      height: 362px;
+      border: 3px solid transparent;
+      border-radius: 13px;
       background: linear-gradient(#000, #000) padding-box,
                   linear-gradient(135deg, #00d4ff, #0088ff, #00d4ff, #00ffff) border-box;
       transform: translateZ(-55px);
-      animation: edgeGlow 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.8));
     }
 
-    @keyframes edgeGlow {
-      0%, 100% { 
-        filter: drop-shadow(0 0 15px rgba(0, 200, 255, 0.7));
-      }
-      50% { 
-        filter: drop-shadow(0 0 30px rgba(0, 200, 255, 1));
-      }
-    }
-
-    /* VIDEO CONTAINER - POPS OUT towards viewer */
+    /* VIDEO CONTAINER - SMALLER, NO ANIMATION */
     .video-pop-container {
       position: relative;
-      width: 260px;
-      height: 462px;
+      width: 200px;
+      height: 356px;
       transform-style: preserve-3d;
-      /* This makes it pop OUT of the screen! */
-      transform: translateZ(60px);
-      animation: videoPop 4s ease-in-out infinite;
+      transform: translateZ(50px); /* Pops OUT */
     }
 
-    @keyframes videoPop {
-      0%, 100% { 
-        transform: translateZ(60px) scale(1);
-      }
-      50% { 
-        transform: translateZ(90px) scale(1.02);
-      }
-    }
-
-    /* Left side panel - 3D depth */
+    /* Left side panel - 3D depth - SMALLER */
     .side-left {
       position: absolute;
       top: 0;
-      left: -30px;
-      width: 30px;
+      left: -25px;
+      width: 25px;
       height: 100%;
       background: linear-gradient(90deg, 
         rgba(0, 100, 150, 0.1) 0%,
         rgba(0, 150, 200, 0.4) 100%);
       transform: rotateY(90deg);
       transform-origin: right center;
-      border-radius: 4px 0 0 4px;
+      border-radius: 3px 0 0 3px;
     }
 
-    /* Right side panel - 3D depth */
+    /* Right side panel */
     .side-right {
       position: absolute;
       top: 0;
-      right: -30px;
-      width: 30px;
+      right: -25px;
+      width: 25px;
       height: 100%;
       background: linear-gradient(270deg, 
         rgba(0, 100, 150, 0.1) 0%,
         rgba(0, 150, 200, 0.4) 100%);
       transform: rotateY(-90deg);
       transform-origin: left center;
-      border-radius: 0 4px 4px 0;
+      border-radius: 0 3px 3px 0;
     }
 
-    /* Top panel - 3D depth */
+    /* Top panel */
     .side-top {
       position: absolute;
-      top: -30px;
+      top: -25px;
       left: 0;
       width: 100%;
-      height: 30px;
+      height: 25px;
       background: linear-gradient(180deg, 
         rgba(0, 100, 150, 0.1) 0%,
         rgba(0, 150, 200, 0.4) 100%);
       transform: rotateX(-90deg);
       transform-origin: bottom center;
-      border-radius: 4px 4px 0 0;
+      border-radius: 3px 3px 0 0;
     }
 
-    /* Bottom panel - 3D depth */
+    /* Bottom panel */
     .side-bottom {
       position: absolute;
-      bottom: -30px;
+      bottom: -25px;
       left: 0;
       width: 100%;
-      height: 30px;
+      height: 25px;
       background: linear-gradient(0deg, 
         rgba(0, 100, 150, 0.1) 0%,
         rgba(0, 150, 200, 0.5) 100%);
       transform: rotateX(90deg);
       transform-origin: top center;
-      border-radius: 0 0 4px 4px;
+      border-radius: 0 0 3px 3px;
     }
 
     /* Video front face with glowing border */
@@ -259,13 +234,13 @@
       width: 100%;
       height: 100%;
       background: #000;
-      border-radius: 8px;
+      border-radius: 6px;
       overflow: hidden;
       box-shadow: 
-        0 0 0 3px rgba(0, 200, 255, 0.8),
-        0 0 30px rgba(0, 200, 255, 0.6),
-        0 0 60px rgba(0, 150, 255, 0.4),
-        0 20px 60px rgba(0, 0, 0, 0.8);
+        0 0 0 2px rgba(0, 200, 255, 0.8),
+        0 0 25px rgba(0, 200, 255, 0.6),
+        0 0 50px rgba(0, 150, 255, 0.4),
+        0 15px 40px rgba(0, 0, 0, 0.8);
     }
 
     #videoPlayer {
@@ -277,85 +252,31 @@
 
     #videoPlayer::-webkit-media-controls { display: none !important; }
 
-    /* Light rays coming OUT from video */
-    .light-rays {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 400px;
-      height: 400px;
-      transform: translate(-50%, -50%) translateZ(100px);
-      pointer-events: none;
-      opacity: 0.4;
-    }
-
-    .ray {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 4px;
-      height: 150px;
-      background: linear-gradient(180deg, rgba(0, 200, 255, 0.8), transparent);
-      transform-origin: top center;
-      animation: rayPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes rayPulse {
-      0%, 100% { opacity: 0.3; height: 150px; }
-      50% { opacity: 0.7; height: 200px; }
-    }
-
-    /* Floor reflection */
+    /* Floor reflection - SMALLER */
     .floor-reflection {
       position: absolute;
-      bottom: -100px;
+      bottom: -80px;
       left: 50%;
-      transform: translateX(-50%) translateZ(30px) rotateX(85deg);
-      width: 300px;
-      height: 150px;
+      transform: translateX(-50%) translateZ(25px) rotateX(85deg);
+      width: 220px;
+      height: 100px;
       background: radial-gradient(ellipse at center,
-        rgba(0, 200, 255, 0.4) 0%,
-        rgba(0, 150, 255, 0.2) 40%,
+        rgba(0, 200, 255, 0.3) 0%,
+        rgba(0, 150, 255, 0.15) 40%,
         transparent 70%);
-      filter: blur(10px);
-      animation: reflectionPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes reflectionPulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 0.8; }
-    }
-
-    /* Floating particles coming OUT */
-    .particles-3d {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      pointer-events: none;
-    }
-
-    .particle-3d {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #00d4ff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+      filter: blur(8px);
     }
 
     /* View Models Button */
     .visualize-button {
       position: absolute;
-      bottom: 30px;
+      bottom: 25px;
       left: 50%;
-      transform: translateX(-50%) translateZ(80px);
-      padding: 12px 24px;
-      font-size: 11px;
+      transform: translateX(-50%) translateZ(60px);
+      padding: 10px 20px;
+      font-size: 10px;
       font-weight: 600;
-      border-radius: 25px;
+      border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(10px);
@@ -375,7 +296,7 @@
     }
 
     .visualize-button:active { 
-      transform: translateX(-50%) translateZ(80px) scale(0.95);
+      transform: translateX(-50%) translateZ(60px) scale(0.95);
     }
 
     /* ============ MODELS SCREEN ============ */
@@ -680,7 +601,7 @@
     <button class="press-button" id="startBtn">CLICK TO<br>START</button>
   </div>
 
-  <!-- VIDEO - 3D POP OUT -->
+  <!-- VIDEO - 3D POP OUT (NO ANIMATION) -->
   <div id="videoScreen">
     <div class="volume-warning">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
@@ -695,7 +616,7 @@
       <div class="portal-hole"></div>
       <div class="portal-edge"></div>
       
-      <!-- Video that POPS OUT -->
+      <!-- Video that POPS OUT - NO ANIMATION -->
       <div class="video-pop-container">
         <!-- 3D sides -->
         <div class="side-left"></div>
@@ -711,14 +632,8 @@
         </div>
       </div>
       
-      <!-- Light rays -->
-      <div class="light-rays" id="lightRays"></div>
-      
       <!-- Floor reflection -->
       <div class="floor-reflection"></div>
-      
-      <!-- 3D particles -->
-      <div class="particles-3d" id="particles3d"></div>
       
       <!-- Button -->
       <button class="visualize-button" id="visualizeBtn">View Models</button>
@@ -785,7 +700,7 @@
     ];
 
     // Elements
-    const elements = {
+    const el = {
       camera: document.getElementById("cameraBackground"),
       intro: document.getElementById("introScreen"),
       video: document.getElementById("videoScreen"),
@@ -827,14 +742,14 @@
       if (videoHaptic) { clearInterval(videoHaptic); videoHaptic = null; }
     }
 
-    // Gentle startup haptic - soft pulse every 1.2s
+    // Gentle startup haptic
     function beginStartupHaptic() {
       if (!canVibrate) return;
       vibrate([15, 80, 15]);
       startupHaptic = setInterval(() => vibrate([15, 80, 15]), 1200);
     }
 
-    // Smooth video haptic - very subtle every 350ms
+    // Smooth video haptic
     function beginVideoHaptic() {
       stopHaptics();
       if (!canVibrate) return;
@@ -844,46 +759,6 @@
 
     function tapHaptic() { vibrate(25); }
     function successHaptic() { vibrate([25, 40, 25, 40, 40]); }
-
-    // ========== LIGHT RAYS ==========
-    function createLightRays() {
-      const container = document.getElementById('lightRays');
-      for (let i = 0; i < 12; i++) {
-        const ray = document.createElement('div');
-        ray.className = 'ray';
-        ray.style.transform = `rotate(${i * 30}deg)`;
-        ray.style.animationDelay = `${i * 0.2}s`;
-        container.appendChild(ray);
-      }
-    }
-    createLightRays();
-
-    // ========== 3D PARTICLES ==========
-    function create3DParticles() {
-      const container = document.getElementById('particles3d');
-      for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle-3d';
-        particle.style.left = (100 + Math.random() * 60) + 'px';
-        particle.style.top = (150 + Math.random() * 150) + 'px';
-        particle.style.transform = `translateZ(${50 + Math.random() * 100}px)`;
-        particle.style.animation = `particle3dFloat ${3 + Math.random() * 2}s ease-in-out infinite`;
-        particle.style.animationDelay = `${Math.random() * 2}s`;
-        container.appendChild(particle);
-      }
-      
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes particle3dFloat {
-          0%, 100% { opacity: 0; transform: translateZ(50px) translateY(0); }
-          20% { opacity: 1; }
-          80% { opacity: 0.8; }
-          100% { opacity: 0; transform: translateZ(150px) translateY(-100px); }
-        }
-      `;
-      document.head.appendChild(style);
-    }
-    create3DParticles();
 
     // ========== CAMERA ==========
     async function initCamera() {
@@ -895,8 +770,8 @@
       for (const opt of opts) {
         try {
           cameraStream = await navigator.mediaDevices.getUserMedia(opt);
-          elements.camera.srcObject = cameraStream;
-          await elements.camera.play();
+          el.camera.srcObject = cameraStream;
+          await el.camera.play();
           setTimeout(beginStartupHaptic, 500);
           return;
         } catch (e) { continue; }
@@ -907,47 +782,47 @@
     initCamera();
 
     // ========== START ==========
-    elements.startBtn.onclick = async () => {
+    el.startBtn.onclick = async () => {
       stopHaptics();
       successHaptic();
-      elements.intro.style.display = "none";
-      elements.video.style.display = "flex";
-      elements.visualizeBtn.classList.remove('visible');
+      el.intro.style.display = "none";
+      el.video.style.display = "flex";
+      el.visualizeBtn.classList.remove('visible');
 
       try {
-        await elements.videoPlayer.play();
+        await el.videoPlayer.play();
         setTimeout(beginVideoHaptic, 500);
         buttonTimeout = setTimeout(() => {
-          elements.visualizeBtn.classList.add('visible');
+          el.visualizeBtn.classList.add('visible');
           vibrate([15, 30, 15]);
         }, 10000);
       } catch (e) {
         stopHaptics();
-        elements.video.style.display = "none";
-        elements.models.style.display = "block";
+        el.video.style.display = "none";
+        el.models.style.display = "block";
       }
     };
 
     // ========== VIDEO EVENTS ==========
-    elements.videoPlayer.addEventListener('error', () => {
+    el.videoPlayer.addEventListener('error', () => {
       stopHaptics();
       if (buttonTimeout) clearTimeout(buttonTimeout);
-      elements.video.style.display = "none";
-      elements.models.style.display = "block";
+      el.video.style.display = "none";
+      el.models.style.display = "block";
     });
 
-    elements.videoPlayer.addEventListener('pause', stopHaptics);
-    elements.videoPlayer.addEventListener('play', () => { if (!videoHaptic) beginVideoHaptic(); });
+    el.videoPlayer.addEventListener('pause', stopHaptics);
+    el.videoPlayer.addEventListener('play', () => { if (!videoHaptic) beginVideoHaptic(); });
 
     // ========== VISUALIZE ==========
-    elements.visualizeBtn.onclick = () => {
+    el.visualizeBtn.onclick = () => {
       stopHaptics();
       if (buttonTimeout) clearTimeout(buttonTimeout);
       tapHaptic();
-      elements.videoPlayer.pause();
-      elements.visualizeBtn.classList.remove('visible');
-      elements.video.style.display = "none";
-      elements.models.style.display = "block";
+      el.videoPlayer.pause();
+      el.visualizeBtn.classList.remove('visible');
+      el.video.style.display = "none";
+      el.models.style.display = "block";
     };
 
     // ========== SHOE CARDS ==========
@@ -973,7 +848,7 @@
           </button>
         </div>
       `;
-      elements.shoesGrid.appendChild(card);
+      el.shoesGrid.appendChild(card);
     });
 
     // ========== AR VIEW ==========
@@ -983,22 +858,22 @@
         tapHaptic();
         const i = parseInt(btn.dataset.i);
         currentShoe = shoes[i];
-        elements.modelName.textContent = currentShoe.name;
-        elements.loading.classList.add('active');
-        elements.models.style.display = "none";
-        elements.ar.style.display = "block";
+        el.modelName.textContent = currentShoe.name;
+        el.loading.classList.add('active');
+        el.models.style.display = "none";
+        el.ar.style.display = "block";
 
         selectedColor = 'original';
         renderColors();
         updateColorBadge('original');
 
-        elements.model3d.setAttribute('camera-orbit', '0deg 75deg auto');
-        elements.model3d.src = currentShoe.model;
+        el.model3d.setAttribute('camera-orbit', '0deg 75deg auto');
+        el.model3d.src = currentShoe.model;
 
-        elements.model3d.addEventListener('load', () => {
+        el.model3d.addEventListener('load', () => {
           storeOriginal();
           successHaptic();
-          setTimeout(() => elements.loading.classList.remove('active'), 400);
+          setTimeout(() => el.loading.classList.remove('active'), 400);
         }, { once: true });
       };
     });
@@ -1006,7 +881,7 @@
     // ========== COLORS ==========
     function storeOriginal() {
       originalColors.clear();
-      const m = elements.model3d.model;
+      const m = el.model3d.model;
       if (m) {
         for (const mat of m.materials) {
           const pbr = mat.pbrMetallicRoughness;
@@ -1016,7 +891,7 @@
     }
 
     function resetColor() {
-      const m = elements.model3d.model;
+      const m = el.model3d.model;
       if (m && originalColors.size) {
         for (const mat of m.materials) {
           const o = originalColors.get(mat.name);
@@ -1029,7 +904,7 @@
       if (id === 'original') { resetColor(); return; }
       const c = colors.find(x => x.id === id);
       if (!c) return;
-      const m = elements.model3d.model;
+      const m = el.model3d.model;
       if (!m) return;
       for (const mat of m.materials) {
         const pbr = mat.pbrMetallicRoughness;
@@ -1049,7 +924,7 @@
     }
 
     function renderColors() {
-      elements.colorRow.innerHTML = '';
+      el.colorRow.innerHTML = '';
       colors.forEach(c => {
         const chip = document.createElement('button');
         chip.className = `color-chip ${c.id === selectedColor ? 'selected' : ''}`;
@@ -1057,51 +932,51 @@
         chip.style.color = c.text;
         chip.textContent = c.name;
         chip.onclick = () => selectColorChip(c.id);
-        elements.colorRow.appendChild(chip);
+        el.colorRow.appendChild(chip);
       });
     }
 
     function updateColorBadge(id) {
       const c = colors.find(x => x.id === id);
       if (c) {
-        elements.colorDot.style.background = c.bg;
-        elements.colorLabel.textContent = c.name;
+        el.colorDot.style.background = c.bg;
+        el.colorLabel.textContent = c.name;
       }
     }
 
     // ========== ZOOM ==========
     let fov = 45;
-    elements.zoomIn.onclick = () => { tapHaptic(); fov = Math.max(15, fov - 5); elements.model3d.setAttribute('field-of-view', fov + 'deg'); };
-    elements.zoomOut.onclick = () => { tapHaptic(); fov = Math.min(80, fov + 5); elements.model3d.setAttribute('field-of-view', fov + 'deg'); };
+    el.zoomIn.onclick = () => { tapHaptic(); fov = Math.max(15, fov - 5); el.model3d.setAttribute('field-of-view', fov + 'deg'); };
+    el.zoomOut.onclick = () => { tapHaptic(); fov = Math.min(80, fov + 5); el.model3d.setAttribute('field-of-view', fov + 'deg'); };
 
     // ========== BOTTOM BUTTONS ==========
-    elements.buyBtn.onclick = () => {
+    el.buyBtn.onclick = () => {
       successHaptic();
       alert(`Added to Cart!\n\n${currentShoe.name}\nColor: ${colors.find(c => c.id === selectedColor).name}\nPrice: ${currentShoe.price}`);
     };
 
-    elements.replayBtn.onclick = () => {
+    el.replayBtn.onclick = () => {
       tapHaptic();
-      elements.ar.style.display = "none";
-      elements.video.style.display = "flex";
-      elements.visualizeBtn.classList.remove('visible');
-      elements.videoPlayer.currentTime = 0;
-      elements.videoPlayer.play();
+      el.ar.style.display = "none";
+      el.video.style.display = "flex";
+      el.visualizeBtn.classList.remove('visible');
+      el.videoPlayer.currentTime = 0;
+      el.videoPlayer.play();
       beginVideoHaptic();
       buttonTimeout = setTimeout(() => {
-        elements.visualizeBtn.classList.add('visible');
+        el.visualizeBtn.classList.add('visible');
         vibrate([15, 30, 15]);
       }, 10000);
     };
 
-    elements.backBtn.onclick = () => {
+    el.backBtn.onclick = () => {
       tapHaptic();
-      elements.ar.style.display = "none";
-      elements.models.style.display = "block";
+      el.ar.style.display = "none";
+      el.models.style.display = "block";
     };
 
     // ========== CLEANUP ==========
-    elements.model3d.addEventListener('error', () => elements.loading.classList.remove('active'));
+    el.model3d.addEventListener('error', () => el.loading.classList.remove('active'));
 
     window.addEventListener('beforeunload', () => {
       stopHaptics();
