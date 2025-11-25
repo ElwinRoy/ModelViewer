@@ -91,7 +91,7 @@
 
     .press-button:active { transform: scale(0.95); }
 
-    /* ============ VIDEO SCREEN - CLEAN 3D SPATIAL ============ */
+    /* ============ VIDEO SCREEN ============ */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -156,7 +156,7 @@
       100% { height: 28px; }
     }
 
-    /* ============ 3D SPATIAL CONTAINER - APPLE STYLE ============ */
+    /* ============ 3D SPATIAL CONTAINER ============ */
     .spatial-container {
       position: relative;
       transform-style: preserve-3d;
@@ -171,7 +171,38 @@
       transform-style: preserve-3d;
     }
 
-    /* Back depth layer - creates depth illusion */
+    /* GLOWING EFFECT BEHIND VIDEO */
+    .video-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateZ(-100px);
+      width: 280px;
+      height: 450px;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(0, 212, 255, 0.4) 0%,
+        rgba(0, 150, 255, 0.25) 30%,
+        rgba(0, 100, 200, 0.15) 50%,
+        transparent 70%
+      );
+      filter: blur(30px);
+      animation: glowPulse 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { 
+        opacity: 0.7; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(1);
+      }
+      50% { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(1.1);
+      }
+    }
+
+    /* Back depth layer */
     .depth-layer-back {
       position: absolute;
       top: 8px;
@@ -196,7 +227,7 @@
       transform: translateZ(-30px);
     }
 
-    /* Main video container - front layer */
+    /* Main video container */
     .video-spatial-container {
       position: relative;
       width: 220px;
@@ -207,7 +238,8 @@
       overflow: hidden;
       box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 0 30px rgba(0, 150, 255, 0.2);
     }
 
     #videoPlayer {
@@ -220,7 +252,7 @@
 
     #videoPlayer::-webkit-media-controls { display: none !important; }
 
-    /* Subtle glass reflection on top */
+    /* Subtle glass reflection */
     .glass-reflection {
       position: absolute;
       top: 0;
@@ -236,7 +268,7 @@
       border-radius: 15px 15px 0 0;
     }
 
-    /* 3D Floor shadow/reflection */
+    /* 3D Floor shadow */
     .floor-shadow {
       position: absolute;
       bottom: -80px;
@@ -251,35 +283,6 @@
         transparent 70%
       );
       filter: blur(20px);
-    }
-
-    /* Hexagon depth indicator - Apple style */
-    .depth-indicator {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 28px;
-      height: 24px;
-      z-index: 10;
-      opacity: 0.8;
-    }
-
-    .hexagon {
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.9);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .hexagon-inner {
-      width: 55%;
-      height: 55%;
-      background: rgba(0, 0, 0, 0.7);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     }
 
     /* Gyro hint */
@@ -299,23 +302,24 @@
       transition: opacity 0.5s ease;
     }
 
+    /* VIEW MODELS BUTTON - Fixed positioning */
     .visualize-button {
-      position: absolute;
+      position: fixed;
       bottom: 25px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 10px 20px;
-      font-size: 10px;
+      padding: 12px 24px;
+      font-size: 11px;
       font-weight: 500;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.4);
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
       color: rgba(255, 255, 255, 0.9);
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 1px;
-      z-index: 10;
+      z-index: 100;
       opacity: 0;
       visibility: hidden;
       transition: all 0.5s ease;
@@ -688,7 +692,7 @@
     <button class="press-button" id="startBtn">TAP TO<br>START</button>
   </div>
 
-  <!-- VIDEO SCREEN - CLEAN 3D SPATIAL LIKE APPLE -->
+  <!-- VIDEO SCREEN -->
   <div id="videoScreen">
     <div class="particles-container" id="particlesContainer"></div>
 
@@ -706,28 +710,22 @@
 
     <div class="gyro-hint" id="gyroHint">📱 Tilt or drag to explore depth</div>
 
-    <!-- 3D Spatial Container - Apple Style -->
+    <!-- 3D Spatial Container -->
     <div class="spatial-container" id="spatialContainer">
       <div class="spatial-frame">
-        <!-- Depth layers for parallax effect -->
+        <!-- GLOWING EFFECT BEHIND VIDEO -->
+        <div class="video-glow"></div>
+        
+        <!-- Depth layers -->
         <div class="depth-layer-back"></div>
         <div class="depth-layer-mid"></div>
         
-        <!-- Main video - clean, no effects -->
+        <!-- Main video - NO hexagon icon -->
         <div class="video-spatial-container">
           <video id="videoPlayer" playsinline loop>
             <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
           </video>
-          
-          <!-- Subtle glass reflection -->
           <div class="glass-reflection"></div>
-          
-          <!-- Hexagon depth indicator like Apple -->
-          <div class="depth-indicator">
-            <div class="hexagon">
-              <div class="hexagon-inner"></div>
-            </div>
-          </div>
         </div>
         
         <!-- Floor shadow -->
@@ -735,6 +733,7 @@
       </div>
     </div>
 
+    <!-- View Models Button - FIXED outside spatial container -->
     <button class="visualize-button" id="visualizeBtn">View Models</button>
   </div>
 
@@ -841,7 +840,7 @@
     let buttonTimeout = null;
 
     // =============================================
-    // 3D SPATIAL PARALLAX - APPLE STYLE
+    // 3D SPATIAL PARALLAX
     // =============================================
     let rotateX = 0;
     let rotateY = 0;
@@ -881,7 +880,6 @@
       const beta = event.beta || 0;
       const gamma = event.gamma || 0;
       
-      // Subtle rotation for realistic depth
       targetRotateX = Math.max(-12, Math.min(12, (beta - 45) * 0.25));
       targetRotateY = Math.max(-12, Math.min(12, gamma * 0.35));
     }
@@ -917,7 +915,6 @@
 
       container.addEventListener('touchend', () => {
         isDragging = false;
-        // Slowly return to center when not dragging
         if (!isGyroActive) {
           setTimeout(() => {
             if (!isDragging) {
@@ -928,7 +925,6 @@
         }
       });
 
-      // Mouse support for desktop
       container.addEventListener('mousedown', (e) => {
         isDragging = true;
         lastTouchX = e.clientX;
@@ -957,7 +953,6 @@
     }
 
     function animateParallax() {
-      // Smooth easing
       rotateX += (targetRotateX - rotateX) * 0.1;
       rotateY += (targetRotateY - rotateY) * 0.1;
       
@@ -1054,6 +1049,15 @@
     initCamera();
 
     // =============================================
+    // SHOW VIEW MODELS BUTTON FUNCTION
+    // =============================================
+    function showViewModelsButton() {
+      console.log('Showing View Models button');
+      el.visualizeBtn.classList.add('visible');
+      Haptic.success();
+    }
+
+    // =============================================
     // START BUTTON
     // =============================================
     el.startBtn.onclick = async () => {
@@ -1061,6 +1065,8 @@
       
       el.intro.style.display = "none";
       el.video.style.display = "flex";
+      
+      // Reset button state
       el.visualizeBtn.classList.remove('visible');
       
       targetRotateX = 0;
@@ -1071,18 +1077,23 @@
       
       el.videoPlayer.muted = false;
 
+      // Clear any existing timeout
+      if (buttonTimeout) {
+        clearTimeout(buttonTimeout);
+        buttonTimeout = null;
+      }
+
       try {
         await el.videoPlayer.play();
         setTimeout(() => Haptic.videoStart(), 2000);
         
+        // Hide gyro hint after 4 seconds
         setTimeout(() => {
           el.gyroHint.style.opacity = '0';
         }, 4000);
         
-        buttonTimeout = setTimeout(() => {
-          el.visualizeBtn.classList.add('visible');
-          Haptic.success();
-        }, 10000);
+        // Show View Models button after 10 seconds - FIXED
+        buttonTimeout = setTimeout(showViewModelsButton, 10000);
         
       } catch (e) {
         el.videoPlayer.muted = true;
@@ -1094,10 +1105,9 @@
           
           setTimeout(() => Haptic.videoStart(), 2000);
           
-          buttonTimeout = setTimeout(() => {
-            el.visualizeBtn.classList.add('visible');
-            Haptic.success();
-          }, 10000);
+          // Show View Models button after 10 seconds - FIXED
+          buttonTimeout = setTimeout(showViewModelsButton, 10000);
+          
         } catch (e2) {
           Haptic.stop();
           el.video.style.display = "none";
@@ -1111,7 +1121,10 @@
     // =============================================
     el.videoPlayer.addEventListener('error', () => {
       Haptic.stop();
-      if (buttonTimeout) clearTimeout(buttonTimeout);
+      if (buttonTimeout) {
+        clearTimeout(buttonTimeout);
+        buttonTimeout = null;
+      }
       el.video.style.display = "none";
       el.models.style.display = "flex";
     });
@@ -1127,7 +1140,10 @@
     el.visualizeBtn.onclick = () => {
       Haptic.stop();
       Haptic.tap(30);
-      if (buttonTimeout) clearTimeout(buttonTimeout);
+      if (buttonTimeout) {
+        clearTimeout(buttonTimeout);
+        buttonTimeout = null;
+      }
       el.videoPlayer.pause();
       el.visualizeBtn.classList.remove('visible');
       el.video.style.display = "none";
@@ -1154,10 +1170,11 @@
         el.gyroHint.style.opacity = '0';
       }, 4000);
       
-      buttonTimeout = setTimeout(() => {
-        el.visualizeBtn.classList.add('visible');
-        Haptic.success();
-      }, 10000);
+      // Clear existing timeout and set new one
+      if (buttonTimeout) {
+        clearTimeout(buttonTimeout);
+      }
+      buttonTimeout = setTimeout(showViewModelsButton, 10000);
     };
 
     // =============================================
@@ -1327,10 +1344,10 @@
         el.gyroHint.style.opacity = '0';
       }, 4000);
       
-      buttonTimeout = setTimeout(() => {
-        el.visualizeBtn.classList.add('visible');
-        Haptic.success();
-      }, 10000);
+      if (buttonTimeout) {
+        clearTimeout(buttonTimeout);
+      }
+      buttonTimeout = setTimeout(showViewModelsButton, 10000);
     };
 
     el.backBtn.onclick = () => {
@@ -1346,7 +1363,10 @@
 
     window.addEventListener('beforeunload', () => {
       Haptic.stop();
-      if (buttonTimeout) clearTimeout(buttonTimeout);
+      if (buttonTimeout) {
+        clearTimeout(buttonTimeout);
+        buttonTimeout = null;
+      }
       if (cameraStream) cameraStream.getTracks().forEach(t => t.stop());
     });
 
