@@ -72,6 +72,7 @@
 
     .press-button:active { transform: scale(0.95); }
 
+    /* ============ VIDEO SCREEN ============ */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -82,8 +83,103 @@
       display: none;
       align-items: center;
       justify-content: center;
-      perspective: 800px;
+      perspective: 1000px;
+      overflow: hidden;
     }
+
+    .video-bg-effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, 
+        rgba(0, 100, 200, 0.15) 0%, 
+        rgba(0, 50, 100, 0.1) 30%,
+        transparent 60%);
+      animation: bgPulse 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes bgPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .particles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.8), transparent);
+      border-radius: 50%;
+      animation: floatParticle linear infinite;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+    }
+
+    .sound-waves {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 30px;
+      z-index: 96;
+    }
+
+    .wave-bar {
+      width: 4px;
+      background: linear-gradient(to top, #00d4ff, #00ff88);
+      border-radius: 2px;
+      animation: waveAnimation 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes waveAnimation {
+      0% { height: 5px; }
+      100% { height: 25px; }
+    }
+
+    .sound-toggle {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid rgba(0, 212, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 96;
+      transition: all 0.3s ease;
+    }
+
+    .sound-toggle:active { transform: scale(0.9); }
+
+    .sound-toggle.unmuted {
+      background: rgba(0, 212, 255, 0.3);
+      border-color: #00d4ff;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+
+    .sound-icon { font-size: 24px; }
 
     .volume-warning {
       position: fixed;
@@ -99,6 +195,14 @@
       font-size: 12px;
       font-weight: 500;
       z-index: 95;
+      animation: fadeInOut 3s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
     .volume-icon {
@@ -107,10 +211,82 @@
       filter: brightness(0) invert(1);
     }
 
+    .tap-hint {
+      position: fixed;
+      top: 140px;
+      right: 20px;
+      background: rgba(0, 212, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 10px;
+      z-index: 96;
+      animation: hintPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .tap-hint.hidden { display: none; }
+
+    .video-progress {
+      position: fixed;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      z-index: 96;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00d4ff, #00ff88);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .corner-deco {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      z-index: 94;
+    }
+
+    .corner-deco.top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+    .corner-deco.top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+    .corner-deco.bottom-left { bottom: 140px; left: 20px; border-right: none; border-top: none; }
+    .corner-deco.bottom-right { bottom: 140px; right: 20px; border-left: none; border-top: none; }
+
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
+      animation: scanMove 3s linear infinite;
+      z-index: 94;
+    }
+
+    @keyframes scanMove {
+      0% { top: 0; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
     .pop-out-scene {
       position: relative;
       transform-style: preserve-3d;
       transform: rotateX(3deg);
+      z-index: 95;
     }
 
     .back-shadow {
@@ -149,6 +325,12 @@
                   linear-gradient(135deg, #00d4ff, #0088ff, #00d4ff, #00ffff) border-box;
       transform: translateZ(-55px);
       filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.8));
+      animation: portalGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes portalGlow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.8)); }
+      50% { filter: drop-shadow(0 0 40px rgba(0, 200, 255, 1)) drop-shadow(0 0 60px rgba(0, 255, 136, 0.5)); }
     }
 
     .video-pop-container {
@@ -217,11 +399,45 @@
         0 15px 40px rgba(0, 0, 0, 0.8);
     }
 
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(0, 150, 255, 0.1) 0%, transparent 20%, transparent 80%, rgba(0, 150, 255, 0.1) 100%);
+      z-index: 2;
+    }
+
+    .video-glow-border {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #00d4ff, #00ff88, #00d4ff, #ff00ff, #00d4ff);
+      background-size: 400% 400%;
+      animation: glowRotate 3s linear infinite;
+      z-index: -1;
+      filter: blur(4px);
+      opacity: 0.7;
+    }
+
+    @keyframes glowRotate {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     #videoPlayer {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      position: relative;
+      z-index: 1;
     }
 
     #videoPlayer::-webkit-media-controls { display: none !important; }
@@ -233,11 +449,14 @@
       transform: translateX(-50%) translateZ(25px) rotateX(85deg);
       width: 220px;
       height: 100px;
-      background: radial-gradient(ellipse at center,
-        rgba(0, 200, 255, 0.3) 0%,
-        rgba(0, 150, 255, 0.15) 40%,
-        transparent 70%);
+      background: radial-gradient(ellipse at center, rgba(0, 200, 255, 0.3) 0%, rgba(0, 150, 255, 0.15) 40%, transparent 70%);
       filter: blur(8px);
+      animation: reflectionPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes reflectionPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
 
     .visualize-button {
@@ -245,12 +464,12 @@
       bottom: 25px;
       left: 50%;
       transform: translateX(-50%) translateZ(60px);
-      padding: 10px 20px;
-      font-size: 10px;
+      padding: 12px 24px;
+      font-size: 11px;
       font-weight: 600;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(0, 0, 0, 0.6);
+      border-radius: 25px;
+      border: 2px solid rgba(0, 212, 255, 0.5);
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(10px);
       color: white;
       cursor: pointer;
@@ -259,19 +478,29 @@
       z-index: 10;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      transition: all 0.5s ease;
     }
 
     .visualize-button.visible {
       opacity: 1;
       visibility: visible;
+      animation: buttonPop 0.5s ease-out, buttonGlow 2s ease-in-out infinite;
     }
 
-    .visualize-button:active { 
-      transform: translateX(-50%) translateZ(60px) scale(0.95);
+    @keyframes buttonPop {
+      0% { transform: translateX(-50%) translateZ(60px) scale(0); }
+      50% { transform: translateX(-50%) translateZ(60px) scale(1.1); }
+      100% { transform: translateX(-50%) translateZ(60px) scale(1); }
     }
 
-    /* ============ MODELS SCREEN - FIXED SCROLLING ============ */
+    @keyframes buttonGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 255, 136, 0.4); }
+    }
+
+    .visualize-button:active { transform: translateX(-50%) translateZ(60px) scale(0.95); }
+
+    /* ============ MODELS SCREEN ============ */
     #modelsScreen {
       position: fixed;
       top: 0;
@@ -332,7 +561,6 @@
     .model-wrap { 
       height: 200px; 
       background: transparent;
-      /* Allow touch events to pass through for scrolling */
       touch-action: pan-y;
     }
     
@@ -341,7 +569,6 @@
       height: 100%; 
       background: transparent;
       --poster-color: transparent;
-      /* Disable model-viewer's touch handling for better scrolling */
       touch-action: pan-y;
     }
 
@@ -407,6 +634,7 @@
       transform: translateX(-50%) scale(0.95);
     }
 
+    /* ============ AR DETAIL VIEW ============ */
     #arDetailView { 
       position: fixed; 
       top: 0; 
@@ -531,20 +759,27 @@
       z-index: 115;
     }
 
-    .buy-btn {
-      background: linear-gradient(135deg, #0066ff, #0099ff);
+    .order-btn {
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
       color: white;
       border: none;
       padding: 14px 40px;
       border-radius: 30px;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       width: 100%;
       max-width: 280px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+      transition: all 0.3s ease;
     }
 
-    .buy-btn:active { transform: scale(0.97); }
+    .order-btn:active { 
+      transform: scale(0.97);
+      box-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
+    }
 
     .action-row {
       display: flex;
@@ -602,10 +837,41 @@
     <button class="press-button" id="startBtn">TAP TO<br>START</button>
   </div>
 
+  <!-- VIDEO SCREEN -->
   <div id="videoScreen">
-    <div class="volume-warning">
+    <div class="video-bg-effect"></div>
+    <div class="particles-container" id="particlesContainer"></div>
+    <div class="scan-line"></div>
+    
+    <div class="corner-deco top-left"></div>
+    <div class="corner-deco top-right"></div>
+    <div class="corner-deco bottom-left"></div>
+    <div class="corner-deco bottom-right"></div>
+
+    <div class="volume-warning" id="volumeWarning">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
-      <span>VOLUME UP</span>
+      <span>TAP 🔊 FOR SOUND</span>
+    </div>
+
+    <button class="sound-toggle" id="soundToggle">
+      <span class="sound-icon">🔇</span>
+    </button>
+    <div class="tap-hint" id="tapHint">Tap for sound</div>
+
+    <div class="sound-waves" id="soundWaves">
+      <div class="wave-bar" style="animation-delay: 0s;"></div>
+      <div class="wave-bar" style="animation-delay: 0.1s;"></div>
+      <div class="wave-bar" style="animation-delay: 0.2s;"></div>
+      <div class="wave-bar" style="animation-delay: 0.3s;"></div>
+      <div class="wave-bar" style="animation-delay: 0.4s;"></div>
+      <div class="wave-bar" style="animation-delay: 0.3s;"></div>
+      <div class="wave-bar" style="animation-delay: 0.2s;"></div>
+      <div class="wave-bar" style="animation-delay: 0.1s;"></div>
+      <div class="wave-bar" style="animation-delay: 0s;"></div>
+    </div>
+
+    <div class="video-progress">
+      <div class="progress-fill" id="progressFill"></div>
     </div>
 
     <div class="pop-out-scene">
@@ -620,18 +886,20 @@
         <div class="side-bottom"></div>
         
         <div class="video-front">
-          <video id="videoPlayer" playsinline loop muted>
+          <div class="video-glow-border"></div>
+          <video id="videoPlayer" playsinline loop>
             <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
           </video>
+          <div class="video-overlay"></div>
         </div>
       </div>
       
       <div class="floor-reflection"></div>
-      <button class="visualize-button" id="visualizeBtn">View Models</button>
+      <button class="visualize-button" id="visualizeBtn">✨ View Models</button>
     </div>
   </div>
 
-  <!-- MODELS SCREEN - FIXED STRUCTURE FOR SCROLLING -->
+  <!-- MODELS SCREEN -->
   <div id="modelsScreen">
     <div class="models-scroll-container" id="scrollContainer">
       <div class="models-header">
@@ -643,6 +911,7 @@
     <button class="back-to-video-btn" id="backToVideoBtn">← Back to Video</button>
   </div>
 
+  <!-- AR VIEW -->
   <div id="arDetailView">
     <model-viewer id="ar3DModel"
       ar ar-modes="webxr scene-viewer quick-look"
@@ -668,7 +937,8 @@
     </div>
 
     <div class="bottom-bar">
-      <button class="buy-btn" id="buyBtn">🛒 Add to Cart</button>
+      <!-- Changed to Order Now button -->
+      <button class="order-btn" id="orderBtn">🛒 Order Now</button>
       <div class="action-row">
         <button class="action-btn" id="replayBtn">↻ Replay</button>
         <button class="action-btn" id="backBtn">← Back</button>
@@ -692,6 +962,9 @@
       { id: 'green', name: 'Green', bg: '#27ae60', text: '#fff', r: 0.15, g: 0.68, b: 0.38 }
     ];
 
+    // Superkicks order URL
+    const ORDER_URL = "https://www.superkicks.in/?srsltid=AfmBOor9rXpYcBLeJhsC4CYMZvB6CJ-OI5h10Zxmq_ZbkrqnLp4p2dUE";
+
     const $ = id => document.getElementById(id);
     
     const el = {
@@ -712,11 +985,17 @@
       loading: $("loadingOverlay"),
       zoomIn: $("zoomIn"),
       zoomOut: $("zoomOut"),
-      buyBtn: $("buyBtn"),
+      orderBtn: $("orderBtn"),
       replayBtn: $("replayBtn"),
       backBtn: $("backBtn"),
       backToVideoBtn: $("backToVideoBtn"),
-      scrollContainer: $("scrollContainer")
+      scrollContainer: $("scrollContainer"),
+      soundToggle: $("soundToggle"),
+      soundWaves: $("soundWaves"),
+      progressFill: $("progressFill"),
+      tapHint: $("tapHint"),
+      volumeWarning: $("volumeWarning"),
+      particlesContainer: $("particlesContainer")
     };
 
     let cameraStream = null;
@@ -724,9 +1003,30 @@
     let originalColors = new Map();
     let selectedColor = 'original';
     let buttonTimeout = null;
+    let isMuted = true;
 
     // =============================================
-    // HAPTIC - SIMPLIFIED
+    // CREATE FLOATING PARTICLES
+    // =============================================
+    function createParticles() {
+      const container = el.particlesContainer;
+      container.innerHTML = '';
+      
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 6 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        container.appendChild(particle);
+      }
+    }
+
+    // =============================================
+    // HAPTIC
     // =============================================
     const Haptic = {
       supported: 'vibrate' in navigator,
@@ -752,15 +1052,49 @@
       videoStart() {
         this.stop();
         if (!this.supported) return;
-        const pulse = () => navigator.vibrate([80, 120, 80, 120, 80, 120, 80, 120]);
+        const pulse = () => navigator.vibrate([60, 140, 60, 140, 60, 140]);
         pulse();
-        this.intervalId = setInterval(pulse, 1600);
+        this.intervalId = setInterval(pulse, 1200);
       },
       
       success() {
         if (this.supported) navigator.vibrate([40, 40, 40, 40, 80]);
       }
     };
+
+    // =============================================
+    // VIDEO PROGRESS UPDATE
+    // =============================================
+    function updateProgress() {
+      if (el.videoPlayer.duration) {
+        const percent = (el.videoPlayer.currentTime / el.videoPlayer.duration) * 100;
+        el.progressFill.style.width = percent + '%';
+      }
+      requestAnimationFrame(updateProgress);
+    }
+
+    // =============================================
+    // SOUND TOGGLE
+    // =============================================
+    function toggleSound() {
+      Haptic.tap(30);
+      isMuted = !isMuted;
+      el.videoPlayer.muted = isMuted;
+      
+      const icon = el.soundToggle.querySelector('.sound-icon');
+      if (isMuted) {
+        icon.textContent = '🔇';
+        el.soundToggle.classList.remove('unmuted');
+        el.soundWaves.style.opacity = '0.3';
+      } else {
+        icon.textContent = '🔊';
+        el.soundToggle.classList.add('unmuted');
+        el.soundWaves.style.opacity = '1';
+        el.tapHint.classList.add('hidden');
+      }
+    }
+
+    el.soundToggle.onclick = toggleSound;
 
     // =============================================
     // CAMERA
@@ -792,11 +1126,21 @@
       el.intro.style.display = "none";
       el.video.style.display = "flex";
       el.visualizeBtn.classList.remove('visible');
+      
+      createParticles();
+      
+      isMuted = true;
+      el.videoPlayer.muted = true;
+      el.soundToggle.querySelector('.sound-icon').textContent = '🔇';
+      el.soundToggle.classList.remove('unmuted');
+      el.soundWaves.style.opacity = '0.3';
+      el.tapHint.classList.remove('hidden');
 
       try {
         await el.videoPlayer.play();
-        
+        updateProgress();
         setTimeout(() => Haptic.videoStart(), 2000);
+        setTimeout(() => { el.volumeWarning.style.display = 'none'; }, 3000);
         
         buttonTimeout = setTimeout(() => {
           el.visualizeBtn.classList.add('visible');
@@ -821,7 +1165,9 @@
     });
 
     el.videoPlayer.addEventListener('pause', () => Haptic.stop());
-    el.videoPlayer.addEventListener('play', () => Haptic.videoStart());
+    el.videoPlayer.addEventListener('play', () => {
+      if (!Haptic.intervalId) Haptic.videoStart();
+    });
 
     // =============================================
     // NAVIGATION
@@ -834,7 +1180,6 @@
       el.visualizeBtn.classList.remove('visible');
       el.video.style.display = "none";
       el.models.style.display = "flex";
-      // Scroll to top when entering
       el.scrollContainer.scrollTop = 0;
     };
 
@@ -844,7 +1189,19 @@
       el.video.style.display = "flex";
       el.visualizeBtn.classList.remove('visible');
       el.videoPlayer.currentTime = 0;
+      
+      isMuted = true;
+      el.videoPlayer.muted = true;
+      el.soundToggle.querySelector('.sound-icon').textContent = '🔇';
+      el.soundToggle.classList.remove('unmuted');
+      el.soundWaves.style.opacity = '0.3';
+      el.tapHint.classList.remove('hidden');
+      el.volumeWarning.style.display = 'flex';
+      
+      createParticles();
       el.videoPlayer.play();
+      
+      setTimeout(() => { el.volumeWarning.style.display = 'none'; }, 3000);
       
       buttonTimeout = setTimeout(() => {
         el.visualizeBtn.classList.add('visible');
@@ -862,7 +1219,6 @@
         <div class="model-wrap">
           <model-viewer src="${shoe.model}" 
             auto-rotate rotation-per-second="25deg"
-            camera-controls="false"
             interaction-prompt="none"
             shadow-intensity="0.5" 
             exposure="1.0"
@@ -991,20 +1347,36 @@
     el.zoomOut.onclick = () => { Haptic.tap(20); fov = Math.min(80, fov + 5); el.model3d.setAttribute('field-of-view', fov + 'deg'); };
 
     // =============================================
-    // BOTTOM BUTTONS
+    // ORDER NOW BUTTON - REDIRECTS TO SUPERKICKS
     // =============================================
-    el.buyBtn.onclick = () => {
+    el.orderBtn.onclick = () => {
       Haptic.success();
-      alert(`Added to Cart!\n\n${currentShoe.name}\nColor: ${colors.find(c => c.id === selectedColor).name}\nPrice: ${currentShoe.price}`);
+      // Redirect to Superkicks website
+      window.open(ORDER_URL, '_blank');
     };
 
+    // =============================================
+    // OTHER BOTTOM BUTTONS
+    // =============================================
     el.replayBtn.onclick = () => {
       Haptic.tap(30);
       el.ar.style.display = "none";
       el.video.style.display = "flex";
       el.visualizeBtn.classList.remove('visible');
       el.videoPlayer.currentTime = 0;
+      
+      isMuted = true;
+      el.videoPlayer.muted = true;
+      el.soundToggle.querySelector('.sound-icon').textContent = '🔇';
+      el.soundToggle.classList.remove('unmuted');
+      el.soundWaves.style.opacity = '0.3';
+      el.tapHint.classList.remove('hidden');
+      el.volumeWarning.style.display = 'flex';
+      
+      createParticles();
       el.videoPlayer.play();
+      
+      setTimeout(() => { el.volumeWarning.style.display = 'none'; }, 3000);
       
       buttonTimeout = setTimeout(() => {
         el.visualizeBtn.classList.add('visible');
