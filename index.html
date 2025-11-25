@@ -154,48 +154,50 @@
       100% { height: 25px; }
     }
 
+    /* SMALLER & TRANSPARENT SOUND TOGGLE */
     .sound-toggle {
       position: fixed;
       top: 80px;
       right: 20px;
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid rgba(0, 212, 255, 0.5);
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       z-index: 96;
       transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
     }
 
     .sound-toggle:active { transform: scale(0.9); }
 
     .sound-toggle.unmuted {
-      background: rgba(0, 212, 255, 0.3);
-      border-color: #00d4ff;
-      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+      background: rgba(0, 212, 255, 0.2);
+      border-color: rgba(0, 212, 255, 0.4);
     }
 
-    .sound-icon { font-size: 24px; }
+    .sound-icon { font-size: 18px; }
 
     .volume-warning {
       position: fixed;
       top: 30px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.7);
-      padding: 8px 18px;
-      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px 14px;
+      border-radius: 15px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 12px;
+      gap: 6px;
+      font-size: 11px;
       font-weight: 500;
       z-index: 95;
       animation: fadeInOut 3s ease-in-out;
+      backdrop-filter: blur(5px);
     }
 
     @keyframes fadeInOut {
@@ -206,26 +208,24 @@
     }
 
     .volume-icon {
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       filter: brightness(0) invert(1);
+      opacity: 0.8;
     }
 
+    /* SMALLER TAP HINT */
     .tap-hint {
       position: fixed;
-      top: 140px;
-      right: 20px;
-      background: rgba(0, 212, 255, 0.2);
-      padding: 6px 12px;
-      border-radius: 15px;
-      font-size: 10px;
+      top: 130px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 9px;
       z-index: 96;
-      animation: hintPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes hintPulse {
-      0%, 100% { opacity: 0.7; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
+      opacity: 0.7;
+      backdrop-filter: blur(5px);
     }
 
     .tap-hint.hidden { display: none; }
@@ -249,37 +249,6 @@
       border-radius: 2px;
       width: 0%;
       transition: width 0.1s linear;
-    }
-
-    .corner-deco {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      border: 2px solid rgba(0, 212, 255, 0.3);
-      z-index: 94;
-    }
-
-    .corner-deco.top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
-    .corner-deco.top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
-    .corner-deco.bottom-left { bottom: 140px; left: 20px; border-right: none; border-top: none; }
-    .corner-deco.bottom-right { bottom: 140px; right: 20px; border-left: none; border-top: none; }
-
-    .scan-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
-      animation: scanMove 3s linear infinite;
-      z-index: 94;
-    }
-
-    @keyframes scanMove {
-      0% { top: 0; opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { top: 100%; opacity: 0; }
     }
 
     .pop-out-scene {
@@ -459,19 +428,20 @@
       50% { opacity: 1; }
     }
 
+    /* SUBTLE TRANSPARENT VIEW MODELS BUTTON */
     .visualize-button {
       position: absolute;
       bottom: 25px;
       left: 50%;
       transform: translateX(-50%) translateZ(60px);
-      padding: 12px 24px;
-      font-size: 11px;
-      font-weight: 600;
-      border-radius: 25px;
-      border: 2px solid rgba(0, 212, 255, 0.5);
-      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      font-size: 10px;
+      font-weight: 500;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(10px);
-      color: white;
+      color: rgba(255, 255, 255, 0.8);
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -484,21 +454,12 @@
     .visualize-button.visible {
       opacity: 1;
       visibility: visible;
-      animation: buttonPop 0.5s ease-out, buttonGlow 2s ease-in-out infinite;
     }
 
-    @keyframes buttonPop {
-      0% { transform: translateX(-50%) translateZ(60px) scale(0); }
-      50% { transform: translateX(-50%) translateZ(60px) scale(1.1); }
-      100% { transform: translateX(-50%) translateZ(60px) scale(1); }
+    .visualize-button:active { 
+      transform: translateX(-50%) translateZ(60px) scale(0.95);
+      background: rgba(255, 255, 255, 0.1);
     }
-
-    @keyframes buttonGlow {
-      0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
-      50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 255, 136, 0.4); }
-    }
-
-    .visualize-button:active { transform: translateX(-50%) translateZ(60px) scale(0.95); }
 
     /* ============ MODELS SCREEN ============ */
     #modelsScreen {
@@ -837,22 +798,19 @@
     <button class="press-button" id="startBtn">TAP TO<br>START</button>
   </div>
 
-  <!-- VIDEO SCREEN -->
+  <!-- VIDEO SCREEN - CLEANED UP -->
   <div id="videoScreen">
     <div class="video-bg-effect"></div>
     <div class="particles-container" id="particlesContainer"></div>
-    <div class="scan-line"></div>
-    
-    <div class="corner-deco top-left"></div>
-    <div class="corner-deco top-right"></div>
-    <div class="corner-deco bottom-left"></div>
-    <div class="corner-deco bottom-right"></div>
+
+    <!-- REMOVED: corner decorations and scan line -->
 
     <div class="volume-warning" id="volumeWarning">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
       <span>TAP 🔊 FOR SOUND</span>
     </div>
 
+    <!-- SMALLER SOUND TOGGLE -->
     <button class="sound-toggle" id="soundToggle">
       <span class="sound-icon">🔇</span>
     </button>
@@ -895,7 +853,9 @@
       </div>
       
       <div class="floor-reflection"></div>
-      <button class="visualize-button" id="visualizeBtn">✨ View Models</button>
+      
+      <!-- SUBTLE VIEW MODELS BUTTON -->
+      <button class="visualize-button" id="visualizeBtn">View Models</button>
     </div>
   </div>
 
@@ -937,7 +897,6 @@
     </div>
 
     <div class="bottom-bar">
-      <!-- Changed to Order Now button -->
       <button class="order-btn" id="orderBtn">🛒 Order Now</button>
       <div class="action-row">
         <button class="action-btn" id="replayBtn">↻ Replay</button>
@@ -962,7 +921,6 @@
       { id: 'green', name: 'Green', bg: '#27ae60', text: '#fff', r: 0.15, g: 0.68, b: 0.38 }
     ];
 
-    // Superkicks order URL
     const ORDER_URL = "https://www.superkicks.in/?srsltid=AfmBOor9rXpYcBLeJhsC4CYMZvB6CJ-OI5h10Zxmq_ZbkrqnLp4p2dUE";
 
     const $ = id => document.getElementById(id);
@@ -1012,10 +970,10 @@
       const container = el.particlesContainer;
       container.innerHTML = '';
       
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 15; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
-        const size = Math.random() * 6 + 2;
+        const size = Math.random() * 5 + 2;
         particle.style.width = size + 'px';
         particle.style.height = size + 'px';
         particle.style.left = Math.random() * 100 + '%';
@@ -1347,11 +1305,10 @@
     el.zoomOut.onclick = () => { Haptic.tap(20); fov = Math.min(80, fov + 5); el.model3d.setAttribute('field-of-view', fov + 'deg'); };
 
     // =============================================
-    // ORDER NOW BUTTON - REDIRECTS TO SUPERKICKS
+    // ORDER NOW BUTTON
     // =============================================
     el.orderBtn.onclick = () => {
       Haptic.success();
-      // Redirect to Superkicks website
       window.open(ORDER_URL, '_blank');
     };
 
