@@ -243,7 +243,7 @@
       max-width: 90%;
     }
 
-    /* Video Screen */
+    /* Video Screen - Updated for smaller centered container */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -255,21 +255,22 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
+      /* Camera background shows through */
     }
 
     .volume-warning {
       position: fixed;
-      top: 30px;
+      top: 40px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(20px);
-      padding: 14px 28px;
+      padding: 12px 24px;
       border-radius: 30px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 14px;
+      gap: 10px;
+      font-size: 13px;
       font-weight: 600;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
       z-index: 95;
@@ -283,20 +284,21 @@
     }
 
     .volume-icon {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       filter: brightness(0) invert(1);
     }
 
+    /* Smaller video container like reference image */
     .video-container {
       position: relative;
-      width: 90%;
-      max-width: 360px;
+      width: 75%;
+      max-width: 280px;
       aspect-ratio: 9/16;
-      border-radius: 35px;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 0 100px rgba(0, 212, 255, 0.6), 0 0 150px rgba(0, 255, 157, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.5);
-      border: 4px solid transparent;
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.5), 0 0 100px rgba(0, 255, 157, 0.2), 0 20px 60px rgba(0, 0, 0, 0.8);
+      border: 3px solid transparent;
       background: linear-gradient(#000, #000) padding-box, linear-gradient(135deg, #00d4ff, #00ff9d, #00d4ff) border-box;
     }
 
@@ -333,8 +335,8 @@
     }
 
     .visualize-button {
-      padding: 22px 55px;
-      font-size: 17px;
+      padding: 18px 45px;
+      font-size: 15px;
       font-weight: bold;
       border-radius: 50px;
       border: none;
@@ -349,6 +351,29 @@
 
     .visualize-button:active {
       transform: scale(0.95);
+    }
+
+    /* Skip button for video */
+    .skip-video-btn {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 35px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 30px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(15px);
+      color: white;
+      cursor: pointer;
+      z-index: 96;
+      letter-spacing: 1px;
+    }
+
+    .skip-video-btn:active {
+      transform: translateX(-50%) scale(0.95);
     }
 
     /* Models Screen */
@@ -720,8 +745,8 @@
       bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 20px 60px;
-      font-size: 16px;
+      padding: 18px 50px;
+      font-size: 15px;
       font-weight: bold;
       border-radius: 50px;
       border: none;
@@ -814,7 +839,7 @@
     /* Touch hint */
     .touch-hint {
       position: fixed;
-      bottom: 280px;
+      bottom: 250px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.7);
@@ -882,7 +907,8 @@
     
     <div class="video-container">
       <video id="videoPlayer" playsinline>
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        <!-- Replace with your GitHub video URL -->
+        <source src="https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/YOUR_VIDEO_FILENAME.mp4" type="video/mp4">
       </video>
       
       <div class="video-overlay" id="videoOverlay">
@@ -891,6 +917,8 @@
         </button>
       </div>
     </div>
+
+    <button class="skip-video-btn" id="skipVideoBtn">Skip →</button>
   </div>
 
   <!-- Models Screen -->
@@ -912,10 +940,10 @@
       shadow-intensity="2"
       shadow-softness="1"
       exposure="1.0"
-      camera-orbit="25deg 75deg 0.4m"
-      min-camera-orbit="auto auto 0.15m"
-      max-camera-orbit="auto auto 1.5m"
-      field-of-view="45deg"
+      camera-orbit="25deg 65deg 2.5m"
+      min-camera-orbit="auto auto 0.8m"
+      max-camera-orbit="auto auto 6m"
+      field-of-view="30deg"
       interaction-prompt="none"
       environment-image="neutral">
       <button slot="ar-button" style="display:none;"></button>
@@ -1018,11 +1046,12 @@
     const colorNameEl = document.getElementById("colorName");
     const zoomIn = document.getElementById("zoomIn");
     const zoomOut = document.getElementById("zoomOut");
+    const skipVideoBtn = document.getElementById("skipVideoBtn");
 
     let cameraStream = null;
     let autoRotate = false;
     let currentShoe = null;
-    let currentZoom = 0.4;
+    let currentZoom = 2.5; // Start further back to see full model
     let originalMaterialColors = new Map();
 
     // Create floating particles
@@ -1041,7 +1070,6 @@
 
     // Initialize camera with BACK camera priority
     async function initCamera() {
-      // Try exact environment (back) camera first
       const constraints = [
         { video: { facingMode: { exact: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } } },
         { video: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } } },
@@ -1054,7 +1082,6 @@
           console.log("Trying camera constraint:", JSON.stringify(constraint));
           cameraStream = await navigator.mediaDevices.getUserMedia(constraint);
           
-          // Check if we got the back camera
           const videoTrack = cameraStream.getVideoTracks()[0];
           const settings = videoTrack.getSettings();
           console.log("Camera settings:", settings);
@@ -1073,7 +1100,6 @@
       document.body.style.background = "linear-gradient(135deg, #0f0c29, #302b63, #24243e)";
     }
 
-    // Start camera on page load
     initCamera();
 
     // Start button
@@ -1087,6 +1113,13 @@
     videoPlayer.addEventListener('ended', () => {
       videoOverlay.classList.add('active');
     });
+
+    // Skip video button
+    skipVideoBtn.onclick = () => {
+      videoPlayer.pause();
+      videoScreen.style.display = "none";
+      modelsScreen.style.display = "block";
+    };
 
     // Visualize button
     visualizeBtn.onclick = () => {
@@ -1107,10 +1140,10 @@
             camera-controls 
             shadow-intensity="1" 
             exposure="1.0"
-            camera-orbit="25deg 75deg 0.35m"
-            min-camera-orbit="auto auto 0.2m"
-            max-camera-orbit="auto auto 0.8m"
-            field-of-view="45deg"
+            camera-orbit="25deg 70deg 1.8m"
+            min-camera-orbit="auto auto 0.8m"
+            max-camera-orbit="auto auto 4m"
+            field-of-view="30deg"
             interaction-prompt="none"
             loading="eager">
           </model-viewer>
@@ -1140,34 +1173,30 @@
         currentShoe = shoes.find(s => s.model === modelUrl);
         modelName.textContent = name;
         
-        // Show loading
         loadingOverlay.classList.add('active');
         
         modelsScreen.style.display = "none";
         arDetailView.style.display = "block";
         
-        // Reset state
-        currentZoom = 0.4;
+        // Reset state - start zoomed out to see full model
+        currentZoom = 2.5;
         autoRotate = false;
         rotateBtn.classList.remove('active');
         
-        // Set model source and wait for it to load
         ar3DModel.src = modelUrl;
         
         ar3DModel.addEventListener('load', () => {
-          // Store original colors
           storeOriginalColors();
-          
-          // Reset to original color
           resetToOriginalColor();
           
-          // Hide loading
+          // Ensure camera is positioned to see full model
+          ar3DModel.cameraOrbit = "25deg 65deg 2.5m";
+          
           setTimeout(() => {
             loadingOverlay.classList.remove('active');
           }, 500);
         }, { once: true });
         
-        // Reset color selection UI
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
         document.querySelector('.color-btn[data-color="original"]').classList.add('selected');
         updateColorIndicator('original');
@@ -1217,15 +1246,11 @@
       const color = colorMap[colorKey];
       if (!color) return;
 
-      // Apply color to all materials
       for (const material of model.materials) {
         const pbr = material.pbrMetallicRoughness;
         if (pbr) {
-          // Get current alpha or default to 1
           const currentColor = pbr.baseColorFactor;
           const alpha = currentColor ? currentColor[3] : 1;
-          
-          // Blend color with material - maintain some original characteristics
           pbr.setBaseColorFactor([color.r, color.g, color.b, alpha]);
         }
       }
@@ -1249,41 +1274,34 @@
       colorToggle.classList.toggle('active');
     };
 
-    // Color selection with actual material changes
+    // Color selection
     document.querySelectorAll('.color-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        // Update UI
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         
         const colorKey = btn.getAttribute('data-color');
-        
-        // Apply color to model
         applyColorToModel(colorKey);
-        
-        // Update indicator
         updateColorIndicator(colorKey);
         
-        // Visual feedback
         btn.style.transform = 'scale(0.95)';
         setTimeout(() => btn.style.transform = '', 200);
 
-        // Haptic feedback if available
         if (navigator.vibrate) {
           navigator.vibrate(30);
         }
       });
     });
 
-    // Zoom controls
+    // Zoom controls - adjusted for larger range
     zoomIn.onclick = () => {
-      currentZoom = Math.max(0.15, currentZoom - 0.08);
+      currentZoom = Math.max(0.8, currentZoom - 0.3);
       ar3DModel.cameraOrbit = `auto auto ${currentZoom}m`;
       if (navigator.vibrate) navigator.vibrate(20);
     };
 
     zoomOut.onclick = () => {
-      currentZoom = Math.min(1.5, currentZoom + 0.08);
+      currentZoom = Math.min(6, currentZoom + 0.3);
       ar3DModel.cameraOrbit = `auto auto ${currentZoom}m`;
       if (navigator.vibrate) navigator.vibrate(20);
     };
@@ -1301,11 +1319,10 @@
 
     // Reset view
     resetBtn.onclick = () => {
-      ar3DModel.cameraOrbit = "25deg 75deg 0.4m";
-      currentZoom = 0.4;
+      ar3DModel.cameraOrbit = "25deg 65deg 2.5m";
+      currentZoom = 2.5;
       ar3DModel.resetTurntableRotation();
       
-      // Reset to original color
       resetToOriginalColor();
       document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
       document.querySelector('.color-btn[data-color="original"]').classList.add('selected');
@@ -1351,7 +1368,7 @@
       }
     });
 
-    // Handle visibility change to pause/resume camera
+    // Handle visibility change
     document.addEventListener('visibilitychange', async () => {
       if (document.hidden) {
         if (cameraStream) {
