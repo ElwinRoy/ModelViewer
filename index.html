@@ -29,36 +29,7 @@
       z-index: 1;
     }
 
-    /* Simple corner markers - no glow */
-    .corner-marker {
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .corner-marker::before, .corner-marker::after {
-      content: '';
-      position: absolute;
-      background: #00d4ff;
-    }
-
-    .corner-marker.top-left::before { width: 100%; height: 3px; top: 0; left: 0; }
-    .corner-marker.top-left::after { width: 3px; height: 100%; top: 0; left: 0; }
-    .corner-marker.top-right::before { width: 100%; height: 3px; top: 0; right: 0; }
-    .corner-marker.top-right::after { width: 3px; height: 100%; top: 0; right: 0; }
-    .corner-marker.bottom-left::before { width: 100%; height: 3px; bottom: 0; left: 0; }
-    .corner-marker.bottom-left::after { width: 3px; height: 100%; bottom: 0; left: 0; }
-    .corner-marker.bottom-right::before { width: 100%; height: 3px; bottom: 0; right: 0; }
-    .corner-marker.bottom-right::after { width: 3px; height: 100%; bottom: 0; right: 0; }
-
-    .corner-marker.top-left { top: 15px; left: 15px; }
-    .corner-marker.top-right { top: 15px; right: 15px; }
-    .corner-marker.bottom-left { bottom: 15px; left: 15px; }
-    .corner-marker.bottom-right { bottom: 15px; right: 15px; }
-
-    /* Intro Screen - Clean */
+    /* Intro Screen - ONLY glowing button */
     #introScreen {
       position: fixed;
       top: 0;
@@ -67,57 +38,46 @@
       height: 100vh;
       z-index: 100;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.5);
     }
 
-    .logo-text {
-      font-size: 12px;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      margin-bottom: 30px;
-      opacity: 0.7;
-      color: #fff;
-    }
-
+    /* Glowing button */
     .press-button {
-      width: 160px;
-      height: 160px;
+      position: relative;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: radial-gradient(circle at 30% 30%, rgba(0, 255, 157, 0.3), rgba(0, 212, 255, 0.15), rgba(0, 100, 150, 0.2));
+      border: 2px solid rgba(0, 212, 255, 0.5);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: bold;
       color: white;
       text-align: center;
-      padding: 20px;
-      transition: all 0.3s ease;
+      animation: pulseButton 2.5s infinite;
+      backdrop-filter: blur(10px);
+    }
+
+    @keyframes pulseButton {
+      0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 40px rgba(0, 212, 255, 0.5), 0 0 80px rgba(0, 255, 157, 0.2);
+      }
+      50% { 
+        transform: scale(1.02); 
+        box-shadow: 0 0 60px rgba(0, 212, 255, 0.7), 0 0 100px rgba(0, 255, 157, 0.4);
+      }
     }
 
     .press-button:active {
       transform: scale(0.95);
-      background: rgba(255, 255, 255, 0.2);
     }
 
-    .disclaimer {
-      position: absolute;
-      bottom: 30px;
-      text-align: center;
-      font-size: 10px;
-      opacity: 0.6;
-      line-height: 1.4;
-      padding: 15px 25px;
-      max-width: 90%;
-    }
-
-    /* Video Screen - NO GLOW, clean border */
+    /* Video Screen */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -153,13 +113,13 @@
       filter: brightness(0) invert(1);
     }
 
-    /* Video container - CLEAN, no glow */
+    /* Video container - SHARP EDGES */
     .video-container {
       position: relative;
       width: 65%;
       max-width: 240px;
       aspect-ratio: 9/16;
-      border-radius: 15px;
+      border-radius: 0;
       overflow: hidden;
       border: 2px solid rgba(255, 255, 255, 0.3);
       background: #000;
@@ -174,7 +134,6 @@
 
     #videoPlayer::-webkit-media-controls { display: none !important; }
 
-    /* Small popup button - always visible during video */
     .visualize-button {
       position: absolute;
       bottom: 20px;
@@ -298,7 +257,7 @@
       background: #eee;
     }
 
-    /* AR Detail View - CLEAN UI */
+    /* AR Detail View */
     #arDetailView { 
       position: fixed; 
       top: 0; 
@@ -320,7 +279,6 @@
       background: transparent;
     }
 
-    /* Small color indicator - top left */
     .color-indicator {
       position: fixed;
       top: 20px;
@@ -343,7 +301,6 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* Model name - top right, smaller */
     .size-info {
       position: fixed;
       top: 20px;
@@ -365,7 +322,6 @@
 
     #modelName { font-weight: 500; font-size: 12px; }
 
-    /* AR Controls - SMALLER, bottom center, horizontal */
     .ar-controls {
       position: fixed;
       bottom: 100px;
@@ -397,7 +353,6 @@
       color: #000;
     }
 
-    /* Zoom Controls - SMALLER, right side */
     .scale-controls {
       position: fixed;
       right: 15px;
@@ -424,9 +379,7 @@
       justify-content: center;
     }
 
-    .scale-btn:active {
-      background: rgba(255, 255, 255, 0.2);
-    }
+    .scale-btn:active { background: rgba(255, 255, 255, 0.2); }
 
     .scale-label {
       text-align: center;
@@ -435,7 +388,6 @@
       margin-top: 3px;
     }
 
-    /* Color Panel - Clean */
     .color-panel {
       position: fixed;
       bottom: 160px;
@@ -499,7 +451,6 @@
       border-color: rgba(255, 255, 255, 0.4);
     }
 
-    /* Back button - SMALLER */
     #closeARDetail {
       position: fixed;
       bottom: 35px;
@@ -518,7 +469,6 @@
 
     #closeARDetail:active { background: rgba(255, 255, 255, 0.1); }
 
-    /* Loading overlay */
     .loading-overlay {
       position: fixed;
       top: 0;
@@ -557,28 +507,19 @@
 
   <video id="cameraBackground" autoplay playsinline muted></video>
 
-  <div class="corner-marker top-left"></div>
-  <div class="corner-marker top-right"></div>
-  <div class="corner-marker bottom-left"></div>
-  <div class="corner-marker bottom-right"></div>
-
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loader"></div>
     <div class="loading-text">Loading...</div>
   </div>
 
+  <!-- Intro Screen - ONLY the glowing button -->
   <div id="introScreen">
-    <div class="logo-text">SNEAKER AR</div>
     <button class="press-button" id="startBtn">
-      TAP TO<br>START
+      CLICK TO<br>START
     </button>
-    <div class="disclaimer">
-      For the best experience, ensure good lighting.<br>
-      This is for entertainment purposes.
-    </div>
   </div>
 
-  <!-- Video Screen - Clean, no glow -->
+  <!-- Video Screen -->
   <div id="videoScreen">
     <div class="volume-warning">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
@@ -586,12 +527,9 @@
     </div>
     
     <div class="video-container">
-      <!-- Video loops infinitely -->
       <video id="videoPlayer" playsinline loop muted>
         <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/videoplayback.mp4" type="video/mp4">
       </video>
-      
-      <!-- Button always visible -->
       <button class="visualize-button" id="visualizeBtn">View Models</button>
     </div>
   </div>
@@ -714,6 +652,62 @@
     let autoRotate = false;
     let currentShoe = null;
     let originalMaterialColors = new Map();
+    let videoHapticInterval = null;
+
+    // ============ HAPTIC FEEDBACK FUNCTIONS ============
+    
+    // Simple haptic vibration
+    function haptic(duration = 50) {
+      if (navigator.vibrate) {
+        navigator.vibrate(duration);
+      }
+    }
+
+    // Pattern haptic (array of vibrate/pause durations)
+    function hapticPattern(pattern) {
+      if (navigator.vibrate) {
+        navigator.vibrate(pattern);
+      }
+    }
+
+    // Strong haptic for important actions
+    function hapticStrong() {
+      hapticPattern([50, 30, 50]);
+    }
+
+    // Subtle haptic for video playback feel
+    function hapticSubtle() {
+      haptic(15);
+    }
+
+    // Welcome haptic when page loads
+    function hapticWelcome() {
+      // Pattern: vibrate 100ms, pause 50ms, vibrate 100ms, pause 50ms, vibrate 150ms
+      hapticPattern([100, 50, 100, 50, 150]);
+    }
+
+    // Start periodic haptic during video
+    function startVideoHaptic() {
+      // Initial haptic when video starts
+      hapticStrong();
+      
+      // Subtle haptic every 2 seconds while video plays
+      videoHapticInterval = setInterval(() => {
+        if (!videoPlayer.paused) {
+          hapticSubtle();
+        }
+      }, 2000);
+    }
+
+    // Stop video haptic
+    function stopVideoHaptic() {
+      if (videoHapticInterval) {
+        clearInterval(videoHapticInterval);
+        videoHapticInterval = null;
+      }
+    }
+
+    // ============ CAMERA INIT ============
 
     async function initCamera() {
       const constraints = [
@@ -732,31 +726,71 @@
       }
       document.body.style.background = "#1a1a2e";
     }
-    initCamera();
+
+    // Initialize camera and trigger welcome haptic
+    initCamera().then(() => {
+      // Welcome haptic when app is ready
+      setTimeout(() => {
+        hapticWelcome();
+      }, 500);
+    });
+
+    // Also trigger haptic on first user interaction (for browsers that require it)
+    document.addEventListener('click', function firstClick() {
+      haptic(30);
+      document.removeEventListener('click', firstClick);
+    }, { once: true });
+
+    // ============ START BUTTON ============
 
     startBtn.onclick = async () => {
+      // Strong haptic on start button click
+      hapticStrong();
+      
       introScreen.style.display = "none";
       videoScreen.style.display = "flex";
+      
       try {
         await videoPlayer.play();
+        // Start periodic haptic during video
+        startVideoHaptic();
       } catch (e) {
+        stopVideoHaptic();
         videoScreen.style.display = "none";
         modelsScreen.style.display = "block";
       }
     };
 
+    // ============ VIDEO EVENTS ============
+
     videoPlayer.addEventListener('error', () => {
+      stopVideoHaptic();
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
     });
 
+    videoPlayer.addEventListener('pause', () => {
+      stopVideoHaptic();
+    });
+
+    videoPlayer.addEventListener('play', () => {
+      if (!videoHapticInterval) {
+        startVideoHaptic();
+      }
+    });
+
+    // ============ VISUALIZE BUTTON ============
+
     visualizeBtn.onclick = () => {
+      hapticStrong();
+      stopVideoHaptic();
       videoPlayer.pause();
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
     };
 
-    // Generate shoe cards
+    // ============ SHOE CARDS ============
+
     shoes.forEach((shoe, index) => {
       const card = document.createElement("div");
       card.className = "shoe-card";
@@ -789,9 +823,12 @@
       shoesGrid.appendChild(card);
     });
 
+    // ============ VIEW IN AR ============
+
     document.querySelectorAll('.btn-3d-home').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
+        hapticStrong();
         
         const index = parseInt(btn.getAttribute('data-index'));
         currentShoe = shoes[index];
@@ -811,6 +848,7 @@
         ar3DModel.addEventListener('load', () => {
           storeOriginalColors();
           resetToOriginalColor();
+          haptic(100); // Haptic when model loads
           setTimeout(() => { loadingOverlay.classList.remove('active'); }, 400);
         }, { once: true });
         
@@ -819,6 +857,8 @@
         updateColorIndicator('original');
       });
     });
+
+    // ============ COLOR FUNCTIONS ============
 
     function storeOriginalColors() {
       originalMaterialColors.clear();
@@ -866,13 +906,17 @@
       }
     }
 
+    // ============ AR CONTROLS ============
+
     colorToggle.onclick = () => {
+      haptic(30);
       colorPanel.classList.toggle('active');
       colorToggle.classList.toggle('active');
     };
 
     document.querySelectorAll('.color-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        haptic(40);
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         const colorKey = btn.getAttribute('data-color');
@@ -882,17 +926,21 @@
     });
 
     let currentFOV = 45;
+    
     zoomIn.onclick = () => {
+      haptic(20);
       currentFOV = Math.max(15, currentFOV - 5);
       ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
     };
 
     zoomOut.onclick = () => {
+      haptic(20);
       currentFOV = Math.min(80, currentFOV + 5);
       ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
     };
 
     rotateBtn.onclick = () => {
+      haptic(40);
       autoRotate = !autoRotate;
       ar3DModel.autoRotate = autoRotate;
       if (autoRotate) ar3DModel.setAttribute('rotation-per-second', '25deg');
@@ -900,6 +948,7 @@
     };
 
     resetBtn.onclick = () => {
+      hapticStrong();
       ar3DModel.setAttribute('camera-orbit', '0deg 75deg auto');
       ar3DModel.setAttribute('field-of-view', 'auto');
       currentFOV = 45;
@@ -911,6 +960,7 @@
     };
 
     closeARDetail.onclick = () => {
+      haptic(50);
       arDetailView.style.display = "none";
       modelsScreen.style.display = "block";
       colorPanel.classList.remove('active');
@@ -929,12 +979,16 @@
 
     ar3DModel.addEventListener('error', () => { loadingOverlay.classList.remove('active'); });
 
+    // ============ CLEANUP ============
+
     window.addEventListener('beforeunload', () => {
+      stopVideoHaptic();
       if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
     });
 
     document.addEventListener('visibilitychange', async () => {
       if (document.hidden) {
+        stopVideoHaptic();
         if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
       } else {
         await initCamera();
