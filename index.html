@@ -18,7 +18,6 @@
       overflow: hidden;
     }
 
-    /* Camera background - always visible */
     #cameraBackground {
       position: fixed;
       top: 0;
@@ -39,7 +38,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Transparent to show camera */
       background: transparent;
     }
 
@@ -93,7 +91,7 @@
 
     .press-button:active { transform: scale(0.95); }
 
-    /* ============ VIDEO SCREEN - TRANSPARENT BACKGROUND ============ */
+    /* ============ VIDEO SCREEN - CLEAN 3D SPATIAL ============ */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -106,40 +104,7 @@
       justify-content: center;
       perspective: 1200px;
       overflow: hidden;
-      /* TRANSPARENT - Camera shows through */
       background: transparent;
-    }
-
-    /* Semi-transparent overlay for better contrast */
-    .camera-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at center, 
-        rgba(0, 0, 0, 0.3) 0%, 
-        rgba(0, 0, 0, 0.5) 100%);
-      pointer-events: none;
-    }
-
-    /* Ambient glow behind video */
-    .ambient-glow {
-      position: absolute;
-      width: 350px;
-      height: 450px;
-      background: radial-gradient(ellipse at center, 
-        rgba(0, 150, 255, 0.25) 0%, 
-        rgba(0, 100, 200, 0.1) 40%,
-        transparent 70%);
-      filter: blur(40px);
-      animation: ambientPulse 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes ambientPulse {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 0.9; transform: scale(1.1); }
     }
 
     .particles-container {
@@ -164,21 +129,6 @@
       10% { opacity: 1; }
       90% { opacity: 1; }
       100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
-    }
-
-    .depth-particle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(0, 200, 255, 0.6);
-      box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
-      animation: depthFloat 8s ease-in-out infinite;
-    }
-
-    @keyframes depthFloat {
-      0%, 100% { transform: translate3d(0, 0, 0); }
-      25% { transform: translate3d(20px, -30px, 50px); }
-      50% { transform: translate3d(-20px, 20px, -30px); }
-      75% { transform: translate3d(30px, 10px, 20px); }
     }
 
     .sound-waves {
@@ -206,7 +156,7 @@
       100% { height: 28px; }
     }
 
-    /* ============ 3D SPATIAL HOLOGRAPHIC CONTAINER ============ */
+    /* ============ 3D SPATIAL CONTAINER - APPLE STYLE ============ */
     .spatial-container {
       position: relative;
       transform-style: preserve-3d;
@@ -214,95 +164,50 @@
       will-change: transform;
     }
 
-    .holo-frame {
+    .spatial-frame {
       position: relative;
       width: 220px;
       height: 390px;
       transform-style: preserve-3d;
     }
 
-    /* Back depth layer */
+    /* Back depth layer - creates depth illusion */
     .depth-layer-back {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 200px;
-      height: 370px;
-      background: linear-gradient(135deg, rgba(0, 50, 100, 0.4), rgba(0, 30, 60, 0.2));
-      border-radius: 15px;
-      transform: translateZ(-80px);
-      filter: blur(2px);
-      opacity: 0.5;
-      backdrop-filter: blur(5px);
+      top: 8px;
+      left: 8px;
+      width: 204px;
+      height: 374px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      transform: translateZ(-60px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     }
 
     /* Mid depth layer */
     .depth-layer-mid {
       position: absolute;
-      top: 5px;
-      left: 5px;
-      width: 210px;
-      height: 380px;
-      background: linear-gradient(135deg, rgba(0, 100, 150, 0.2), rgba(0, 50, 100, 0.15));
-      border-radius: 15px;
-      transform: translateZ(-40px);
-      border: 1px solid rgba(0, 200, 255, 0.2);
-      backdrop-filter: blur(3px);
+      top: 4px;
+      left: 4px;
+      width: 212px;
+      height: 382px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 14px;
+      transform: translateZ(-30px);
     }
 
-    /* Holographic border */
-    .holo-border {
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: 18px;
-      background: linear-gradient(
-        45deg,
-        rgba(0, 255, 255, 0.5),
-        rgba(0, 150, 255, 0.3),
-        rgba(100, 0, 255, 0.3),
-        rgba(0, 255, 150, 0.3),
-        rgba(0, 255, 255, 0.5)
-      );
-      background-size: 400% 400%;
-      animation: holoBorder 6s ease infinite;
-      transform: translateZ(-5px);
-      filter: blur(3px);
-      opacity: 0.8;
-    }
-
-    @keyframes holoBorder {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    /* Main video container */
-    .video-3d-container {
+    /* Main video container - front layer */
+    .video-spatial-container {
       position: relative;
       width: 220px;
       height: 390px;
       transform-style: preserve-3d;
       transform: translateZ(0px);
-    }
-
-    /* Glass frame */
-    .glass-frame {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       border-radius: 15px;
-      background: rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 
-        0 0 0 1px rgba(0, 200, 255, 0.3),
-        inset 0 0 30px rgba(0, 150, 255, 0.1),
-        0 25px 50px rgba(0, 0, 0, 0.5);
       overflow: hidden;
-      backdrop-filter: blur(1px);
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
     }
 
     #videoPlayer {
@@ -310,208 +215,71 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      border-radius: 14px;
+      border-radius: 15px;
     }
 
     #videoPlayer::-webkit-media-controls { display: none !important; }
 
-    /* Holographic scan lines */
-    .scan-lines {
+    /* Subtle glass reflection on top */
+    .glass-reflection {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 200, 255, 0.02) 2px,
-        rgba(0, 200, 255, 0.02) 4px
-      );
-      pointer-events: none;
-      border-radius: 14px;
-      z-index: 2;
-    }
-
-    /* Holographic shimmer */
-    .holo-shimmer {
-      position: absolute;
-      top: 0;
-      left: -150%;
-      width: 100%;
-      height: 100%;
+      height: 30%;
       background: linear-gradient(
-        105deg,
-        transparent 40%,
-        rgba(255, 255, 255, 0.15) 45%,
-        rgba(255, 255, 255, 0.25) 50%,
-        rgba(255, 255, 255, 0.15) 55%,
-        transparent 60%
+        180deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        transparent 100%
       );
-      animation: shimmer 4s ease-in-out infinite;
       pointer-events: none;
-      border-radius: 14px;
-      z-index: 3;
+      border-radius: 15px 15px 0 0;
     }
 
-    @keyframes shimmer {
-      0% { left: -150%; }
-      100% { left: 150%; }
-    }
-
-    /* Rainbow refraction edge */
-    .refraction-edge {
+    /* 3D Floor shadow/reflection */
+    .floor-shadow {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 15px;
-      border: 2px solid transparent;
-      background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)) padding-box,
-                  linear-gradient(
-                    45deg,
-                    #ff0080,
-                    #ff8c00,
-                    #ffff00,
-                    #00ff00,
-                    #00ffff,
-                    #0080ff,
-                    #8000ff,
-                    #ff0080
-                  ) border-box;
-      animation: refractionRotate 8s linear infinite;
-      opacity: 0.5;
-      pointer-events: none;
-      z-index: 4;
-    }
-
-    @keyframes refractionRotate {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
-    }
-
-    /* Floating light orbs */
-    .light-orb {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(0, 200, 255, 0.5), transparent);
-      filter: blur(1px);
-      pointer-events: none;
-    }
-
-    .light-orb.orb-1 {
-      width: 8px;
-      height: 8px;
-      top: 20%;
-      left: -30px;
-      transform: translateZ(60px);
-      animation: orbFloat1 5s ease-in-out infinite;
-    }
-
-    .light-orb.orb-2 {
-      width: 6px;
-      height: 6px;
-      top: 60%;
-      right: -25px;
-      transform: translateZ(40px);
-      animation: orbFloat2 6s ease-in-out infinite;
-    }
-
-    .light-orb.orb-3 {
-      width: 10px;
-      height: 10px;
-      bottom: 30%;
-      left: -20px;
-      transform: translateZ(80px);
-      animation: orbFloat3 7s ease-in-out infinite;
-    }
-
-    .light-orb.orb-4 {
-      width: 5px;
-      height: 5px;
-      top: 40%;
-      right: -35px;
-      transform: translateZ(100px);
-      animation: orbFloat4 4s ease-in-out infinite;
-    }
-
-    @keyframes orbFloat1 {
-      0%, 100% { transform: translateZ(60px) translate(0, 0); opacity: 0.8; }
-      50% { transform: translateZ(80px) translate(10px, -20px); opacity: 1; }
-    }
-
-    @keyframes orbFloat2 {
-      0%, 100% { transform: translateZ(40px) translate(0, 0); opacity: 0.6; }
-      50% { transform: translateZ(60px) translate(-15px, 15px); opacity: 1; }
-    }
-
-    @keyframes orbFloat3 {
-      0%, 100% { transform: translateZ(80px) translate(0, 0); opacity: 0.7; }
-      50% { transform: translateZ(100px) translate(20px, 10px); opacity: 1; }
-    }
-
-    @keyframes orbFloat4 {
-      0%, 100% { transform: translateZ(100px) translate(0, 0); opacity: 0.5; }
-      50% { transform: translateZ(120px) translate(-10px, -15px); opacity: 0.9; }
-    }
-
-    /* 3D Floor reflection */
-    .floor-3d {
-      position: absolute;
-      bottom: -100px;
+      bottom: -80px;
       left: 50%;
-      transform: translateX(-50%) rotateX(75deg) translateZ(-20px);
-      width: 280px;
-      height: 150px;
+      transform: translateX(-50%) rotateX(80deg) translateZ(-10px);
+      width: 200px;
+      height: 120px;
       background: radial-gradient(
         ellipse at center,
-        rgba(0, 200, 255, 0.3) 0%,
-        rgba(0, 150, 200, 0.15) 30%,
-        rgba(0, 100, 150, 0.05) 50%,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.2) 40%,
         transparent 70%
       );
-      filter: blur(15px);
-      animation: floorPulse 3s ease-in-out infinite;
+      filter: blur(20px);
     }
 
-    @keyframes floorPulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 0.8; }
-    }
-
-    /* Hexagon depth indicator */
+    /* Hexagon depth indicator - Apple style */
     .depth-indicator {
       position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 30px;
-      height: 26px;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 24px;
       z-index: 10;
+      opacity: 0.8;
     }
 
     .hexagon {
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(0, 200, 255, 0.6), rgba(100, 0, 255, 0.4));
+      background: rgba(255, 255, 255, 0.9);
       clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: hexPulse 2s ease-in-out infinite;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .hexagon-inner {
-      width: 60%;
-      height: 60%;
-      background: rgba(0, 0, 0, 0.5);
+      width: 55%;
+      height: 55%;
+      background: rgba(0, 0, 0, 0.7);
       clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    }
-
-    @keyframes hexPulse {
-      0%, 100% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.1); opacity: 1; }
     }
 
     /* Gyro hint */
@@ -520,20 +288,15 @@
       bottom: 130px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.6);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
       text-align: center;
-      animation: hintFade 3s ease-in-out infinite;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-      background: rgba(0, 0, 0, 0.3);
-      padding: 5px 12px;
-      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
       backdrop-filter: blur(5px);
-    }
-
-    @keyframes hintFade {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 0.9; }
+      transition: opacity 0.5s ease;
     }
 
     .visualize-button {
@@ -579,19 +342,17 @@
       display: none;
       flex-direction: column;
       overflow: hidden;
-      /* Transparent to show camera */
       background: transparent;
     }
 
-    /* Semi-transparent overlay for models screen */
     .models-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(15px);
       z-index: -1;
     }
 
@@ -726,7 +487,6 @@
       height: 100vh; 
       display: none; 
       z-index: 110;
-      /* Transparent to show camera */
       background: transparent;
     }
 
@@ -914,7 +674,6 @@
 </head>
 <body>
 
-  <!-- Camera background - always visible underneath -->
   <video id="cameraBackground" autoplay playsinline muted></video>
 
   <div class="loading-overlay" id="loadingOverlay">
@@ -929,18 +688,10 @@
     <button class="press-button" id="startBtn">TAP TO<br>START</button>
   </div>
 
-  <!-- VIDEO SCREEN - 3D SPATIAL HOLOGRAPHIC WITH CAMERA BACKGROUND -->
+  <!-- VIDEO SCREEN - CLEAN 3D SPATIAL LIKE APPLE -->
   <div id="videoScreen">
-    <!-- Semi-transparent overlay -->
-    <div class="camera-overlay"></div>
-    
-    <!-- Ambient glow -->
-    <div class="ambient-glow"></div>
-    
-    <!-- Particles -->
     <div class="particles-container" id="particlesContainer"></div>
 
-    <!-- Sound waves -->
     <div class="sound-waves" id="soundWaves">
       <div class="wave-bar" style="animation-delay: 0s;"></div>
       <div class="wave-bar" style="animation-delay: 0.1s;"></div>
@@ -953,47 +704,34 @@
       <div class="wave-bar" style="animation-delay: 0.05s;"></div>
     </div>
 
-    <!-- Gyro hint -->
-    <div class="gyro-hint" id="gyroHint">📱 Tilt device or drag to explore 3D</div>
+    <div class="gyro-hint" id="gyroHint">📱 Tilt or drag to explore depth</div>
 
-    <!-- 3D Spatial Container -->
+    <!-- 3D Spatial Container - Apple Style -->
     <div class="spatial-container" id="spatialContainer">
-      
-      <div class="holo-frame">
-        <!-- Depth layers -->
+      <div class="spatial-frame">
+        <!-- Depth layers for parallax effect -->
         <div class="depth-layer-back"></div>
         <div class="depth-layer-mid"></div>
         
-        <!-- Holographic border -->
-        <div class="holo-border"></div>
-        
-        <!-- Main video container -->
-        <div class="video-3d-container">
-          <div class="glass-frame">
-            <video id="videoPlayer" playsinline loop>
-              <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
-            </video>
-            <div class="scan-lines"></div>
-            <div class="holo-shimmer"></div>
-            <div class="refraction-edge"></div>
-          </div>
+        <!-- Main video - clean, no effects -->
+        <div class="video-spatial-container">
+          <video id="videoPlayer" playsinline loop>
+            <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
+          </video>
           
-          <!-- Depth indicator hexagon -->
+          <!-- Subtle glass reflection -->
+          <div class="glass-reflection"></div>
+          
+          <!-- Hexagon depth indicator like Apple -->
           <div class="depth-indicator">
             <div class="hexagon">
               <div class="hexagon-inner"></div>
             </div>
           </div>
-          
-          <!-- Floating light orbs -->
-          <div class="light-orb orb-1"></div>
-          <div class="light-orb orb-2"></div>
-          <div class="light-orb orb-3"></div>
-          <div class="light-orb orb-4"></div>
         </div>
         
-        <!-- 3D Floor reflection -->
-        <div class="floor-3d"></div>
+        <!-- Floor shadow -->
+        <div class="floor-shadow"></div>
       </div>
     </div>
 
@@ -1103,7 +841,7 @@
     let buttonTimeout = null;
 
     // =============================================
-    // 3D SPATIAL / PARALLAX EFFECT
+    // 3D SPATIAL PARALLAX - APPLE STYLE
     // =============================================
     let rotateX = 0;
     let rotateY = 0;
@@ -1131,7 +869,6 @@
         if (permission === 'granted') {
           window.addEventListener('deviceorientation', handleOrientation);
           isGyroActive = true;
-          el.gyroHint.textContent = '📱 Tilt to explore 3D depth';
         }
       } catch (e) {
         console.log('Gyroscope not available');
@@ -1144,8 +881,9 @@
       const beta = event.beta || 0;
       const gamma = event.gamma || 0;
       
-      targetRotateX = Math.max(-15, Math.min(15, (beta - 45) * 0.3));
-      targetRotateY = Math.max(-15, Math.min(15, gamma * 0.4));
+      // Subtle rotation for realistic depth
+      targetRotateX = Math.max(-12, Math.min(12, (beta - 45) * 0.25));
+      targetRotateY = Math.max(-12, Math.min(12, gamma * 0.35));
     }
 
     function initDragParallax() {
@@ -1167,11 +905,11 @@
         const deltaX = touchX - lastTouchX;
         const deltaY = touchY - lastTouchY;
         
-        targetRotateY += deltaX * 0.15;
-        targetRotateX -= deltaY * 0.15;
+        targetRotateY += deltaX * 0.12;
+        targetRotateX -= deltaY * 0.12;
         
-        targetRotateX = Math.max(-20, Math.min(20, targetRotateX));
-        targetRotateY = Math.max(-25, Math.min(25, targetRotateY));
+        targetRotateX = Math.max(-15, Math.min(15, targetRotateX));
+        targetRotateY = Math.max(-20, Math.min(20, targetRotateY));
         
         lastTouchX = touchX;
         lastTouchY = touchY;
@@ -1179,14 +917,18 @@
 
       container.addEventListener('touchend', () => {
         isDragging = false;
-        setTimeout(() => {
-          if (!isDragging && !isGyroActive) {
-            targetRotateX *= 0.8;
-            targetRotateY *= 0.8;
-          }
-        }, 2000);
+        // Slowly return to center when not dragging
+        if (!isGyroActive) {
+          setTimeout(() => {
+            if (!isDragging) {
+              targetRotateX *= 0.5;
+              targetRotateY *= 0.5;
+            }
+          }, 1500);
+        }
       });
 
+      // Mouse support for desktop
       container.addEventListener('mousedown', (e) => {
         isDragging = true;
         lastTouchX = e.clientX;
@@ -1199,11 +941,11 @@
         const deltaX = e.clientX - lastTouchX;
         const deltaY = e.clientY - lastTouchY;
         
-        targetRotateY += deltaX * 0.1;
-        targetRotateX -= deltaY * 0.1;
+        targetRotateY += deltaX * 0.08;
+        targetRotateX -= deltaY * 0.08;
         
-        targetRotateX = Math.max(-20, Math.min(20, targetRotateX));
-        targetRotateY = Math.max(-25, Math.min(25, targetRotateY));
+        targetRotateX = Math.max(-15, Math.min(15, targetRotateX));
+        targetRotateY = Math.max(-20, Math.min(20, targetRotateY));
         
         lastTouchX = e.clientX;
         lastTouchY = e.clientY;
@@ -1215,8 +957,9 @@
     }
 
     function animateParallax() {
-      rotateX += (targetRotateX - rotateX) * 0.08;
-      rotateY += (targetRotateY - rotateY) * 0.08;
+      // Smooth easing
+      rotateX += (targetRotateX - rotateX) * 0.1;
+      rotateY += (targetRotateY - rotateY) * 0.1;
       
       if (el.spatialContainer) {
         el.spatialContainer.style.transform = `
@@ -1239,27 +982,16 @@
       const container = el.particlesContainer;
       container.innerHTML = '';
       
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 12; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
-        const size = Math.random() * 5 + 2;
+        const size = Math.random() * 4 + 2;
         particle.style.width = size + 'px';
         particle.style.height = size + 'px';
         particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDuration = (Math.random() * 8 + 8) + 's';
+        particle.style.animationDuration = (Math.random() * 8 + 10) + 's';
         particle.style.animationDelay = (Math.random() * 8) + 's';
         container.appendChild(particle);
-      }
-
-      for (let i = 0; i < 8; i++) {
-        const dp = document.createElement('div');
-        dp.className = 'depth-particle';
-        dp.style.width = (Math.random() * 4 + 2) + 'px';
-        dp.style.height = dp.style.width;
-        dp.style.left = (Math.random() * 80 + 10) + '%';
-        dp.style.top = (Math.random() * 80 + 10) + '%';
-        dp.style.animationDelay = (Math.random() * 4) + 's';
-        container.appendChild(dp);
       }
     }
 
@@ -1333,6 +1065,7 @@
       
       targetRotateX = 0;
       targetRotateY = 0;
+      el.gyroHint.style.opacity = '1';
       
       createParticles();
       
@@ -1344,7 +1077,7 @@
         
         setTimeout(() => {
           el.gyroHint.style.opacity = '0';
-        }, 5000);
+        }, 4000);
         
         buttonTimeout = setTimeout(() => {
           el.visualizeBtn.classList.add('visible');
@@ -1419,7 +1152,7 @@
       
       setTimeout(() => {
         el.gyroHint.style.opacity = '0';
-      }, 5000);
+      }, 4000);
       
       buttonTimeout = setTimeout(() => {
         el.visualizeBtn.classList.add('visible');
@@ -1592,7 +1325,7 @@
       
       setTimeout(() => {
         el.gyroHint.style.opacity = '0';
-      }, 5000);
+      }, 4000);
       
       buttonTimeout = setTimeout(() => {
         el.visualizeBtn.classList.add('visible');
