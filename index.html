@@ -243,7 +243,7 @@
       max-width: 90%;
     }
 
-    /* Video Screen - Updated for smaller centered container */
+    /* Video Screen - Smaller centered container */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -255,7 +255,6 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      /* Camera background shows through */
     }
 
     .volume-warning {
@@ -292,8 +291,8 @@
     /* Smaller video container like reference image */
     .video-container {
       position: relative;
-      width: 75%;
-      max-width: 280px;
+      width: 70%;
+      max-width: 260px;
       aspect-ratio: 9/16;
       border-radius: 20px;
       overflow: hidden;
@@ -313,6 +312,7 @@
       display: none !important;
     }
 
+    /* Video overlay - only shows after video ends */
     .video-overlay {
       position: absolute;
       top: 0;
@@ -335,8 +335,8 @@
     }
 
     .visualize-button {
-      padding: 18px 45px;
-      font-size: 15px;
+      padding: 16px 35px;
+      font-size: 14px;
       font-weight: bold;
       border-radius: 50px;
       border: none;
@@ -351,29 +351,6 @@
 
     .visualize-button:active {
       transform: scale(0.95);
-    }
-
-    /* Skip button for video */
-    .skip-video-btn {
-      position: fixed;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 14px 35px;
-      font-size: 14px;
-      font-weight: 600;
-      border-radius: 30px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(15px);
-      color: white;
-      cursor: pointer;
-      z-index: 96;
-      letter-spacing: 1px;
-    }
-
-    .skip-video-btn:active {
-      transform: translateX(-50%) scale(0.95);
     }
 
     /* Models Screen */
@@ -907,18 +884,17 @@
     
     <div class="video-container">
       <video id="videoPlayer" playsinline>
-        <!-- Replace with your GitHub video URL -->
-        <source src="https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/YOUR_VIDEO_FILENAME.mp4" type="video/mp4">
+        <!-- Your GitHub video -->
+        <source src="https://raw.githubusercontent.com/ElwinRoy/ModelViewer/b239db9d66031597829ffa8ca44d0fd0ba13506f/videoplayback.mp4" type="video/mp4">
       </video>
       
+      <!-- Only shows after video ends -->
       <div class="video-overlay" id="videoOverlay">
         <button class="visualize-button" id="visualizeBtn">
           View Models
         </button>
       </div>
     </div>
-
-    <button class="skip-video-btn" id="skipVideoBtn">Skip →</button>
   </div>
 
   <!-- Models Screen -->
@@ -1007,10 +983,29 @@
   </div>
 
   <script>
+    // First 2 models have larger camera distance to show full shoe
     const shoes = [
-      { name: "New Balance 997", price: "₹14,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb" },
-      { name: "Formal Edge", price: "₹12,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb" },
-      { name: "ND Runner", price: "₹16,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb" }
+      { 
+        name: "New Balance 997", 
+        price: "₹14,999", 
+        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb",
+        cardCameraOrbit: "25deg 70deg 2.8m",  // Zoomed out more
+        arCameraOrbit: "25deg 65deg 3.0m"     // Zoomed out more for AR view
+      },
+      { 
+        name: "Formal Edge", 
+        price: "₹12,999", 
+        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb",
+        cardCameraOrbit: "25deg 70deg 2.8m",  // Zoomed out more
+        arCameraOrbit: "25deg 65deg 3.0m"     // Zoomed out more for AR view
+      },
+      { 
+        name: "ND Runner", 
+        price: "₹16,999", 
+        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb",
+        cardCameraOrbit: "25deg 70deg 1.8m",  // Normal zoom
+        arCameraOrbit: "25deg 65deg 2.5m"     // Normal zoom for AR view
+      }
     ];
 
     // Color mapping for materials
@@ -1046,12 +1041,11 @@
     const colorNameEl = document.getElementById("colorName");
     const zoomIn = document.getElementById("zoomIn");
     const zoomOut = document.getElementById("zoomOut");
-    const skipVideoBtn = document.getElementById("skipVideoBtn");
 
     let cameraStream = null;
     let autoRotate = false;
     let currentShoe = null;
-    let currentZoom = 2.5; // Start further back to see full model
+    let currentZoom = 2.5;
     let originalMaterialColors = new Map();
 
     // Create floating particles
@@ -1109,26 +1103,19 @@
       videoPlayer.play();
     };
 
-    // Video ended event
+    // Video ended event - only then show the button
     videoPlayer.addEventListener('ended', () => {
       videoOverlay.classList.add('active');
     });
 
-    // Skip video button
-    skipVideoBtn.onclick = () => {
-      videoPlayer.pause();
-      videoScreen.style.display = "none";
-      modelsScreen.style.display = "block";
-    };
-
-    // Visualize button
+    // Visualize button - go to models screen
     visualizeBtn.onclick = () => {
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
     };
 
-    // Generate shoe cards with properly sized models
-    shoes.forEach(shoe => {
+    // Generate shoe cards with custom camera orbit per model
+    shoes.forEach((shoe, index) => {
       const card = document.createElement("div");
       card.className = "shoe-card";
       card.innerHTML = `
@@ -1140,9 +1127,9 @@
             camera-controls 
             shadow-intensity="1" 
             exposure="1.0"
-            camera-orbit="25deg 70deg 1.8m"
+            camera-orbit="${shoe.cardCameraOrbit}"
             min-camera-orbit="auto auto 0.8m"
-            max-camera-orbit="auto auto 4m"
+            max-camera-orbit="auto auto 5m"
             field-of-view="30deg"
             interaction-prompt="none"
             loading="eager">
@@ -1151,7 +1138,7 @@
         <div class="info">
           <h3>${shoe.name}</h3>
           <div class="price">${shoe.price}</div>
-          <button class="btn-3d-home" data-model="${shoe.model}" data-name="${shoe.name}">
+          <button class="btn-3d-home" data-index="${index}">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z"/>
             </svg>
@@ -1167,30 +1154,28 @@
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
         
-        const modelUrl = btn.getAttribute('data-model');
-        const name = btn.getAttribute('data-name');
-        
-        currentShoe = shoes.find(s => s.model === modelUrl);
-        modelName.textContent = name;
+        const index = parseInt(btn.getAttribute('data-index'));
+        currentShoe = shoes[index];
+        modelName.textContent = currentShoe.name;
         
         loadingOverlay.classList.add('active');
         
         modelsScreen.style.display = "none";
         arDetailView.style.display = "block";
         
-        // Reset state - start zoomed out to see full model
-        currentZoom = 2.5;
+        // Use the shoe's specific AR camera orbit
+        currentZoom = parseFloat(currentShoe.arCameraOrbit.match(/[\d.]+m/)[0]);
         autoRotate = false;
         rotateBtn.classList.remove('active');
         
-        ar3DModel.src = modelUrl;
+        ar3DModel.src = currentShoe.model;
         
         ar3DModel.addEventListener('load', () => {
           storeOriginalColors();
           resetToOriginalColor();
           
-          // Ensure camera is positioned to see full model
-          ar3DModel.cameraOrbit = "25deg 65deg 2.5m";
+          // Apply shoe-specific camera orbit
+          ar3DModel.cameraOrbit = currentShoe.arCameraOrbit;
           
           setTimeout(() => {
             loadingOverlay.classList.remove('active');
@@ -1293,7 +1278,7 @@
       });
     });
 
-    // Zoom controls - adjusted for larger range
+    // Zoom controls
     zoomIn.onclick = () => {
       currentZoom = Math.max(0.8, currentZoom - 0.3);
       ar3DModel.cameraOrbit = `auto auto ${currentZoom}m`;
@@ -1317,10 +1302,15 @@
       if (navigator.vibrate) navigator.vibrate(30);
     };
 
-    // Reset view
+    // Reset view - use shoe-specific camera orbit
     resetBtn.onclick = () => {
-      ar3DModel.cameraOrbit = "25deg 65deg 2.5m";
-      currentZoom = 2.5;
+      if (currentShoe) {
+        ar3DModel.cameraOrbit = currentShoe.arCameraOrbit;
+        currentZoom = parseFloat(currentShoe.arCameraOrbit.match(/[\d.]+m/)[0]);
+      } else {
+        ar3DModel.cameraOrbit = "25deg 65deg 2.5m";
+        currentZoom = 2.5;
+      }
       ar3DModel.resetTurntableRotation();
       
       resetToOriginalColor();
