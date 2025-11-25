@@ -29,7 +29,6 @@
       z-index: 1;
     }
 
-    /* Intro Screen - ONLY glowing button */
     #introScreen {
       position: fixed;
       top: 0;
@@ -42,7 +41,6 @@
       justify-content: center;
     }
 
-    /* Glowing button */
     .press-button {
       position: relative;
       width: 180px;
@@ -73,11 +71,8 @@
       }
     }
 
-    .press-button:active {
-      transform: scale(0.95);
-    }
+    .press-button:active { transform: scale(0.95); }
 
-    /* Video Screen */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -113,11 +108,11 @@
       filter: brightness(0) invert(1);
     }
 
-    /* Video container - SHARP EDGES */
+    /* Video container - BIGGER */
     .video-container {
       position: relative;
-      width: 65%;
-      max-width: 240px;
+      width: 80%;
+      max-width: 300px;
       aspect-ratio: 9/16;
       border-radius: 0;
       overflow: hidden;
@@ -136,11 +131,11 @@
 
     .visualize-button {
       position: absolute;
-      bottom: 20px;
+      bottom: 25px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 12px 25px;
-      font-size: 11px;
+      padding: 14px 30px;
+      font-size: 12px;
       font-weight: 600;
       border-radius: 25px;
       border: none;
@@ -154,7 +149,6 @@
 
     .visualize-button:active { transform: translateX(-50%) scale(0.95); }
 
-    /* Models Screen */
     #modelsScreen {
       position: fixed;
       top: 0;
@@ -199,7 +193,6 @@
       padding-bottom: 20px;
     }
 
-    /* Shoe card - TRANSPARENT background */
     .shoe-card {
       background: transparent;
       border-radius: 20px;
@@ -207,7 +200,6 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    /* Model wrap - FULLY TRANSPARENT */
     .model-wrap { 
       height: 200px; 
       background: transparent;
@@ -220,7 +212,6 @@
       --poster-color: transparent;
     }
 
-    /* Info section - semi-transparent */
     .info { 
       padding: 18px 15px; 
       text-align: center;
@@ -263,7 +254,6 @@
       background: #eee;
     }
 
-    /* AR Detail View */
     #arDetailView { 
       position: fixed; 
       top: 0; 
@@ -503,10 +493,7 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .loading-text {
-      font-size: 12px;
-      opacity: 0.7;
-    }
+    .loading-text { font-size: 12px; opacity: 0.7; }
   </style>
 </head>
 <body>
@@ -518,14 +505,10 @@
     <div class="loading-text">Loading...</div>
   </div>
 
-  <!-- Intro Screen - ONLY the glowing button -->
   <div id="introScreen">
-    <button class="press-button" id="startBtn">
-      CLICK TO<br>START
-    </button>
+    <button class="press-button" id="startBtn">CLICK TO<br>START</button>
   </div>
 
-  <!-- Video Screen -->
   <div id="videoScreen">
     <div class="volume-warning">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
@@ -534,7 +517,7 @@
     
     <div class="video-container">
       <video id="videoPlayer" playsinline loop muted>
-        <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/videoplayback.mp4" type="video/mp4">
+        <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
       </video>
       <button class="visualize-button" id="visualizeBtn">View Models</button>
     </div>
@@ -658,60 +641,59 @@
     let autoRotate = false;
     let currentShoe = null;
     let originalMaterialColors = new Map();
-    let videoHapticInterval = null;
+    let hapticInterval = null;
 
-    // ============ HAPTIC FEEDBACK FUNCTIONS ============
+    // ============ SMOOTH HAPTIC FUNCTIONS ============
     
-    // Simple haptic vibration
-    function haptic(duration = 50) {
+    function haptic(duration = 30) {
       if (navigator.vibrate) {
         navigator.vibrate(duration);
       }
     }
 
-    // Stop any ongoing vibration
     function stopHaptic() {
       if (navigator.vibrate) {
         navigator.vibrate(0);
       }
-    }
-
-    // 5 second startup vibration
-    function hapticStartup() {
-      if (navigator.vibrate) {
-        // Vibrate for 5000ms (5 seconds)
-        navigator.vibrate(5000);
+      if (hapticInterval) {
+        clearInterval(hapticInterval);
+        hapticInterval = null;
       }
     }
 
-    // Continuous vibration for video - uses repeating pattern
-    // Since vibrate() stops after single duration, we use interval
-    let continuousHapticInterval = null;
-    
-    function startContinuousHaptic() {
-      stopContinuousHaptic(); // Clear any existing
-      
-      // Immediately start vibrating
+    // GENTLE startup haptic - soft pulses for ~5 seconds
+    // Pattern: short gentle vibrations with pauses (like a heartbeat)
+    function hapticStartupGentle() {
       if (navigator.vibrate) {
-        // Create a long vibration pattern that repeats
-        // Vibrate 200ms, pause 50ms, repeat - feels continuous
-        const vibrateLoop = () => {
-          if (navigator.vibrate) {
-            navigator.vibrate(200);
-          }
+        // Gentle pattern: 30ms vibrate, 200ms pause, 30ms vibrate, 400ms pause... repeating
+        // Total ~5 seconds of gentle pulsing
+        const gentlePattern = [
+          30, 200, 30, 400,  // pulse pulse ... pause
+          30, 200, 30, 400,
+          30, 200, 30, 400,
+          30, 200, 30, 400,
+          30, 200, 30, 400,
+          30, 200, 30, 400,
+          30, 200, 30, 400,
+          30, 200, 30
+        ];
+        navigator.vibrate(gentlePattern);
+      }
+    }
+
+    // SMOOTH video haptic - very subtle rhythmic pulses
+    function startSmoothVideoHaptic() {
+      stopHaptic();
+      
+      if (navigator.vibrate) {
+        // Subtle pulse every 800ms - very gentle
+        const smoothPulse = () => {
+          navigator.vibrate(15); // Very short, gentle pulse
         };
         
-        vibrateLoop(); // Start immediately
-        continuousHapticInterval = setInterval(vibrateLoop, 250);
+        smoothPulse();
+        hapticInterval = setInterval(smoothPulse, 800);
       }
-    }
-
-    function stopContinuousHaptic() {
-      if (continuousHapticInterval) {
-        clearInterval(continuousHapticInterval);
-        continuousHapticInterval = null;
-      }
-      stopHaptic();
     }
 
     // ============ CAMERA INIT ============
@@ -734,45 +716,35 @@
       document.body.style.background = "#1a1a2e";
     }
 
-    // Initialize camera
     initCamera();
 
-    // Startup vibration - 5 seconds when page loads
-    // Note: Many browsers require user interaction first, so we also trigger on first touch
-    let startupVibrationDone = false;
-    
-    function triggerStartupVibration() {
-      if (!startupVibrationDone) {
-        startupVibrationDone = true;
-        hapticStartup(); // 5 second vibration
+    // Gentle startup haptic
+    let startupDone = false;
+    function triggerStartupHaptic() {
+      if (!startupDone) {
+        startupDone = true;
+        hapticStartupGentle();
       }
     }
 
-    // Try on load (may not work without interaction)
-    setTimeout(triggerStartupVibration, 500);
-
-    // Also trigger on first touch/click (for browsers that require interaction)
-    document.addEventListener('touchstart', triggerStartupVibration, { once: true });
-    document.addEventListener('click', triggerStartupVibration, { once: true });
+    setTimeout(triggerStartupHaptic, 500);
+    document.addEventListener('touchstart', triggerStartupHaptic, { once: true });
+    document.addEventListener('click', triggerStartupHaptic, { once: true });
 
     // ============ START BUTTON ============
 
     startBtn.onclick = async () => {
-      // Stop startup vibration if still running
       stopHaptic();
-      
-      // Quick feedback haptic
-      haptic(100);
+      haptic(50); // Single tap feedback
       
       introScreen.style.display = "none";
       videoScreen.style.display = "flex";
       
       try {
         await videoPlayer.play();
-        // Start CONTINUOUS haptic during video
-        startContinuousHaptic();
+        startSmoothVideoHaptic();
       } catch (e) {
-        stopContinuousHaptic();
+        stopHaptic();
         videoScreen.style.display = "none";
         modelsScreen.style.display = "block";
       }
@@ -781,24 +753,24 @@
     // ============ VIDEO EVENTS ============
 
     videoPlayer.addEventListener('error', () => {
-      stopContinuousHaptic();
+      stopHaptic();
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
     });
 
     videoPlayer.addEventListener('pause', () => {
-      stopContinuousHaptic();
+      stopHaptic();
     });
 
     videoPlayer.addEventListener('play', () => {
-      startContinuousHaptic();
+      startSmoothVideoHaptic();
     });
 
     // ============ VISUALIZE BUTTON ============
 
     visualizeBtn.onclick = () => {
-      stopContinuousHaptic();
-      haptic(100);
+      stopHaptic();
+      haptic(40);
       videoPlayer.pause();
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
@@ -843,7 +815,7 @@
     document.querySelectorAll('.btn-3d-home').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        haptic(80);
+        haptic(40);
         
         const index = parseInt(btn.getAttribute('data-index'));
         currentShoe = shoes[index];
@@ -863,7 +835,7 @@
         ar3DModel.addEventListener('load', () => {
           storeOriginalColors();
           resetToOriginalColor();
-          haptic(100);
+          haptic(30);
           setTimeout(() => { loadingOverlay.classList.remove('active'); }, 400);
         }, { once: true });
         
@@ -924,14 +896,14 @@
     // ============ AR CONTROLS ============
 
     colorToggle.onclick = () => {
-      haptic(30);
+      haptic(20);
       colorPanel.classList.toggle('active');
       colorToggle.classList.toggle('active');
     };
 
     document.querySelectorAll('.color-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        haptic(40);
+        haptic(25);
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         const colorKey = btn.getAttribute('data-color');
@@ -943,19 +915,19 @@
     let currentFOV = 45;
     
     zoomIn.onclick = () => {
-      haptic(20);
+      haptic(15);
       currentFOV = Math.max(15, currentFOV - 5);
       ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
     };
 
     zoomOut.onclick = () => {
-      haptic(20);
+      haptic(15);
       currentFOV = Math.min(80, currentFOV + 5);
       ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
     };
 
     rotateBtn.onclick = () => {
-      haptic(40);
+      haptic(25);
       autoRotate = !autoRotate;
       ar3DModel.autoRotate = autoRotate;
       if (autoRotate) ar3DModel.setAttribute('rotation-per-second', '25deg');
@@ -963,7 +935,7 @@
     };
 
     resetBtn.onclick = () => {
-      haptic(80);
+      haptic(40);
       ar3DModel.setAttribute('camera-orbit', '0deg 75deg auto');
       ar3DModel.setAttribute('field-of-view', 'auto');
       currentFOV = 45;
@@ -975,7 +947,7 @@
     };
 
     closeARDetail.onclick = () => {
-      haptic(50);
+      haptic(30);
       arDetailView.style.display = "none";
       modelsScreen.style.display = "block";
       colorPanel.classList.remove('active');
@@ -997,13 +969,13 @@
     // ============ CLEANUP ============
 
     window.addEventListener('beforeunload', () => {
-      stopContinuousHaptic();
+      stopHaptic();
       if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
     });
 
     document.addEventListener('visibilitychange', async () => {
       if (document.hidden) {
-        stopContinuousHaptic();
+        stopHaptic();
         if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
       } else {
         await initCamera();
