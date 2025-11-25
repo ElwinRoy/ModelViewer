@@ -132,7 +132,7 @@
 
     .sound-waves {
       position: fixed;
-      bottom: 100px;
+      bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -152,103 +152,6 @@
     @keyframes waveAnimation {
       0% { height: 5px; }
       100% { height: 25px; }
-    }
-
-    /* SMALLER & TRANSPARENT SOUND TOGGLE */
-    .sound-toggle {
-      position: fixed;
-      top: 80px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 96;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(5px);
-    }
-
-    .sound-toggle:active { transform: scale(0.9); }
-
-    .sound-toggle.unmuted {
-      background: rgba(0, 212, 255, 0.2);
-      border-color: rgba(0, 212, 255, 0.4);
-    }
-
-    .sound-icon { font-size: 18px; }
-
-    .volume-warning {
-      position: fixed;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      padding: 6px 14px;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 500;
-      z-index: 95;
-      animation: fadeInOut 3s ease-in-out;
-      backdrop-filter: blur(5px);
-    }
-
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-      20% { opacity: 1; transform: translateX(-50%) translateY(0); }
-      80% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-
-    .volume-icon {
-      width: 14px;
-      height: 14px;
-      filter: brightness(0) invert(1);
-      opacity: 0.8;
-    }
-
-    /* SMALLER TAP HINT */
-    .tap-hint {
-      position: fixed;
-      top: 130px;
-      right: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 9px;
-      z-index: 96;
-      opacity: 0.7;
-      backdrop-filter: blur(5px);
-    }
-
-    .tap-hint.hidden { display: none; }
-
-    .video-progress {
-      position: fixed;
-      bottom: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      z-index: 96;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #00d4ff, #00ff88);
-      border-radius: 2px;
-      width: 0%;
-      transition: width 0.1s linear;
     }
 
     .pop-out-scene {
@@ -798,24 +701,12 @@
     <button class="press-button" id="startBtn">TAP TO<br>START</button>
   </div>
 
-  <!-- VIDEO SCREEN - CLEANED UP -->
+  <!-- VIDEO SCREEN - CLEAN -->
   <div id="videoScreen">
     <div class="video-bg-effect"></div>
     <div class="particles-container" id="particlesContainer"></div>
 
-    <!-- REMOVED: corner decorations and scan line -->
-
-    <div class="volume-warning" id="volumeWarning">
-      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
-      <span>TAP 🔊 FOR SOUND</span>
-    </div>
-
-    <!-- SMALLER SOUND TOGGLE -->
-    <button class="sound-toggle" id="soundToggle">
-      <span class="sound-icon">🔇</span>
-    </button>
-    <div class="tap-hint" id="tapHint">Tap for sound</div>
-
+    <!-- Sound waves visualization -->
     <div class="sound-waves" id="soundWaves">
       <div class="wave-bar" style="animation-delay: 0s;"></div>
       <div class="wave-bar" style="animation-delay: 0.1s;"></div>
@@ -826,10 +717,6 @@
       <div class="wave-bar" style="animation-delay: 0.2s;"></div>
       <div class="wave-bar" style="animation-delay: 0.1s;"></div>
       <div class="wave-bar" style="animation-delay: 0s;"></div>
-    </div>
-
-    <div class="video-progress">
-      <div class="progress-fill" id="progressFill"></div>
     </div>
 
     <div class="pop-out-scene">
@@ -845,6 +732,7 @@
         
         <div class="video-front">
           <div class="video-glow-border"></div>
+          <!-- Video with audio enabled by default -->
           <video id="videoPlayer" playsinline loop>
             <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
           </video>
@@ -854,7 +742,6 @@
       
       <div class="floor-reflection"></div>
       
-      <!-- SUBTLE VIEW MODELS BUTTON -->
       <button class="visualize-button" id="visualizeBtn">View Models</button>
     </div>
   </div>
@@ -948,11 +835,7 @@
       backBtn: $("backBtn"),
       backToVideoBtn: $("backToVideoBtn"),
       scrollContainer: $("scrollContainer"),
-      soundToggle: $("soundToggle"),
       soundWaves: $("soundWaves"),
-      progressFill: $("progressFill"),
-      tapHint: $("tapHint"),
-      volumeWarning: $("volumeWarning"),
       particlesContainer: $("particlesContainer")
     };
 
@@ -961,7 +844,6 @@
     let originalColors = new Map();
     let selectedColor = 'original';
     let buttonTimeout = null;
-    let isMuted = true;
 
     // =============================================
     // CREATE FLOATING PARTICLES
@@ -1021,40 +903,6 @@
     };
 
     // =============================================
-    // VIDEO PROGRESS UPDATE
-    // =============================================
-    function updateProgress() {
-      if (el.videoPlayer.duration) {
-        const percent = (el.videoPlayer.currentTime / el.videoPlayer.duration) * 100;
-        el.progressFill.style.width = percent + '%';
-      }
-      requestAnimationFrame(updateProgress);
-    }
-
-    // =============================================
-    // SOUND TOGGLE
-    // =============================================
-    function toggleSound() {
-      Haptic.tap(30);
-      isMuted = !isMuted;
-      el.videoPlayer.muted = isMuted;
-      
-      const icon = el.soundToggle.querySelector('.sound-icon');
-      if (isMuted) {
-        icon.textContent = '🔇';
-        el.soundToggle.classList.remove('unmuted');
-        el.soundWaves.style.opacity = '0.3';
-      } else {
-        icon.textContent = '🔊';
-        el.soundToggle.classList.add('unmuted');
-        el.soundWaves.style.opacity = '1';
-        el.tapHint.classList.add('hidden');
-      }
-    }
-
-    el.soundToggle.onclick = toggleSound;
-
-    // =============================================
     // CAMERA
     // =============================================
     async function initCamera() {
@@ -1076,7 +924,7 @@
     initCamera();
 
     // =============================================
-    // START BUTTON
+    // START BUTTON - AUDIO ON BY DEFAULT
     // =============================================
     el.startBtn.onclick = async () => {
       Haptic.startup();
@@ -1087,18 +935,12 @@
       
       createParticles();
       
-      isMuted = true;
-      el.videoPlayer.muted = true;
-      el.soundToggle.querySelector('.sound-icon').textContent = '🔇';
-      el.soundToggle.classList.remove('unmuted');
-      el.soundWaves.style.opacity = '0.3';
-      el.tapHint.classList.remove('hidden');
+      // Audio ON by default (not muted)
+      el.videoPlayer.muted = false;
 
       try {
         await el.videoPlayer.play();
-        updateProgress();
         setTimeout(() => Haptic.videoStart(), 2000);
-        setTimeout(() => { el.volumeWarning.style.display = 'none'; }, 3000);
         
         buttonTimeout = setTimeout(() => {
           el.visualizeBtn.classList.add('visible');
@@ -1106,9 +948,26 @@
         }, 10000);
         
       } catch (e) {
-        Haptic.stop();
-        el.video.style.display = "none";
-        el.models.style.display = "flex";
+        // If autoplay with sound fails, try muted first then unmute
+        el.videoPlayer.muted = true;
+        try {
+          await el.videoPlayer.play();
+          // Try to unmute after a short delay
+          setTimeout(() => {
+            el.videoPlayer.muted = false;
+          }, 100);
+          
+          setTimeout(() => Haptic.videoStart(), 2000);
+          
+          buttonTimeout = setTimeout(() => {
+            el.visualizeBtn.classList.add('visible');
+            Haptic.success();
+          }, 10000);
+        } catch (e2) {
+          Haptic.stop();
+          el.video.style.display = "none";
+          el.models.style.display = "flex";
+        }
       }
     };
 
@@ -1147,19 +1006,10 @@
       el.video.style.display = "flex";
       el.visualizeBtn.classList.remove('visible');
       el.videoPlayer.currentTime = 0;
-      
-      isMuted = true;
-      el.videoPlayer.muted = true;
-      el.soundToggle.querySelector('.sound-icon').textContent = '🔇';
-      el.soundToggle.classList.remove('unmuted');
-      el.soundWaves.style.opacity = '0.3';
-      el.tapHint.classList.remove('hidden');
-      el.volumeWarning.style.display = 'flex';
+      el.videoPlayer.muted = false;
       
       createParticles();
       el.videoPlayer.play();
-      
-      setTimeout(() => { el.volumeWarning.style.display = 'none'; }, 3000);
       
       buttonTimeout = setTimeout(() => {
         el.visualizeBtn.classList.add('visible');
@@ -1321,19 +1171,10 @@
       el.video.style.display = "flex";
       el.visualizeBtn.classList.remove('visible');
       el.videoPlayer.currentTime = 0;
-      
-      isMuted = true;
-      el.videoPlayer.muted = true;
-      el.soundToggle.querySelector('.sound-icon').textContent = '🔇';
-      el.soundToggle.classList.remove('unmuted');
-      el.soundWaves.style.opacity = '0.3';
-      el.tapHint.classList.remove('hidden');
-      el.volumeWarning.style.display = 'flex';
+      el.videoPlayer.muted = false;
       
       createParticles();
       el.videoPlayer.play();
-      
-      setTimeout(() => { el.volumeWarning.style.display = 'none'; }, 3000);
       
       buttonTimeout = setTimeout(() => {
         el.visualizeBtn.classList.add('visible');
