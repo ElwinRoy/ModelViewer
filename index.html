@@ -171,34 +171,39 @@
       transform-style: preserve-3d;
     }
 
-    /* GLOWING EFFECT BEHIND VIDEO */
+    /* GLOWING EFFECT BEHIND/AROUND VIDEO CONTAINER */
     .video-glow {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) translateZ(-100px);
-      width: 280px;
-      height: 450px;
-      background: radial-gradient(
-        ellipse at center,
-        rgba(0, 212, 255, 0.4) 0%,
-        rgba(0, 150, 255, 0.25) 30%,
-        rgba(0, 100, 200, 0.15) 50%,
-        transparent 70%
-      );
-      filter: blur(30px);
+      transform: translate(-50%, -50%);
+      width: 260px;
+      height: 430px;
+      border-radius: 25px;
+      background: transparent;
+      box-shadow: 
+        0 0 60px 20px rgba(0, 212, 255, 0.3),
+        0 0 100px 40px rgba(0, 150, 255, 0.2),
+        0 0 140px 60px rgba(0, 100, 200, 0.1);
       animation: glowPulse 3s ease-in-out infinite;
       pointer-events: none;
+      z-index: -1;
     }
 
     @keyframes glowPulse {
       0%, 100% { 
-        opacity: 0.7; 
-        transform: translate(-50%, -50%) translateZ(-100px) scale(1);
+        opacity: 0.8;
+        box-shadow: 
+          0 0 60px 20px rgba(0, 212, 255, 0.3),
+          0 0 100px 40px rgba(0, 150, 255, 0.2),
+          0 0 140px 60px rgba(0, 100, 200, 0.1);
       }
       50% { 
-        opacity: 1; 
-        transform: translate(-50%, -50%) translateZ(-100px) scale(1.1);
+        opacity: 1;
+        box-shadow: 
+          0 0 80px 30px rgba(0, 212, 255, 0.4),
+          0 0 120px 50px rgba(0, 150, 255, 0.25),
+          0 0 160px 70px rgba(0, 100, 200, 0.15);
       }
     }
 
@@ -238,8 +243,7 @@
       overflow: hidden;
       box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        0 0 30px rgba(0, 150, 255, 0.2);
+        0 0 0 1px rgba(255, 255, 255, 0.1);
     }
 
     #videoPlayer {
@@ -266,6 +270,39 @@
       );
       pointer-events: none;
       border-radius: 15px 15px 0 0;
+    }
+
+    /* VIEW MODELS BUTTON - INSIDE VIDEO CONTAINER */
+    .visualize-button {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      font-size: 9px;
+      font-weight: 500;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(8px);
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+    }
+
+    .visualize-button.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .visualize-button:active { 
+      transform: translateX(-50%) scale(0.95);
+      background: rgba(255, 255, 255, 0.15);
     }
 
     /* 3D Floor shadow */
@@ -300,39 +337,7 @@
       border-radius: 20px;
       backdrop-filter: blur(5px);
       transition: opacity 0.5s ease;
-    }
-
-    /* VIEW MODELS BUTTON - Fixed positioning */
-    .visualize-button {
-      position: fixed;
-      bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 24px;
-      font-size: 11px;
-      font-weight: 500;
-      border-radius: 25px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      color: rgba(255, 255, 255, 0.9);
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      z-index: 100;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.5s ease;
-    }
-
-    .visualize-button.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .visualize-button:active { 
-      transform: translateX(-50%) scale(0.95);
-      background: rgba(255, 255, 255, 0.1);
+      z-index: 95;
     }
 
     /* ============ MODELS SCREEN ============ */
@@ -713,28 +718,28 @@
     <!-- 3D Spatial Container -->
     <div class="spatial-container" id="spatialContainer">
       <div class="spatial-frame">
-        <!-- GLOWING EFFECT BEHIND VIDEO -->
+        <!-- GLOWING EFFECT AROUND VIDEO CONTAINER -->
         <div class="video-glow"></div>
         
         <!-- Depth layers -->
         <div class="depth-layer-back"></div>
         <div class="depth-layer-mid"></div>
         
-        <!-- Main video - NO hexagon icon -->
+        <!-- Main video container -->
         <div class="video-spatial-container">
           <video id="videoPlayer" playsinline loop>
             <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
           </video>
           <div class="glass-reflection"></div>
+          
+          <!-- VIEW MODELS BUTTON - INSIDE VIDEO CONTAINER -->
+          <button class="visualize-button" id="visualizeBtn">View Models</button>
         </div>
         
         <!-- Floor shadow -->
         <div class="floor-shadow"></div>
       </div>
     </div>
-
-    <!-- View Models Button - FIXED outside spatial container -->
-    <button class="visualize-button" id="visualizeBtn">View Models</button>
   </div>
 
   <!-- MODELS SCREEN -->
@@ -1049,10 +1054,9 @@
     initCamera();
 
     // =============================================
-    // SHOW VIEW MODELS BUTTON FUNCTION
+    // SHOW VIEW MODELS BUTTON
     // =============================================
     function showViewModelsButton() {
-      console.log('Showing View Models button');
       el.visualizeBtn.classList.add('visible');
       Haptic.success();
     }
@@ -1065,8 +1069,6 @@
       
       el.intro.style.display = "none";
       el.video.style.display = "flex";
-      
-      // Reset button state
       el.visualizeBtn.classList.remove('visible');
       
       targetRotateX = 0;
@@ -1077,7 +1079,6 @@
       
       el.videoPlayer.muted = false;
 
-      // Clear any existing timeout
       if (buttonTimeout) {
         clearTimeout(buttonTimeout);
         buttonTimeout = null;
@@ -1087,12 +1088,11 @@
         await el.videoPlayer.play();
         setTimeout(() => Haptic.videoStart(), 2000);
         
-        // Hide gyro hint after 4 seconds
         setTimeout(() => {
           el.gyroHint.style.opacity = '0';
         }, 4000);
         
-        // Show View Models button after 10 seconds - FIXED
+        // Show button after 10 seconds
         buttonTimeout = setTimeout(showViewModelsButton, 10000);
         
       } catch (e) {
@@ -1104,8 +1104,6 @@
           }, 100);
           
           setTimeout(() => Haptic.videoStart(), 2000);
-          
-          // Show View Models button after 10 seconds - FIXED
           buttonTimeout = setTimeout(showViewModelsButton, 10000);
           
         } catch (e2) {
@@ -1170,10 +1168,7 @@
         el.gyroHint.style.opacity = '0';
       }, 4000);
       
-      // Clear existing timeout and set new one
-      if (buttonTimeout) {
-        clearTimeout(buttonTimeout);
-      }
+      if (buttonTimeout) clearTimeout(buttonTimeout);
       buttonTimeout = setTimeout(showViewModelsButton, 10000);
     };
 
@@ -1344,9 +1339,7 @@
         el.gyroHint.style.opacity = '0';
       }, 4000);
       
-      if (buttonTimeout) {
-        clearTimeout(buttonTimeout);
-      }
+      if (buttonTimeout) clearTimeout(buttonTimeout);
       buttonTimeout = setTimeout(showViewModelsButton, 10000);
     };
 
