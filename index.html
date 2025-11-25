@@ -19,7 +19,6 @@
       touch-action: none;
     }
 
-    /* Camera Background - Always visible */
     #cameraBackground {
       position: fixed;
       top: 0;
@@ -28,10 +27,8 @@
       height: 100vh;
       object-fit: cover;
       z-index: 1;
-      transform: scaleX(1);
     }
 
-    /* AR Grid Overlay */
     .ar-grid {
       position: fixed;
       top: 0;
@@ -48,11 +45,8 @@
       animation: gridFadeIn 2s ease-in-out forwards;
     }
 
-    @keyframes gridFadeIn {
-      to { opacity: 0.4; }
-    }
+    @keyframes gridFadeIn { to { opacity: 0.4; } }
 
-    /* AR Scan Line */
     .scan-line {
       position: fixed;
       top: 0;
@@ -73,7 +67,6 @@
       100% { transform: translateY(100vh); opacity: 0; }
     }
 
-    /* AR Corner Markers */
     .corner-marker {
       position: fixed;
       width: 50px;
@@ -84,8 +77,7 @@
       animation: markerFadeIn 1s ease-in-out 0.5s forwards;
     }
 
-    .corner-marker::before,
-    .corner-marker::after {
+    .corner-marker::before, .corner-marker::after {
       content: '';
       position: absolute;
       background: linear-gradient(135deg, #00d4ff, #00ff9d);
@@ -93,26 +85,20 @@
 
     .corner-marker.top-left::before { width: 100%; height: 4px; top: 0; left: 0; }
     .corner-marker.top-left::after { width: 4px; height: 100%; top: 0; left: 0; }
-
     .corner-marker.top-right::before { width: 100%; height: 4px; top: 0; right: 0; }
     .corner-marker.top-right::after { width: 4px; height: 100%; top: 0; right: 0; }
-
     .corner-marker.bottom-left::before { width: 100%; height: 4px; bottom: 0; left: 0; }
     .corner-marker.bottom-left::after { width: 4px; height: 100%; bottom: 0; left: 0; }
-
     .corner-marker.bottom-right::before { width: 100%; height: 4px; bottom: 0; right: 0; }
     .corner-marker.bottom-right::after { width: 4px; height: 100%; bottom: 0; right: 0; }
 
-    @keyframes markerFadeIn {
-      to { opacity: 0.9; }
-    }
+    @keyframes markerFadeIn { to { opacity: 0.9; } }
 
     .corner-marker.top-left { top: 20px; left: 20px; }
     .corner-marker.top-right { top: 20px; right: 20px; }
     .corner-marker.bottom-left { bottom: 20px; left: 20px; }
     .corner-marker.bottom-right { bottom: 20px; right: 20px; }
 
-    /* Floating particles */
     .particles {
       position: fixed;
       top: 0;
@@ -141,7 +127,6 @@
       100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
     }
 
-    /* Intro Screen */
     #introScreen {
       position: fixed;
       top: 0;
@@ -243,7 +228,6 @@
       max-width: 90%;
     }
 
-    /* Video Screen - Smaller centered container */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -288,7 +272,6 @@
       filter: brightness(0) invert(1);
     }
 
-    /* Smaller video container like reference image */
     .video-container {
       position: relative;
       width: 70%;
@@ -308,11 +291,8 @@
       display: block;
     }
 
-    #videoPlayer::-webkit-media-controls {
-      display: none !important;
-    }
+    #videoPlayer::-webkit-media-controls { display: none !important; }
 
-    /* Video overlay - only shows after video ends */
     .video-overlay {
       position: absolute;
       top: 0;
@@ -330,9 +310,7 @@
       z-index: 10;
     }
 
-    .video-overlay.active {
-      display: flex;
-    }
+    .video-overlay.active { display: flex; }
 
     .visualize-button {
       padding: 16px 35px;
@@ -349,11 +327,8 @@
       letter-spacing: 2px;
     }
 
-    .visualize-button:active {
-      transform: scale(0.95);
-    }
+    .visualize-button:active { transform: scale(0.95); }
 
-    /* Models Screen */
     #modelsScreen {
       position: fixed;
       top: 0;
@@ -492,13 +467,6 @@
       box-shadow: 0 8px 30px rgba(0, 212, 255, 0.7);
     }
 
-    .btn-3d-home img {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0);
-    }
-
-    /* AR Detail View */
     #arDetailView { 
       position: fixed; 
       top: 0; 
@@ -520,7 +488,6 @@
       background: transparent;
     }
 
-    /* Current color indicator */
     .color-indicator {
       position: fixed;
       top: 30px;
@@ -545,10 +512,8 @@
       height: 18px;
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 0 10px currentColor;
     }
 
-    /* AR Controls */
     .ar-controls {
       position: fixed;
       bottom: 180px;
@@ -579,9 +544,7 @@
       gap: 8px;
     }
 
-    .ar-control-btn:active {
-      transform: scale(0.95);
-    }
+    .ar-control-btn:active { transform: scale(0.95); }
 
     .ar-control-btn.active {
       background: linear-gradient(135deg, rgba(0, 212, 255, 0.9), rgba(0, 255, 157, 0.9));
@@ -590,7 +553,6 @@
       box-shadow: 0 0 30px rgba(0, 212, 255, 0.7);
     }
 
-    /* Scale Controls */
     .scale-controls {
       position: fixed;
       right: 20px;
@@ -634,7 +596,6 @@
       margin-top: 5px;
     }
 
-    /* Color Picker Panel */
     .color-panel {
       position: fixed;
       bottom: 250px;
@@ -704,12 +665,9 @@
       height: 30px;
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 0 15px var(--preview-color);
     }
 
-    .color-btn:active {
-      transform: scale(0.95);
-    }
+    .color-btn:active { transform: scale(0.95); }
 
     .color-btn.selected {
       background: rgba(0, 212, 255, 0.2);
@@ -726,21 +684,18 @@
       font-size: 15px;
       font-weight: bold;
       border-radius: 50px;
-      border: none;
+      border: 2px solid rgba(0, 212, 255, 0.4);
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
       backdrop-filter: blur(20px);
       color: white;
-      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 212, 255, 0.1);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
       z-index: 115;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 2px;
-      border: 2px solid rgba(0, 212, 255, 0.4);
     }
 
-    #closeARDetail:active {
-      transform: translateX(-50%) scale(0.95);
-    }
+    #closeARDetail:active { transform: translateX(-50%) scale(0.95); }
 
     .size-info {
       position: fixed;
@@ -767,12 +722,8 @@
       letter-spacing: 2px;
     }
 
-    #modelName {
-      font-weight: 600;
-      font-size: 14px;
-    }
+    #modelName { font-weight: 600; font-size: 14px; }
 
-    /* Loading overlay */
     .loading-overlay {
       position: fixed;
       top: 0;
@@ -789,9 +740,7 @@
       gap: 20px;
     }
 
-    .loading-overlay.active {
-      display: flex;
-    }
+    .loading-overlay.active { display: flex; }
 
     .loader {
       width: 60px;
@@ -802,9 +751,7 @@
       animation: spin 1s linear infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .loading-text {
       font-size: 14px;
@@ -813,7 +760,6 @@
       opacity: 0.8;
     }
 
-    /* Touch hint */
     .touch-hint {
       position: fixed;
       bottom: 250px;
@@ -839,10 +785,8 @@
 </head>
 <body>
 
-  <!-- Camera Background -->
   <video id="cameraBackground" autoplay playsinline muted></video>
 
-  <!-- AR Visual Effects -->
   <div class="ar-grid"></div>
   <div class="scan-line"></div>
   <div class="corner-marker top-left"></div>
@@ -850,16 +794,13 @@
   <div class="corner-marker bottom-left"></div>
   <div class="corner-marker bottom-right"></div>
 
-  <!-- Particles -->
   <div class="particles" id="particles"></div>
 
-  <!-- Loading Overlay -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loader"></div>
     <div class="loading-text">Initializing AR...</div>
   </div>
 
-  <!-- Intro Screen -->
   <div id="introScreen">
     <div class="logo-text">SNEAKER AR</div>
     <button class="press-button" id="startBtn">
@@ -875,7 +816,6 @@
     </div>
   </div>
 
-  <!-- Video Screen -->
   <div id="videoScreen">
     <div class="volume-warning">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
@@ -884,20 +824,15 @@
     
     <div class="video-container">
       <video id="videoPlayer" playsinline>
-        <!-- Using media.githubusercontent.com for proper video serving -->
-        <source src="https://media.githubusercontent.com/media/ElwinRoy/ModelViewer/b239db9d66031597829ffa8ca44d0fd0ba13506f/videoplayback.mp4" type="video/mp4">
+        <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/videoplayback.mp4" type="video/mp4">
       </video>
       
-      <!-- Only shows after video ends -->
       <div class="video-overlay" id="videoOverlay">
-        <button class="visualize-button" id="visualizeBtn">
-          View Models
-        </button>
+        <button class="visualize-button" id="visualizeBtn">View Models</button>
       </div>
     </div>
   </div>
 
-  <!-- Models Screen -->
   <div id="modelsScreen">
     <div class="models-header">
       <h2>Choose Your Sneaker</h2>
@@ -906,7 +841,6 @@
     <div class="shoes-grid" id="shoesGrid"></div>
   </div>
 
-  <!-- AR Detail View -->
   <div id="arDetailView">
     <model-viewer id="ar3DModel"
       ar 
@@ -916,10 +850,6 @@
       shadow-intensity="2"
       shadow-softness="1"
       exposure="1.0"
-      camera-orbit="25deg 65deg 2.5m"
-      min-camera-orbit="auto auto 0.5m"
-      max-camera-orbit="auto auto 20m"
-      field-of-view="30deg"
       interaction-prompt="none"
       environment-image="neutral">
       <button slot="ar-button" style="display:none;"></button>
@@ -952,28 +882,28 @@
     <div class="color-panel" id="colorPanel">
       <div class="color-label">Select Color Variant</div>
       <div class="color-options" id="colorOptions">
-        <button class="color-btn selected" data-color="original" data-rgb="136,136,136">
-          <div class="color-preview" style="background: linear-gradient(135deg, #888, #aaa); --preview-color: #888;"></div>
+        <button class="color-btn selected" data-color="original">
+          <div class="color-preview" style="background: linear-gradient(135deg, #888, #aaa);"></div>
           Original
         </button>
-        <button class="color-btn" data-color="midnight" data-rgb="30,30,35">
-          <div class="color-preview" style="background: linear-gradient(135deg, #1e1e23, #2a2a30); --preview-color: #1e1e23;"></div>
+        <button class="color-btn" data-color="midnight">
+          <div class="color-preview" style="background: linear-gradient(135deg, #1e1e23, #2a2a30);"></div>
           Midnight
         </button>
-        <button class="color-btn" data-color="snow" data-rgb="245,245,250">
-          <div class="color-preview" style="background: linear-gradient(135deg, #f5f5fa, #fff); --preview-color: #f5f5fa;"></div>
+        <button class="color-btn" data-color="snow">
+          <div class="color-preview" style="background: linear-gradient(135deg, #f5f5fa, #fff);"></div>
           Snow
         </button>
-        <button class="color-btn" data-color="crimson" data-rgb="180,40,50">
-          <div class="color-preview" style="background: linear-gradient(135deg, #b42832, #d63447); --preview-color: #b42832;"></div>
+        <button class="color-btn" data-color="crimson">
+          <div class="color-preview" style="background: linear-gradient(135deg, #b42832, #d63447);"></div>
           Crimson
         </button>
-        <button class="color-btn" data-color="ocean" data-rgb="30,90,160">
-          <div class="color-preview" style="background: linear-gradient(135deg, #1e5aa0, #2980b9); --preview-color: #1e5aa0;"></div>
+        <button class="color-btn" data-color="ocean">
+          <div class="color-preview" style="background: linear-gradient(135deg, #1e5aa0, #2980b9);"></div>
           Ocean
         </button>
-        <button class="color-btn" data-color="forest" data-rgb="40,120,80">
-          <div class="color-preview" style="background: linear-gradient(135deg, #287850, #2ecc71); --preview-color: #287850;"></div>
+        <button class="color-btn" data-color="forest">
+          <div class="color-preview" style="background: linear-gradient(135deg, #287850, #2ecc71);"></div>
           Forest
         </button>
       </div>
@@ -983,39 +913,24 @@
   </div>
 
   <script>
-    // DRASTICALLY different camera distances for each model
-    // Model 1 & 2 are very large scale - need MUCH farther camera
     const shoes = [
       { 
         name: "New Balance 997", 
         price: "₹14,999", 
-        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb",
-        // These models are HUGE - need camera very far away
-        cardCameraOrbit: "25deg 75deg 12m",
-        arCameraOrbit: "25deg 65deg 15m",
-        fieldOfView: "45deg"
+        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb"
       },
       { 
         name: "Formal Edge", 
         price: "₹12,999", 
-        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb",
-        // Also very large model
-        cardCameraOrbit: "25deg 75deg 10m",
-        arCameraOrbit: "25deg 65deg 12m",
-        fieldOfView: "45deg"
+        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb"
       },
       { 
         name: "ND Runner", 
         price: "₹16,999", 
-        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb",
-        // This one displays correctly - normal scale
-        cardCameraOrbit: "25deg 70deg 1.8m",
-        arCameraOrbit: "25deg 65deg 2.5m",
-        fieldOfView: "30deg"
+        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb"
       }
     ];
 
-    // Color mapping for materials
     const colorMap = {
       original: { r: 0.53, g: 0.53, b: 0.53, hex: '#888888', name: 'Original' },
       midnight: { r: 0.12, g: 0.12, b: 0.14, hex: '#1e1e23', name: 'Midnight Black' },
@@ -1043,7 +958,6 @@
     const resetBtn = document.getElementById("resetBtn");
     const modelName = document.getElementById("modelName");
     const loadingOverlay = document.getElementById("loadingOverlay");
-    const colorIndicator = document.getElementById("colorIndicator");
     const colorDot = document.getElementById("colorDot");
     const colorNameEl = document.getElementById("colorName");
     const zoomIn = document.getElementById("zoomIn");
@@ -1052,10 +966,8 @@
     let cameraStream = null;
     let autoRotate = false;
     let currentShoe = null;
-    let currentZoom = 2.5;
     let originalMaterialColors = new Map();
 
-    // Create floating particles
     function createParticles() {
       const container = document.getElementById('particles');
       for (let i = 0; i < 20; i++) {
@@ -1069,7 +981,6 @@
     }
     createParticles();
 
-    // Initialize camera with BACK camera priority
     async function initCamera() {
       const constraints = [
         { video: { facingMode: { exact: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } } },
@@ -1080,81 +991,58 @@
 
       for (const constraint of constraints) {
         try {
-          console.log("Trying camera constraint:", JSON.stringify(constraint));
           cameraStream = await navigator.mediaDevices.getUserMedia(constraint);
-          
-          const videoTrack = cameraStream.getVideoTracks()[0];
-          const settings = videoTrack.getSettings();
-          console.log("Camera settings:", settings);
-          
           cameraBackground.srcObject = cameraStream;
           await cameraBackground.play();
-          console.log("Camera initialized successfully with:", videoTrack.label);
           return;
         } catch (err) {
-          console.warn("Camera constraint failed:", err.message);
           continue;
         }
       }
-      
-      console.error("All camera constraints failed");
       document.body.style.background = "linear-gradient(135deg, #0f0c29, #302b63, #24243e)";
     }
-
     initCamera();
 
-    // Start button - skip video and go directly to models
     startBtn.onclick = async () => {
       introScreen.style.display = "none";
-      
-      // Try to play video, if it fails go directly to models
       videoScreen.style.display = "flex";
-      
       try {
         await videoPlayer.play();
       } catch (e) {
-        console.log("Video failed to play, going directly to models");
         videoScreen.style.display = "none";
         modelsScreen.style.display = "block";
       }
     };
 
-    // Video error handler - go to models if video fails
     videoPlayer.addEventListener('error', () => {
-      console.log("Video error, going to models");
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
     });
 
-    // Video ended event - only then show the button
     videoPlayer.addEventListener('ended', () => {
       videoOverlay.classList.add('active');
     });
 
-    // Also allow tapping video container to proceed after a few seconds
     let videoStartTime = 0;
-    videoPlayer.addEventListener('play', () => {
-      videoStartTime = Date.now();
-    });
+    videoPlayer.addEventListener('play', () => { videoStartTime = Date.now(); });
 
     document.querySelector('.video-container').addEventListener('click', () => {
-      // Allow skip after 3 seconds
       if (Date.now() - videoStartTime > 3000) {
         videoScreen.style.display = "none";
         modelsScreen.style.display = "block";
       }
     });
 
-    // Visualize button - go to models screen
     visualizeBtn.onclick = () => {
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
     };
 
-    // Generate shoe cards with custom camera orbit per model
+    // Generate shoe cards - KEY FIX: Use "auto-orbit" to auto-fit model
     shoes.forEach((shoe, index) => {
       const card = document.createElement("div");
       card.className = "shoe-card";
+      // Using camera-orbit="auto auto auto" makes model-viewer automatically frame the model
       card.innerHTML = `
         <div class="model-wrap">
           <model-viewer 
@@ -1164,10 +1052,10 @@
             camera-controls 
             shadow-intensity="1" 
             exposure="1.0"
-            camera-orbit="${shoe.cardCameraOrbit}"
-            min-camera-orbit="auto auto 0.5m"
-            max-camera-orbit="auto auto 50m"
-            field-of-view="${shoe.fieldOfView}"
+            camera-orbit="0deg 75deg auto"
+            min-camera-orbit="auto auto auto"
+            max-camera-orbit="auto auto auto"
+            field-of-view="auto"
             interaction-prompt="none"
             loading="eager">
           </model-viewer>
@@ -1186,7 +1074,6 @@
       shoesGrid.appendChild(card);
     });
 
-    // View in AR buttons
     document.querySelectorAll('.btn-3d-home').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
@@ -1200,22 +1087,17 @@
         modelsScreen.style.display = "none";
         arDetailView.style.display = "block";
         
-        // Use the shoe's specific camera settings
-        const zoomMatch = currentShoe.arCameraOrbit.match(/([\d.]+)m/);
-        currentZoom = zoomMatch ? parseFloat(zoomMatch[1]) : 2.5;
         autoRotate = false;
         rotateBtn.classList.remove('active');
         
+        // Set auto camera orbit for AR view too
+        ar3DModel.setAttribute('camera-orbit', '0deg 75deg auto');
+        ar3DModel.setAttribute('field-of-view', 'auto');
         ar3DModel.src = currentShoe.model;
-        ar3DModel.fieldOfView = currentShoe.fieldOfView;
         
         ar3DModel.addEventListener('load', () => {
           storeOriginalColors();
           resetToOriginalColor();
-          
-          // Apply shoe-specific camera orbit
-          ar3DModel.cameraOrbit = currentShoe.arCameraOrbit;
-          ar3DModel.fieldOfView = currentShoe.fieldOfView;
           
           setTimeout(() => {
             loadingOverlay.classList.remove('active');
@@ -1228,7 +1110,6 @@
       });
     });
 
-    // Store original material colors
     function storeOriginalColors() {
       originalMaterialColors.clear();
       const model = ar3DModel.model;
@@ -1242,7 +1123,6 @@
       }
     }
 
-    // Reset to original color
     function resetToOriginalColor() {
       const model = ar3DModel.model;
       if (model && originalMaterialColors.size > 0) {
@@ -1255,13 +1135,9 @@
       }
     }
 
-    // Apply color to model
     function applyColorToModel(colorKey) {
       const model = ar3DModel.model;
-      if (!model) {
-        console.warn("Model not loaded yet");
-        return;
-      }
+      if (!model) return;
 
       if (colorKey === 'original') {
         resetToOriginalColor();
@@ -1279,11 +1155,8 @@
           pbr.setBaseColorFactor([color.r, color.g, color.b, alpha]);
         }
       }
-
-      console.log("Applied color:", colorKey);
     }
 
-    // Update color indicator
     function updateColorIndicator(colorKey) {
       const color = colorMap[colorKey];
       if (color) {
@@ -1293,13 +1166,11 @@
       }
     }
 
-    // Color toggle
     colorToggle.onclick = () => {
       colorPanel.classList.toggle('active');
       colorToggle.classList.toggle('active');
     };
 
-    // Color selection
     document.querySelectorAll('.color-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
@@ -1309,52 +1180,36 @@
         applyColorToModel(colorKey);
         updateColorIndicator(colorKey);
         
-        btn.style.transform = 'scale(0.95)';
-        setTimeout(() => btn.style.transform = '', 200);
-
-        if (navigator.vibrate) {
-          navigator.vibrate(30);
-        }
+        if (navigator.vibrate) navigator.vibrate(30);
       });
     });
 
-    // Zoom controls - with larger steps for big models
+    // Zoom using FOV instead of camera distance
+    let currentFOV = 45;
     zoomIn.onclick = () => {
-      const step = currentZoom > 5 ? 2 : 0.5;
-      currentZoom = Math.max(0.5, currentZoom - step);
-      ar3DModel.cameraOrbit = `auto auto ${currentZoom}m`;
+      currentFOV = Math.max(10, currentFOV - 5);
+      ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
       if (navigator.vibrate) navigator.vibrate(20);
     };
 
     zoomOut.onclick = () => {
-      const step = currentZoom > 5 ? 2 : 0.5;
-      currentZoom = Math.min(30, currentZoom + step);
-      ar3DModel.cameraOrbit = `auto auto ${currentZoom}m`;
+      currentFOV = Math.min(90, currentFOV + 5);
+      ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
       if (navigator.vibrate) navigator.vibrate(20);
     };
 
-    // Rotate control
     rotateBtn.onclick = () => {
       autoRotate = !autoRotate;
       ar3DModel.autoRotate = autoRotate;
-      if (autoRotate) {
-        ar3DModel.setAttribute('rotation-per-second', '30deg');
-      }
+      if (autoRotate) ar3DModel.setAttribute('rotation-per-second', '30deg');
       rotateBtn.classList.toggle('active');
       if (navigator.vibrate) navigator.vibrate(30);
     };
 
-    // Reset view - use shoe-specific camera orbit
     resetBtn.onclick = () => {
-      if (currentShoe) {
-        ar3DModel.cameraOrbit = currentShoe.arCameraOrbit;
-        ar3DModel.fieldOfView = currentShoe.fieldOfView;
-        const zoomMatch = currentShoe.arCameraOrbit.match(/([\d.]+)m/);
-        currentZoom = zoomMatch ? parseFloat(zoomMatch[1]) : 2.5;
-      } else {
-        ar3DModel.cameraOrbit = "25deg 65deg 2.5m";
-        currentZoom = 2.5;
-      }
+      ar3DModel.setAttribute('camera-orbit', '0deg 75deg auto');
+      ar3DModel.setAttribute('field-of-view', 'auto');
+      currentFOV = 45;
       ar3DModel.resetTurntableRotation();
       
       resetToOriginalColor();
@@ -1362,12 +1217,9 @@
       document.querySelector('.color-btn[data-color="original"]').classList.add('selected');
       updateColorIndicator('original');
       
-      resetBtn.classList.add('active');
-      setTimeout(() => resetBtn.classList.remove('active'), 300);
       if (navigator.vibrate) navigator.vibrate(50);
     };
 
-    // Close AR detail view
     closeARDetail.onclick = () => {
       arDetailView.style.display = "none";
       modelsScreen.style.display = "block";
@@ -1378,10 +1230,8 @@
       rotateBtn.classList.remove('active');
     };
 
-    // Prevent video controls
     videoPlayer.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    // Close color panel when clicking outside
     arDetailView.addEventListener('click', (e) => {
       if (!colorPanel.contains(e.target) && e.target !== colorToggle && !colorToggle.contains(e.target)) {
         colorPanel.classList.remove('active');
@@ -1389,25 +1239,17 @@
       }
     });
 
-    // Model loading error handler
     ar3DModel.addEventListener('error', (e) => {
-      console.error("Model loading error:", e);
       loadingOverlay.classList.remove('active');
     });
 
-    // Cleanup on exit
     window.addEventListener('beforeunload', () => {
-      if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
-      }
+      if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
     });
 
-    // Handle visibility change
     document.addEventListener('visibilitychange', async () => {
       if (document.hidden) {
-        if (cameraStream) {
-          cameraStream.getTracks().forEach(track => track.stop());
-        }
+        if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
       } else {
         await initCamera();
       }
