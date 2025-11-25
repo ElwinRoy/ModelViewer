@@ -29,104 +29,36 @@
       z-index: 1;
     }
 
-    .ar-grid {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: 
-        linear-gradient(0deg, transparent 24%, rgba(0, 212, 255, 0.05) 25%, rgba(0, 212, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 212, 255, 0.05) 75%, rgba(0, 212, 255, 0.05) 76%, transparent 77%, transparent),
-        linear-gradient(90deg, transparent 24%, rgba(0, 212, 255, 0.05) 25%, rgba(0, 212, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 212, 255, 0.05) 75%, rgba(0, 212, 255, 0.05) 76%, transparent 77%, transparent);
-      background-size: 50px 50px;
-      pointer-events: none;
-      z-index: 2;
-      opacity: 0;
-      animation: gridFadeIn 2s ease-in-out forwards;
-    }
-
-    @keyframes gridFadeIn { to { opacity: 0.4; } }
-
-    .scan-line {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #00ff9d, #00d4ff, #00ff9d, transparent);
-      box-shadow: 0 0 30px #00ff9d, 0 0 60px #00d4ff;
-      z-index: 3;
-      animation: scan 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes scan {
-      0%, 100% { transform: translateY(0); opacity: 0; }
-      5% { opacity: 1; }
-      95% { opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
-
+    /* Simple corner markers - no glow */
     .corner-marker {
       position: fixed;
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       z-index: 3;
       pointer-events: none;
-      opacity: 0;
-      animation: markerFadeIn 1s ease-in-out 0.5s forwards;
     }
 
     .corner-marker::before, .corner-marker::after {
       content: '';
       position: absolute;
-      background: linear-gradient(135deg, #00d4ff, #00ff9d);
-    }
-
-    .corner-marker.top-left::before { width: 100%; height: 4px; top: 0; left: 0; }
-    .corner-marker.top-left::after { width: 4px; height: 100%; top: 0; left: 0; }
-    .corner-marker.top-right::before { width: 100%; height: 4px; top: 0; right: 0; }
-    .corner-marker.top-right::after { width: 4px; height: 100%; top: 0; right: 0; }
-    .corner-marker.bottom-left::before { width: 100%; height: 4px; bottom: 0; left: 0; }
-    .corner-marker.bottom-left::after { width: 4px; height: 100%; bottom: 0; left: 0; }
-    .corner-marker.bottom-right::before { width: 100%; height: 4px; bottom: 0; right: 0; }
-    .corner-marker.bottom-right::after { width: 4px; height: 100%; bottom: 0; right: 0; }
-
-    @keyframes markerFadeIn { to { opacity: 0.9; } }
-
-    .corner-marker.top-left { top: 20px; left: 20px; }
-    .corner-marker.top-right { top: 20px; right: 20px; }
-    .corner-marker.bottom-left { bottom: 20px; left: 20px; }
-    .corner-marker.bottom-right { bottom: 20px; right: 20px; }
-
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-      overflow: hidden;
-    }
-
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
       background: #00d4ff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #00d4ff, 0 0 20px #00ff9d;
-      animation: float 8s infinite ease-in-out;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
-    }
+    .corner-marker.top-left::before { width: 100%; height: 3px; top: 0; left: 0; }
+    .corner-marker.top-left::after { width: 3px; height: 100%; top: 0; left: 0; }
+    .corner-marker.top-right::before { width: 100%; height: 3px; top: 0; right: 0; }
+    .corner-marker.top-right::after { width: 3px; height: 100%; top: 0; right: 0; }
+    .corner-marker.bottom-left::before { width: 100%; height: 3px; bottom: 0; left: 0; }
+    .corner-marker.bottom-left::after { width: 3px; height: 100%; bottom: 0; left: 0; }
+    .corner-marker.bottom-right::before { width: 100%; height: 3px; bottom: 0; right: 0; }
+    .corner-marker.bottom-right::after { width: 3px; height: 100%; bottom: 0; right: 0; }
 
+    .corner-marker.top-left { top: 15px; left: 15px; }
+    .corner-marker.top-right { top: 15px; right: 15px; }
+    .corner-marker.bottom-left { bottom: 15px; left: 15px; }
+    .corner-marker.bottom-right { bottom: 15px; right: 15px; }
+
+    /* Intro Screen - Clean */
     #introScreen {
       position: fixed;
       top: 0;
@@ -139,95 +71,53 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.5);
     }
 
     .logo-text {
-      font-size: 14px;
-      letter-spacing: 8px;
+      font-size: 12px;
+      letter-spacing: 6px;
       text-transform: uppercase;
-      margin-bottom: 40px;
-      opacity: 0.8;
-      background: linear-gradient(90deg, #00ff9d, #00d4ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      margin-bottom: 30px;
+      opacity: 0.7;
+      color: #fff;
     }
 
     .press-button {
-      position: relative;
-      width: 200px;
-      height: 200px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(0, 255, 157, 0.4), rgba(0, 212, 255, 0.2), rgba(0, 100, 150, 0.3));
-      border: 3px solid transparent;
-      background-clip: padding-box;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: 600;
       color: white;
       text-align: center;
       padding: 20px;
-      animation: pulseButton 2.5s infinite;
-      backdrop-filter: blur(15px);
-      overflow: visible;
+      transition: all 0.3s ease;
     }
 
-    .press-button::before {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00ff9d, #00d4ff, #00ff9d);
-      z-index: -1;
-      animation: rotateBorder 3s linear infinite;
-    }
-
-    @keyframes rotateBorder {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes pulseButton {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(0, 212, 255, 0.6), 0 0 100px rgba(0, 255, 157, 0.3); }
-      50% { transform: scale(1.03); box-shadow: 0 0 80px rgba(0, 212, 255, 0.8), 0 0 120px rgba(0, 255, 157, 0.5); }
-    }
-
-    .press-button .ripple {
-      position: absolute;
-      width: 230px;
-      height: 230px;
-      border-radius: 50%;
-      border: 2px solid rgba(0, 212, 255, 0.5);
-      animation: rippleEffect 2.5s infinite;
-    }
-
-    .press-button .ripple:nth-child(2) { animation-delay: 0.8s; }
-    .press-button .ripple:nth-child(3) { animation-delay: 1.6s; }
-
-    @keyframes rippleEffect {
-      0% { transform: scale(1); opacity: 0.8; }
-      100% { transform: scale(1.6); opacity: 0; }
+    .press-button:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .disclaimer {
       position: absolute;
       bottom: 30px;
       text-align: center;
-      font-size: 11px;
-      opacity: 0.9;
-      line-height: 1.5;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(15px);
-      padding: 18px 35px;
-      border-radius: 25px;
-      border: 1px solid rgba(0, 212, 255, 0.3);
+      font-size: 10px;
+      opacity: 0.6;
+      line-height: 1.4;
+      padding: 15px 25px;
       max-width: 90%;
     }
 
+    /* Video Screen - NO GLOW, clean border */
     #videoScreen {
       position: fixed;
       top: 0;
@@ -243,45 +133,36 @@
 
     .volume-warning {
       position: fixed;
-      top: 40px;
+      top: 30px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(20px);
-      padding: 12px 24px;
-      border-radius: 30px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 8px 18px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
       z-index: 95;
-      border: 2px solid rgba(0, 212, 255, 0.4);
-      animation: volumePulse 2s infinite;
-    }
-
-    @keyframes volumePulse {
-      0%, 100% { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 212, 255, 0.3); }
-      50% { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 212, 255, 0.6); }
     }
 
     .volume-icon {
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       filter: brightness(0) invert(1);
     }
 
+    /* Video container - CLEAN, no glow */
     .video-container {
       position: relative;
-      width: 70%;
-      max-width: 260px;
+      width: 65%;
+      max-width: 240px;
       aspect-ratio: 9/16;
-      border-radius: 20px;
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 0 60px rgba(0, 212, 255, 0.5), 0 0 100px rgba(0, 255, 157, 0.2), 0 20px 60px rgba(0, 0, 0, 0.8);
-      border: 3px solid transparent;
-      background: linear-gradient(#000, #000) padding-box, linear-gradient(135deg, #00d4ff, #00ff9d, #00d4ff) border-box;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: #000;
     }
 
     #videoPlayer {
@@ -293,42 +174,28 @@
 
     #videoPlayer::-webkit-media-controls { display: none !important; }
 
-    .video-overlay {
+    /* Small popup button - always visible during video */
+    .visualize-button {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(5px);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 25px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 25px;
+      border: none;
+      background: rgba(255, 255, 255, 0.95);
+      color: #000;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       z-index: 10;
     }
 
-    .video-overlay.active { display: flex; }
+    .visualize-button:active { transform: translateX(-50%) scale(0.95); }
 
-    .visualize-button {
-      padding: 16px 35px;
-      font-size: 14px;
-      font-weight: bold;
-      border-radius: 50px;
-      border: none;
-      background: linear-gradient(135deg, #00d4ff, #00ff9d);
-      color: #000;
-      cursor: pointer;
-      box-shadow: 0 15px 50px rgba(0, 212, 255, 0.7), 0 0 30px rgba(0, 255, 157, 0.4);
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .visualize-button:active { transform: scale(0.95); }
-
+    /* Models Screen */
     #modelsScreen {
       position: fixed;
       top: 0;
@@ -339,77 +206,49 @@
       display: none;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 30px 15px 30px;
+      padding: 20px 12px;
       -webkit-overflow-scrolling: touch;
     }
 
     .models-header {
       text-align: center;
-      margin-bottom: 25px;
-      position: relative;
-      z-index: 85;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(25px);
-      padding: 25px 20px;
-      border-radius: 30px;
-      border: 2px solid rgba(0, 212, 255, 0.4);
-      margin: 0 5px 25px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+      padding: 20px 15px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
     }
 
     .models-header h2 {
-      font-size: 28px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #00ff9d, #00d4ff, #00ff9d);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-      animation: gradientShift 3s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #fff;
     }
 
     .models-header p {
-      font-size: 13px;
-      opacity: 0.85;
-      letter-spacing: 0.5px;
+      font-size: 12px;
+      opacity: 0.7;
     }
 
     .shoes-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 25px;
-      max-width: 500px;
+      gap: 15px;
+      max-width: 400px;
       margin: 0 auto;
-      position: relative;
-      z-index: 85;
-      padding-bottom: 30px;
+      padding-bottom: 20px;
     }
 
     .shoe-card {
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 30px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
       overflow: hidden;
-      backdrop-filter: blur(25px);
-      border: 2px solid rgba(0, 212, 255, 0.4);
-      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 212, 255, 0.15);
-      transition: all 0.4s ease;
-    }
-
-    .shoe-card:active {
-      transform: scale(0.98);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 212, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .model-wrap { 
-      height: 220px; 
-      background: linear-gradient(180deg, rgba(0, 50, 80, 0.3), rgba(0, 0, 0, 0.5));
-      position: relative;
-      border-bottom: 2px solid rgba(0, 212, 255, 0.25);
+      height: 200px; 
+      background: rgba(0, 0, 0, 0.3);
     }
     
     .model-wrap model-viewer { 
@@ -420,53 +259,46 @@
     }
 
     .info { 
-      padding: 22px 20px; 
+      padding: 18px 15px; 
       text-align: center; 
     }
     
     .info h3 { 
-      font-size: 22px; 
-      margin-bottom: 8px; 
-      font-weight: 700;
-      background: linear-gradient(90deg, #00ff9d, #00d4ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    .info .price { 
-      opacity: 0.9; 
       font-size: 18px; 
-      margin-bottom: 20px;
+      margin-bottom: 5px; 
       font-weight: 600;
       color: #fff;
     }
+    
+    .info .price { 
+      opacity: 0.7; 
+      font-size: 15px; 
+      margin-bottom: 15px;
+    }
 
     .btn-3d-home {
-      background: linear-gradient(135deg, #00d4ff, #00ff9d);
+      background: #fff;
       color: #000;
       border: none;
-      padding: 18px 28px;
-      border-radius: 50px;
-      font-weight: bold;
-      font-size: 15px;
+      padding: 14px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 13px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       margin: 0 auto;
       width: 100%;
-      box-shadow: 0 12px 45px rgba(0, 212, 255, 0.5);
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
     }
     
     .btn-3d-home:active { 
-      transform: scale(0.96);
-      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.7);
+      transform: scale(0.97);
+      background: #eee;
     }
 
+    /* AR Detail View - CLEAN UI */
     #arDetailView { 
       position: fixed; 
       top: 0; 
@@ -488,265 +320,227 @@
       background: transparent;
     }
 
+    /* Small color indicator - top left */
     .color-indicator {
       position: fixed;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(20px);
-      padding: 12px 25px;
-      border-radius: 30px;
-      border: 2px solid rgba(0, 212, 255, 0.5);
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px 14px;
+      border-radius: 20px;
       z-index: 116;
-      font-size: 13px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6);
-    }
-
-    .color-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .ar-controls {
-      position: fixed;
-      bottom: 180px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 12px;
-      z-index: 115;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-width: 95%;
-    }
-
-    .ar-control-btn {
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(20px);
-      border: 2px solid rgba(0, 212, 255, 0.5);
-      color: white;
-      padding: 14px 22px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      font-size: 11px;
+      font-weight: 500;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .ar-control-btn:active { transform: scale(0.95); }
-
-    .ar-control-btn.active {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.9), rgba(0, 255, 157, 0.9));
-      border-color: #00ff9d;
-      color: #000;
-      box-shadow: 0 0 30px rgba(0, 212, 255, 0.7);
+    .color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
+    /* Model name - top right, smaller */
+    .size-info {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px 14px;
+      border-radius: 15px;
+      z-index: 113;
+      font-size: 11px;
+    }
+
+    .size-info strong {
+      color: #00d4ff;
+      display: block;
+      font-size: 9px;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    #modelName { font-weight: 500; font-size: 12px; }
+
+    /* AR Controls - SMALLER, bottom center, horizontal */
+    .ar-controls {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 115;
+    }
+
+    .ar-control-btn {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 25px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ar-control-btn:active { background: rgba(255, 255, 255, 0.2); }
+
+    .ar-control-btn.active {
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+    }
+
+    /* Zoom Controls - SMALLER, right side */
     .scale-controls {
       position: fixed;
-      right: 20px;
+      right: 15px;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       z-index: 115;
     }
 
     .scale-btn {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(20px);
-      border: 2px solid rgba(0, 212, 255, 0.5);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 20px;
+      font-weight: 400;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-      transition: all 0.3s ease;
     }
 
     .scale-btn:active {
-      transform: scale(0.9);
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.8), rgba(0, 255, 157, 0.8));
-      color: #000;
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .scale-label {
       text-align: center;
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 5px;
+      font-size: 9px;
+      opacity: 0.6;
+      margin-top: 3px;
     }
 
+    /* Color Panel - Clean */
     .color-panel {
       position: fixed;
-      bottom: 250px;
+      bottom: 160px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(25px);
-      padding: 25px;
-      border-radius: 30px;
-      border: 2px solid rgba(0, 212, 255, 0.5);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px;
+      border-radius: 20px;
       z-index: 114;
       display: none;
       flex-direction: column;
-      gap: 18px;
-      width: 90%;
-      max-width: 350px;
-      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 212, 255, 0.2);
+      gap: 12px;
+      width: 85%;
+      max-width: 300px;
     }
 
-    .color-panel.active {
-      display: flex;
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateX(-50%) translateY(20px); opacity: 0; }
-      to { transform: translateX(-50%) translateY(0); opacity: 1; }
-    }
+    .color-panel.active { display: flex; }
 
     .color-label {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 600;
       text-align: center;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #00ff9d, #00d4ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+      opacity: 0.7;
     }
 
     .color-options {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 8px;
     }
 
     .color-btn {
-      padding: 15px 10px;
-      border-radius: 20px;
-      border: 3px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
+      padding: 10px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
       color: white;
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .color-btn .color-preview {
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .color-btn:active { transform: scale(0.95); }
+    .color-btn:active { background: rgba(255, 255, 255, 0.1); }
 
     .color-btn.selected {
-      background: rgba(0, 212, 255, 0.2);
-      border-color: #00ff9d;
-      box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
     }
 
+    /* Back button - SMALLER */
     #closeARDetail {
       position: fixed;
-      bottom: 40px;
+      bottom: 35px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 18px 50px;
-      font-size: 15px;
-      font-weight: bold;
-      border-radius: 50px;
-      border: 2px solid rgba(0, 212, 255, 0.4);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-      backdrop-filter: blur(20px);
+      padding: 12px 30px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.6);
       color: white;
-      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
       z-index: 115;
       cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 2px;
     }
 
-    #closeARDetail:active { transform: translateX(-50%) scale(0.95); }
+    #closeARDetail:active { background: rgba(255, 255, 255, 0.1); }
 
-    .size-info {
-      position: fixed;
-      top: 90px;
-      right: 20px;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(20px);
-      padding: 18px 22px;
-      border-radius: 22px;
-      border: 2px solid rgba(0, 212, 255, 0.4);
-      z-index: 113;
-      font-size: 13px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-      max-width: 45%;
-    }
-
-    .size-info strong {
-      background: linear-gradient(90deg, #00ff9d, #00d4ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: block;
-      margin-bottom: 6px;
-      font-size: 11px;
-      letter-spacing: 2px;
-    }
-
-    #modelName { font-weight: 600; font-size: 14px; }
-
+    /* Loading overlay */
     .loading-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.7);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 200;
       flex-direction: column;
-      gap: 20px;
+      gap: 15px;
     }
 
     .loading-overlay.active { display: flex; }
 
     .loader {
-      width: 60px;
-      height: 60px;
-      border: 4px solid rgba(0, 212, 255, 0.2);
-      border-top-color: #00d4ff;
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #fff;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -754,32 +548,8 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .loading-text {
-      font-size: 14px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      opacity: 0.8;
-    }
-
-    .touch-hint {
-      position: fixed;
-      bottom: 250px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(15px);
-      padding: 12px 25px;
-      border-radius: 25px;
       font-size: 12px;
-      opacity: 0;
-      animation: hintFade 4s ease-in-out 1s forwards;
-      z-index: 112;
-      pointer-events: none;
-      border: 1px solid rgba(0, 212, 255, 0.3);
-    }
-
-    @keyframes hintFade {
-      0%, 100% { opacity: 0; }
-      20%, 80% { opacity: 0.9; }
+      opacity: 0.7;
     }
   </style>
 </head>
@@ -787,35 +557,28 @@
 
   <video id="cameraBackground" autoplay playsinline muted></video>
 
-  <div class="ar-grid"></div>
-  <div class="scan-line"></div>
   <div class="corner-marker top-left"></div>
   <div class="corner-marker top-right"></div>
   <div class="corner-marker bottom-left"></div>
   <div class="corner-marker bottom-right"></div>
 
-  <div class="particles" id="particles"></div>
-
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loader"></div>
-    <div class="loading-text">Initializing AR...</div>
+    <div class="loading-text">Loading...</div>
   </div>
 
   <div id="introScreen">
     <div class="logo-text">SNEAKER AR</div>
     <button class="press-button" id="startBtn">
-      <span class="ripple"></span>
-      <span class="ripple"></span>
-      <span class="ripple"></span>
-      <span style="position:relative;z-index:2;">PRESS<br>TO START<br>EXPERIENCE</span>
+      TAP TO<br>START
     </button>
     <div class="disclaimer">
-      For the best experience, please ensure good lighting.<br>
-      Use back camera for AR visualization.<br><br>
-      <small>This is a creative visualization for entertainment purposes.</small>
+      For the best experience, ensure good lighting.<br>
+      This is for entertainment purposes.
     </div>
   </div>
 
+  <!-- Video Screen - Clean, no glow -->
   <div id="videoScreen">
     <div class="volume-warning">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
@@ -823,20 +586,20 @@
     </div>
     
     <div class="video-container">
-      <video id="videoPlayer" playsinline>
+      <!-- Video loops infinitely -->
+      <video id="videoPlayer" playsinline loop muted>
         <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/videoplayback.mp4" type="video/mp4">
       </video>
       
-      <div class="video-overlay" id="videoOverlay">
-        <button class="visualize-button" id="visualizeBtn">View Models</button>
-      </div>
+      <!-- Button always visible -->
+      <button class="visualize-button" id="visualizeBtn">View Models</button>
     </div>
   </div>
 
   <div id="modelsScreen">
     <div class="models-header">
       <h2>Choose Your Sneaker</h2>
-      <p>Select a model to view in Augmented Reality</p>
+      <p>Select a model to view in AR</p>
     </div>
     <div class="shoes-grid" id="shoesGrid"></div>
   </div>
@@ -847,8 +610,7 @@
       ar-modes="webxr scene-viewer quick-look"
       camera-controls
       touch-action="pan-y"
-      shadow-intensity="2"
-      shadow-softness="1"
+      shadow-intensity="1"
       exposure="1.0"
       interaction-prompt="none"
       environment-image="neutral">
@@ -860,12 +622,10 @@
       <span id="colorName">Original</span>
     </div>
 
-    <div class="size-info" id="sizeInfo">
+    <div class="size-info">
       <strong>AR MODE</strong>
       <div id="modelName">Sneaker</div>
     </div>
-
-    <div class="touch-hint">👆 Pinch to zoom • Drag to rotate</div>
 
     <div class="scale-controls">
       <button class="scale-btn" id="zoomIn">+</button>
@@ -875,35 +635,35 @@
 
     <div class="ar-controls">
       <button class="ar-control-btn" id="colorToggle">🎨 Colors</button>
-      <button class="ar-control-btn" id="rotateBtn">🔄 Auto Spin</button>
-      <button class="ar-control-btn" id="resetBtn">↻ Reset</button>
+      <button class="ar-control-btn" id="rotateBtn">🔄 Spin</button>
+      <button class="ar-control-btn" id="resetBtn">↺ Reset</button>
     </div>
 
     <div class="color-panel" id="colorPanel">
-      <div class="color-label">Select Color Variant</div>
-      <div class="color-options" id="colorOptions">
+      <div class="color-label">Select Color</div>
+      <div class="color-options">
         <button class="color-btn selected" data-color="original">
-          <div class="color-preview" style="background: linear-gradient(135deg, #888, #aaa);"></div>
+          <div class="color-preview" style="background: #888;"></div>
           Original
         </button>
         <button class="color-btn" data-color="midnight">
-          <div class="color-preview" style="background: linear-gradient(135deg, #1e1e23, #2a2a30);"></div>
+          <div class="color-preview" style="background: #1e1e23;"></div>
           Midnight
         </button>
         <button class="color-btn" data-color="snow">
-          <div class="color-preview" style="background: linear-gradient(135deg, #f5f5fa, #fff);"></div>
+          <div class="color-preview" style="background: #f5f5fa;"></div>
           Snow
         </button>
         <button class="color-btn" data-color="crimson">
-          <div class="color-preview" style="background: linear-gradient(135deg, #b42832, #d63447);"></div>
+          <div class="color-preview" style="background: #b42832;"></div>
           Crimson
         </button>
         <button class="color-btn" data-color="ocean">
-          <div class="color-preview" style="background: linear-gradient(135deg, #1e5aa0, #2980b9);"></div>
+          <div class="color-preview" style="background: #1e5aa0;"></div>
           Ocean
         </button>
         <button class="color-btn" data-color="forest">
-          <div class="color-preview" style="background: linear-gradient(135deg, #287850, #2ecc71);"></div>
+          <div class="color-preview" style="background: #287850;"></div>
           Forest
         </button>
       </div>
@@ -914,30 +674,18 @@
 
   <script>
     const shoes = [
-      { 
-        name: "New Balance 997", 
-        price: "₹14,999", 
-        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb"
-      },
-      { 
-        name: "Formal Edge", 
-        price: "₹12,999", 
-        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb"
-      },
-      { 
-        name: "ND Runner", 
-        price: "₹16,999", 
-        model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb"
-      }
+      { name: "New Balance 997", price: "₹14,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb" },
+      { name: "Formal Edge", price: "₹12,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb" },
+      { name: "ND Runner", price: "₹16,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb" }
     ];
 
     const colorMap = {
       original: { r: 0.53, g: 0.53, b: 0.53, hex: '#888888', name: 'Original' },
-      midnight: { r: 0.12, g: 0.12, b: 0.14, hex: '#1e1e23', name: 'Midnight Black' },
-      snow: { r: 0.96, g: 0.96, b: 0.98, hex: '#f5f5fa', name: 'Snow White' },
-      crimson: { r: 0.71, g: 0.16, b: 0.2, hex: '#b42832', name: 'Crimson Red' },
-      ocean: { r: 0.12, g: 0.35, b: 0.63, hex: '#1e5aa0', name: 'Ocean Blue' },
-      forest: { r: 0.16, g: 0.47, b: 0.31, hex: '#287850', name: 'Forest Green' }
+      midnight: { r: 0.12, g: 0.12, b: 0.14, hex: '#1e1e23', name: 'Midnight' },
+      snow: { r: 0.96, g: 0.96, b: 0.98, hex: '#f5f5fa', name: 'Snow' },
+      crimson: { r: 0.71, g: 0.16, b: 0.2, hex: '#b42832', name: 'Crimson' },
+      ocean: { r: 0.12, g: 0.35, b: 0.63, hex: '#1e5aa0', name: 'Ocean' },
+      forest: { r: 0.16, g: 0.47, b: 0.31, hex: '#287850', name: 'Forest' }
     };
 
     const cameraBackground = document.getElementById("cameraBackground");
@@ -949,7 +697,6 @@
     const startBtn = document.getElementById("startBtn");
     const visualizeBtn = document.getElementById("visualizeBtn");
     const videoPlayer = document.getElementById("videoPlayer");
-    const videoOverlay = document.getElementById("videoOverlay");
     const closeARDetail = document.getElementById("closeARDetail");
     const shoesGrid = document.getElementById("shoesGrid");
     const colorPanel = document.getElementById("colorPanel");
@@ -968,24 +715,10 @@
     let currentShoe = null;
     let originalMaterialColors = new Map();
 
-    function createParticles() {
-      const container = document.getElementById('particles');
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 8 + 's';
-        particle.style.animationDuration = (6 + Math.random() * 4) + 's';
-        container.appendChild(particle);
-      }
-    }
-    createParticles();
-
     async function initCamera() {
       const constraints = [
         { video: { facingMode: { exact: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } } },
-        { video: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } } },
-        { video: { facingMode: { ideal: "environment" } } },
+        { video: { facingMode: "environment" } },
         { video: true }
       ];
 
@@ -995,11 +728,9 @@
           cameraBackground.srcObject = cameraStream;
           await cameraBackground.play();
           return;
-        } catch (err) {
-          continue;
-        }
+        } catch (err) { continue; }
       }
-      document.body.style.background = "linear-gradient(135deg, #0f0c29, #302b63, #24243e)";
+      document.body.style.background = "#1a1a2e";
     }
     initCamera();
 
@@ -1019,42 +750,26 @@
       modelsScreen.style.display = "block";
     });
 
-    videoPlayer.addEventListener('ended', () => {
-      videoOverlay.classList.add('active');
-    });
-
-    let videoStartTime = 0;
-    videoPlayer.addEventListener('play', () => { videoStartTime = Date.now(); });
-
-    document.querySelector('.video-container').addEventListener('click', () => {
-      if (Date.now() - videoStartTime > 3000) {
-        videoScreen.style.display = "none";
-        modelsScreen.style.display = "block";
-      }
-    });
-
     visualizeBtn.onclick = () => {
+      videoPlayer.pause();
       videoScreen.style.display = "none";
       modelsScreen.style.display = "block";
     };
 
-    // Generate shoe cards - KEY FIX: Use "auto-orbit" to auto-fit model
+    // Generate shoe cards
     shoes.forEach((shoe, index) => {
       const card = document.createElement("div");
       card.className = "shoe-card";
-      // Using camera-orbit="auto auto auto" makes model-viewer automatically frame the model
       card.innerHTML = `
         <div class="model-wrap">
           <model-viewer 
             src="${shoe.model}" 
             auto-rotate
-            rotation-per-second="30deg"
+            rotation-per-second="25deg"
             camera-controls 
-            shadow-intensity="1" 
+            shadow-intensity="0.5" 
             exposure="1.0"
             camera-orbit="0deg 75deg auto"
-            min-camera-orbit="auto auto auto"
-            max-camera-orbit="auto auto auto"
             field-of-view="auto"
             interaction-prompt="none"
             loading="eager">
@@ -1064,7 +779,7 @@
           <h3>${shoe.name}</h3>
           <div class="price">${shoe.price}</div>
           <button class="btn-3d-home" data-index="${index}">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z"/>
             </svg>
             View in AR
@@ -1083,14 +798,12 @@
         modelName.textContent = currentShoe.name;
         
         loadingOverlay.classList.add('active');
-        
         modelsScreen.style.display = "none";
         arDetailView.style.display = "block";
         
         autoRotate = false;
         rotateBtn.classList.remove('active');
         
-        // Set auto camera orbit for AR view too
         ar3DModel.setAttribute('camera-orbit', '0deg 75deg auto');
         ar3DModel.setAttribute('field-of-view', 'auto');
         ar3DModel.src = currentShoe.model;
@@ -1098,10 +811,7 @@
         ar3DModel.addEventListener('load', () => {
           storeOriginalColors();
           resetToOriginalColor();
-          
-          setTimeout(() => {
-            loadingOverlay.classList.remove('active');
-          }, 500);
+          setTimeout(() => { loadingOverlay.classList.remove('active'); }, 400);
         }, { once: true });
         
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
@@ -1128,9 +838,7 @@
       if (model && originalMaterialColors.size > 0) {
         for (const material of model.materials) {
           const original = originalMaterialColors.get(material.name);
-          if (original) {
-            material.pbrMetallicRoughness.setBaseColorFactor(original);
-          }
+          if (original) material.pbrMetallicRoughness.setBaseColorFactor(original);
         }
       }
     }
@@ -1138,20 +846,13 @@
     function applyColorToModel(colorKey) {
       const model = ar3DModel.model;
       if (!model) return;
-
-      if (colorKey === 'original') {
-        resetToOriginalColor();
-        return;
-      }
-
+      if (colorKey === 'original') { resetToOriginalColor(); return; }
       const color = colorMap[colorKey];
       if (!color) return;
-
       for (const material of model.materials) {
         const pbr = material.pbrMetallicRoughness;
         if (pbr) {
-          const currentColor = pbr.baseColorFactor;
-          const alpha = currentColor ? currentColor[3] : 1;
+          const alpha = pbr.baseColorFactor ? pbr.baseColorFactor[3] : 1;
           pbr.setBaseColorFactor([color.r, color.g, color.b, alpha]);
         }
       }
@@ -1161,7 +862,6 @@
       const color = colorMap[colorKey];
       if (color) {
         colorDot.style.background = color.hex;
-        colorDot.style.boxShadow = `0 0 15px ${color.hex}`;
         colorNameEl.textContent = color.name;
       }
     }
@@ -1175,35 +875,28 @@
       btn.addEventListener('click', () => {
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        
         const colorKey = btn.getAttribute('data-color');
         applyColorToModel(colorKey);
         updateColorIndicator(colorKey);
-        
-        if (navigator.vibrate) navigator.vibrate(30);
       });
     });
 
-    // Zoom using FOV instead of camera distance
     let currentFOV = 45;
     zoomIn.onclick = () => {
-      currentFOV = Math.max(10, currentFOV - 5);
+      currentFOV = Math.max(15, currentFOV - 5);
       ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
-      if (navigator.vibrate) navigator.vibrate(20);
     };
 
     zoomOut.onclick = () => {
-      currentFOV = Math.min(90, currentFOV + 5);
+      currentFOV = Math.min(80, currentFOV + 5);
       ar3DModel.setAttribute('field-of-view', currentFOV + 'deg');
-      if (navigator.vibrate) navigator.vibrate(20);
     };
 
     rotateBtn.onclick = () => {
       autoRotate = !autoRotate;
       ar3DModel.autoRotate = autoRotate;
-      if (autoRotate) ar3DModel.setAttribute('rotation-per-second', '30deg');
+      if (autoRotate) ar3DModel.setAttribute('rotation-per-second', '25deg');
       rotateBtn.classList.toggle('active');
-      if (navigator.vibrate) navigator.vibrate(30);
     };
 
     resetBtn.onclick = () => {
@@ -1211,13 +904,10 @@
       ar3DModel.setAttribute('field-of-view', 'auto');
       currentFOV = 45;
       ar3DModel.resetTurntableRotation();
-      
       resetToOriginalColor();
       document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
       document.querySelector('.color-btn[data-color="original"]').classList.add('selected');
       updateColorIndicator('original');
-      
-      if (navigator.vibrate) navigator.vibrate(50);
     };
 
     closeARDetail.onclick = () => {
@@ -1230,8 +920,6 @@
       rotateBtn.classList.remove('active');
     };
 
-    videoPlayer.addEventListener('contextmenu', (e) => e.preventDefault());
-
     arDetailView.addEventListener('click', (e) => {
       if (!colorPanel.contains(e.target) && e.target !== colorToggle && !colorToggle.contains(e.target)) {
         colorPanel.classList.remove('active');
@@ -1239,9 +927,7 @@
       }
     });
 
-    ar3DModel.addEventListener('error', (e) => {
-      loadingOverlay.classList.remove('active');
-    });
+    ar3DModel.addEventListener('error', () => { loadingOverlay.classList.remove('active'); });
 
     window.addEventListener('beforeunload', () => {
       if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
