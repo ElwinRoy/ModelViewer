@@ -884,8 +884,8 @@
     
     <div class="video-container">
       <video id="videoPlayer" playsinline>
-        <!-- Your GitHub video -->
-        <source src="https://raw.githubusercontent.com/ElwinRoy/ModelViewer/b239db9d66031597829ffa8ca44d0fd0ba13506f/videoplayback.mp4" type="video/mp4">
+        <!-- Using media.githubusercontent.com for proper video serving -->
+        <source src="https://media.githubusercontent.com/media/ElwinRoy/ModelViewer/b239db9d66031597829ffa8ca44d0fd0ba13506f/videoplayback.mp4" type="video/mp4">
       </video>
       
       <!-- Only shows after video ends -->
@@ -917,8 +917,8 @@
       shadow-softness="1"
       exposure="1.0"
       camera-orbit="25deg 65deg 2.5m"
-      min-camera-orbit="auto auto 0.8m"
-      max-camera-orbit="auto auto 6m"
+      min-camera-orbit="auto auto 0.5m"
+      max-camera-orbit="auto auto 20m"
       field-of-view="30deg"
       interaction-prompt="none"
       environment-image="neutral">
@@ -983,28 +983,35 @@
   </div>
 
   <script>
-    // First 2 models have larger camera distance to show full shoe
+    // DRASTICALLY different camera distances for each model
+    // Model 1 & 2 are very large scale - need MUCH farther camera
     const shoes = [
       { 
         name: "New Balance 997", 
         price: "₹14,999", 
         model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb",
-        cardCameraOrbit: "25deg 70deg 2.8m",  // Zoomed out more
-        arCameraOrbit: "25deg 65deg 3.0m"     // Zoomed out more for AR view
+        // These models are HUGE - need camera very far away
+        cardCameraOrbit: "25deg 75deg 12m",
+        arCameraOrbit: "25deg 65deg 15m",
+        fieldOfView: "45deg"
       },
       { 
         name: "Formal Edge", 
         price: "₹12,999", 
         model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb",
-        cardCameraOrbit: "25deg 70deg 2.8m",  // Zoomed out more
-        arCameraOrbit: "25deg 65deg 3.0m"     // Zoomed out more for AR view
+        // Also very large model
+        cardCameraOrbit: "25deg 75deg 10m",
+        arCameraOrbit: "25deg 65deg 12m",
+        fieldOfView: "45deg"
       },
       { 
         name: "ND Runner", 
         price: "₹16,999", 
         model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb",
-        cardCameraOrbit: "25deg 70deg 1.8m",  // Normal zoom
-        arCameraOrbit: "25deg 65deg 2.5m"     // Normal zoom for AR view
+        // This one displays correctly - normal scale
+        cardCameraOrbit: "25deg 70deg 1.8m",
+        arCameraOrbit: "25deg 65deg 2.5m",
+        fieldOfView: "30deg"
       }
     ];
 
@@ -1096,16 +1103,46 @@
 
     initCamera();
 
-    // Start button
+    // Start button - skip video and go directly to models
     startBtn.onclick = async () => {
       introScreen.style.display = "none";
+      
+      // Try to play video, if it fails go directly to models
       videoScreen.style.display = "flex";
-      videoPlayer.play();
+      
+      try {
+        await videoPlayer.play();
+      } catch (e) {
+        console.log("Video failed to play, going directly to models");
+        videoScreen.style.display = "none";
+        modelsScreen.style.display = "block";
+      }
     };
+
+    // Video error handler - go to models if video fails
+    videoPlayer.addEventListener('error', () => {
+      console.log("Video error, going to models");
+      videoScreen.style.display = "none";
+      modelsScreen.style.display = "block";
+    });
 
     // Video ended event - only then show the button
     videoPlayer.addEventListener('ended', () => {
       videoOverlay.classList.add('active');
+    });
+
+    // Also allow tapping video container to proceed after a few seconds
+    let videoStartTime = 0;
+    videoPlayer.addEventListener('play', () => {
+      videoStartTime = Date.now();
+    });
+
+    document.querySelector('.video-container').addEventListener('click', () => {
+      // Allow skip after 3 seconds
+      if (Date.now() - videoStartTime > 3000) {
+        videoScreen.style.display = "none";
+        modelsScreen.style.display = "block";
+      }
     });
 
     // Visualize button - go to models screen
@@ -1128,9 +1165,9 @@
             shadow-intensity="1" 
             exposure="1.0"
             camera-orbit="${shoe.cardCameraOrbit}"
-            min-camera-orbit="auto auto 0.8m"
-            max-camera-orbit="auto auto 5m"
-            field-of-view="30deg"
+            min-camera-orbit="auto auto 0.5m"
+            max-camera-orbit="auto auto 50m"
+            field-of-view="${shoe.fieldOfView}"
             interaction-prompt="none"
             loading="eager">
           </model-viewer>
@@ -1163,12 +1200,14 @@
         modelsScreen.style.display = "none";
         arDetailView.style.display = "block";
         
-        // Use the shoe's specific AR camera orbit
-        currentZoom = parseFloat(currentShoe.arCameraOrbit.match(/[\d.]+m/)[0]);
+        // Use the shoe's specific camera settings
+        const zoomMatch = currentShoe.arCameraOrbit.match(/([\d.]+)m/);
+        currentZoom = zoomMatch ? parseFloat(zoomMatch[1]) : 2.5;
         autoRotate = false;
         rotateBtn.classList.remove('active');
         
         ar3DModel.src = currentShoe.model;
+        ar3DModel.fieldOfView = currentShoe.fieldOfView;
         
         ar3DModel.addEventListener('load', () => {
           storeOriginalColors();
@@ -1176,6 +1215,7 @@
           
           // Apply shoe-specific camera orbit
           ar3DModel.cameraOrbit = currentShoe.arCameraOrbit;
+          ar3DModel.fieldOfView = currentShoe.fieldOfView;
           
           setTimeout(() => {
             loadingOverlay.classList.remove('active');
@@ -1278,15 +1318,17 @@
       });
     });
 
-    // Zoom controls
+    // Zoom controls - with larger steps for big models
     zoomIn.onclick = () => {
-      currentZoom = Math.max(0.8, currentZoom - 0.3);
+      const step = currentZoom > 5 ? 2 : 0.5;
+      currentZoom = Math.max(0.5, currentZoom - step);
       ar3DModel.cameraOrbit = `auto auto ${currentZoom}m`;
       if (navigator.vibrate) navigator.vibrate(20);
     };
 
     zoomOut.onclick = () => {
-      currentZoom = Math.min(6, currentZoom + 0.3);
+      const step = currentZoom > 5 ? 2 : 0.5;
+      currentZoom = Math.min(30, currentZoom + step);
       ar3DModel.cameraOrbit = `auto auto ${currentZoom}m`;
       if (navigator.vibrate) navigator.vibrate(20);
     };
@@ -1306,7 +1348,9 @@
     resetBtn.onclick = () => {
       if (currentShoe) {
         ar3DModel.cameraOrbit = currentShoe.arCameraOrbit;
-        currentZoom = parseFloat(currentShoe.arCameraOrbit.match(/[\d.]+m/)[0]);
+        ar3DModel.fieldOfView = currentShoe.fieldOfView;
+        const zoomMatch = currentShoe.arCameraOrbit.match(/([\d.]+)m/);
+        currentZoom = zoomMatch ? parseFloat(zoomMatch[1]) : 2.5;
       } else {
         ar3DModel.cameraOrbit = "25deg 65deg 2.5m";
         currentZoom = 2.5;
