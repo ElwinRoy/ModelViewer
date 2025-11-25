@@ -3,48 +3,229 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Sneakers AR Try-On</title>
+  <title>Sneakers AR Experience</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      background: #000;
       color: white;
       overflow: hidden;
+      width: 100vw;
+      height: 100vh;
     }
 
-    header { text-align: center; padding: 50px 20px 20px; }
-    h1 {
-      font-size: 36px; font-weight: 800;
+    /* Camera Background */
+    #cameraBackground {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+      display: none;
+    }
+
+    /* Intro Screen */
+    #introScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    #introScreen h1 {
+      font-size: 32px;
+      font-weight: 800;
       background: linear-gradient(90deg, #00ff9d, #00d4ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .press-button {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00d4ff, #0099cc);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(0, 212, 255, 0.6); }
+      50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(0, 212, 255, 0.9); }
+    }
+
+    .press-button::before {
+      content: '';
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 3px solid rgba(0, 212, 255, 0.3);
+      animation: ripple 2s infinite;
+    }
+
+    @keyframes ripple {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+
+    .disclaimer {
+      position: absolute;
+      bottom: 30px;
+      text-align: center;
+      font-size: 11px;
+      opacity: 0.7;
+      padding: 0 40px;
+      line-height: 1.4;
+    }
+
+    /* Video Screen */
+    #videoScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 90;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    #videoPlayer {
+      width: 85%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      border: 3px solid rgba(0, 212, 255, 0.5);
+      margin-bottom: 30px;
+    }
+
+    .visualize-button {
+      padding: 18px 40px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, #9C27B0, #E91E63);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 15px 40px rgba(156, 39, 176, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    .visualize-button:active {
+      transform: scale(0.95);
+    }
+
+    /* Models Screen */
+    #modelsScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 80;
+      display: none;
+      overflow-y: auto;
+      padding: 80px 20px 30px;
+    }
+
+    .models-header {
+      text-align: center;
+      margin-bottom: 30px;
+      z-index: 85;
+      position: relative;
+    }
+
+    .models-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #00ff9d, #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .models-header p {
+      font-size: 14px;
+      opacity: 0.9;
     }
 
     .shoes-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 22px;
-      padding: 20px;
-      padding-bottom: 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 85;
     }
 
     .shoe-card {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.12);
       border-radius: 24px;
       overflow: hidden;
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     }
 
-    .model-wrap { height: 190px; background: #000; }
-    model-viewer { width: 100%; height: 100%; background: transparent; }
+    .model-wrap { 
+      height: 190px; 
+      background: rgba(0,0,0,0.3);
+    }
+    
+    model-viewer { 
+      width: 100%; 
+      height: 100%; 
+      background: transparent; 
+    }
 
-    .info { padding: 16px; text-align: center; }
-    .info h3 { font-size: 17px; margin-bottom: 6px; font-weight: 600; }
-    .info .price { opacity: 0.85; font-size: 15px; margin-bottom: 14px; }
+    .info { 
+      padding: 16px; 
+      text-align: center; 
+    }
+    
+    .info h3 { 
+      font-size: 17px; 
+      margin-bottom: 6px; 
+      font-weight: 600; 
+    }
+    
+    .info .price { 
+      opacity: 0.85; 
+      font-size: 15px; 
+      margin-bottom: 14px; 
+    }
 
     .btn-3d-home {
       background: linear-gradient(135deg, #9C27B0, #E91E63);
@@ -64,270 +245,223 @@
       box-shadow: 0 10px 30px rgba(156, 39, 176, 0.5);
       transition: all 0.3s ease;
     }
-    .btn-3d-home:active { transform: scale(0.95); }
+    
+    .btn-3d-home:active { 
+      transform: scale(0.95); 
+    }
 
-    /* AR View */
-    #arView { position:fixed; top:0; left:0; width:100vw; height:100vh; display:none; z-index:100; background:black; overflow:hidden; }
-    #cameraView { width:100%; height:100%; object-fit:cover; display:none; }
+    /* AR Detail View */
+    #arDetailView { 
+      position:fixed; 
+      top:0; 
+      left:0; 
+      width:100vw; 
+      height:100vh; 
+      display:none; 
+      z-index:70; 
+    }
 
     #ar3DModel {
-      position:fixed; top:0; left:0; width:100vw; height:100vh; display:none; z-index:115;
+      position:fixed; 
+      top:0; 
+      left:0; 
+      width:100vw; 
+      height:100vh; 
+      z-index:71;
       --poster-color: transparent;
     }
 
-    /* Background Overlay */
-    #bgOverlay {
+    #closeARDetail {
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background-size: cover;
-      background-position: center;
-      opacity: 0.85;
-      z-index: 105;
-      display: none;
-      transition: background 0.6s ease;
-    }
-
-    /* Background Buttons */
-    #btnBgRocky, #btnBgTrack {
-      position: fixed;
-      bottom: 140px;
-      padding: 18px 32px;
-      font-size: 19px;
-      font-weight: bold;
-      border-radius: 50px;
-      border: none;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.7);
-      z-index: 120;
-      cursor: pointer;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s ease;
-    }
-
-    #btnBgRocky {
-      left: 20px;
-      background: linear-gradient(135deg, #8B4513, #D2691E);
-    }
-    #btnBgTrack {
-      right: 20px;
-      background: linear-gradient(135deg, #228B22, #32CD32);
-    }
-
-    .active-bg-btn {
-      opacity: 1 !important;
-      pointer-events: all !important;
-      transform: scale(1.1);
-      box-shadow: 0 0 40px rgba(255,255,255,0.6) !important;
-    }
-
-    /* Exit & Close */
-    #closeAR, #btnExit3D {
-      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
       padding: 16px 40px;
       font-size: 18px;
       font-weight: bold;
       border-radius: 50px;
       border: none;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.6);
-      z-index: 120;
-      cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s ease;
-    }
-
-    #closeAR {
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
       background: rgba(255,255,255,0.25);
       backdrop-filter: blur(12px);
       color: white;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+      z-index: 72;
+      cursor: pointer;
     }
 
-    #btnExit3D {
-      bottom: 150px;
+    .volume-warning {
+      position: absolute;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, #e74c3c, #c0392b);
-      color: white;
-      display: none;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 12px 24px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     }
 
-    /* NEW BACK BUTTON */
-    #btnBackAR {
-      position: fixed;
-      top: 30px;
-      left: 20px;
-      padding: 12px 26px;
-      font-size: 17px;
-      font-weight: bold;
-      border-radius: 50px;
-      border: none;
-      color: white;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-      z-index: 130;
-      cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
+    .volume-icon {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
     }
-
-    #btnBackAR.active-btn {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .icon { width: 34px; height: 34px; filter: brightness(0) invert(1); }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Choose Your Footwear</h1>
-    <p>Tap the button below each shoe to view in AR / 3D</p>
-  </header>
+  <!-- Camera Background -->
+  <video id="cameraBackground" autoplay playsinline muted></video>
 
-  <div class="shoes-grid" id="shoesGrid"></div>
+  <!-- Intro Screen -->
+  <div id="introScreen">
+    <h1>Sneakers AR Experience</h1>
+    <button class="press-button" id="startBtn">
+      PRESS<br>TO START EXPERIENCE
+    </button>
+    <div class="disclaimer">
+      This is a work of creative visualisation, for entertainment and representation purposes only.
+    </div>
+  </div>
 
-  <div id="arView">
-    <video id="cameraView" autoplay playsinline muted></video>
-    <div id="bgOverlay"></div>
+  <!-- Video Screen -->
+  <div id="videoScreen">
+    <div class="volume-warning">
+      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" class="volume-icon">
+      <span>VOLUME UP</span>
+    </div>
+    <video id="videoPlayer" controls autoplay>
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    </video>
+    <button class="visualize-button" id="visualizeBtn">
+      Visualize Your Model
+    </button>
+  </div>
 
+  <!-- Models Screen -->
+  <div id="modelsScreen">
+    <div class="models-header">
+      <h2>Choose Your Footwear</h2>
+      <p>Tap any shoe to view in AR</p>
+    </div>
+    <div class="shoes-grid" id="shoesGrid"></div>
+  </div>
+
+  <!-- AR Detail View -->
+  <div id="arDetailView">
     <model-viewer id="ar3DModel"
       ar ar-modes="webxr scene-viewer quick-look"
       camera-controls auto-rotate
       shadow-intensity="2" exposure="1.1"
-      environment-image="neutral"
-      style="width:100%; height:100%; background:transparent;">
+      environment-image="neutral">
       <button slot="ar-button" style="display:none;"></button>
     </model-viewer>
-
-    <button id="btnBgRocky">
-      <img src="https://cdn-icons-png.flaticon.com/512/869/869061.png" class="icon"> Rocky
-    </button>
-    <button id="btnBgTrack">
-      <img src="https://cdn-icons-png.flaticon.com/512/2972/2972165.png" class="icon"> Track
-    </button>
-
-    <button id="closeAR">Close</button>
-    <button id="btnExit3D">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 6L6 18M6 6l12 12"></path>
-      </svg>
-      Exit 3D
-    </button>
-
-    <!-- NEW BACK BUTTON -->
-    <button id="btnBackAR">⬅ Back</button>
+    <button id="closeARDetail">Close</button>
   </div>
 
   <script>
     const shoes = [
-      { name: "New balance 997", price: "₹14,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb" },
+      { name: "New Balance 997", price: "₹14,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2001%20(1).glb" },
       { name: "Formal Edge", price: "₹12,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2002%20(1).glb" },
       { name: "ND Runner", price: "₹16,999", model: "https://cdn.jsdelivr.net/gh/ElwinRoy/test@main/Shoe%2003%20(1).glb" }
     ];
 
-    const grid = document.getElementById("shoesGrid");
-    const arView = document.getElementById("arView");
-    const camera = document.getElementById("cameraView");
-    const bgOverlay = document.getElementById("bgOverlay");
+    const cameraBackground = document.getElementById("cameraBackground");
+    const introScreen = document.getElementById("introScreen");
+    const videoScreen = document.getElementById("videoScreen");
+    const modelsScreen = document.getElementById("modelsScreen");
+    const arDetailView = document.getElementById("arDetailView");
     const ar3DModel = document.getElementById("ar3DModel");
-    const closeAR = document.getElementById("closeAR");
-    const btnBgRocky = document.getElementById("btnBgRocky");
-    const btnBgTrack = document.getElementById("btnBgTrack");
-    const btnExit3D = document.getElementById("btnExit3D");
-    const btnBackAR = document.getElementById("btnBackAR");
+    const startBtn = document.getElementById("startBtn");
+    const visualizeBtn = document.getElementById("visualizeBtn");
+    const videoPlayer = document.getElementById("videoPlayer");
+    const closeARDetail = document.getElementById("closeARDetail");
+    const shoesGrid = document.getElementById("shoesGrid");
 
-    let currentShoe = null;
+    let cameraStream = null;
 
+    // Initialize camera
+    async function initCamera() {
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: "environment" } 
+        });
+        cameraBackground.srcObject = cameraStream;
+        cameraBackground.style.display = "block";
+      } catch (err) {
+        console.log("Camera access denied:", err);
+      }
+    }
+
+    // Start button - show video
+    startBtn.onclick = async () => {
+      await initCamera();
+      introScreen.style.display = "none";
+      videoScreen.style.display = "flex";
+    };
+
+    // Visualize button - show models
+    visualizeBtn.onclick = () => {
+      videoScreen.style.display = "none";
+      modelsScreen.style.display = "block";
+    };
+
+    // Generate shoe cards
     shoes.forEach(shoe => {
       const card = document.createElement("div");
       card.className = "shoe-card";
       card.innerHTML = `
         <div class="model-wrap">
-          <model-viewer src="${shoe.model}" auto-rotate camera-controls ar shadow-intensity="1.5" exposure="1.1" loading="eager"></model-viewer>
+          <model-viewer 
+            src="${shoe.model}" 
+            auto-rotate 
+            camera-controls 
+            shadow-intensity="1.5" 
+            exposure="1.1" 
+            loading="eager">
+          </model-viewer>
         </div>
         <div class="info">
           <h3>${shoe.name}</h3>
           <div class="price">${shoe.price}</div>
           <button class="btn-3d-home" data-model="${shoe.model}">
-            <img src="https://cdn-icons-png.flaticon.com/512/1087/1087080.png" style="width:26px;height:26px;filter:brightness(0)invert(1)">
-            View in AR / 3D
+            <img src="https://cdn-icons-png.flaticon.com/512/1087/1087080.png" 
+                 style="width:26px;height:26px;filter:brightness(0)invert(1)">
+            View in AR
           </button>
         </div>
       `;
-      grid.appendChild(card);
+      shoesGrid.appendChild(card);
     });
 
+    // View in AR buttons
     document.querySelectorAll('.btn-3d-home').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
+      btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const modelUrl = btn.getAttribute('data-model');
-        currentShoe = shoes.find(s => s.model === modelUrl);
-
-        arView.style.display = "block";
-        bgOverlay.style.display = "block";
-
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-          camera.srcObject = stream;
-        } catch (err) {
-          console.log("Camera denied, continuing in 3D mode");
-        }
-
+        
+        modelsScreen.style.display = "none";
+        arDetailView.style.display = "block";
         ar3DModel.src = modelUrl;
-        ar3DModel.style.display = "block";
-
-        bgOverlay.style.background = "url('https://images.unsplash.com/photo-1558618666-418893e633e3?w=1200&q=80') center/cover no-repeat";
-
-        setTimeout(() => {
-          closeAR.classList.add("active-btn");
-          btnBgRocky.classList.add("active-bg-btn", "active-btn");
-          btnBgTrack.classList.add("active-btn");
-          btnExit3D.style.display = "block";
-          btnExit3D.classList.add("active-btn");
-          btnBackAR.classList.add("active-btn");
-        }, 800);
       });
     });
 
-    btnBgRocky.onclick = () => {
-      bgOverlay.style.background = "url('https://images.unsplash.com/photo-1558618666-418893e633e3?w=1200&q=80') center/cover no-repeat";
-      btnBgRocky.classList.add("active-bg-btn");
-      btnBgTrack.classList.remove("active-bg-btn");
+    // Close AR detail view
+    closeARDetail.onclick = () => {
+      arDetailView.style.display = "none";
+      modelsScreen.style.display = "block";
     };
 
-    btnBgTrack.onclick = () => {
-      bgOverlay.style.background = "url('https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=1200&q=80') center/cover no-repeat";
-      btnBgTrack.classList.add("active-bg-btn");
-      btnBgRocky.classList.remove("active-bg-btn");
-    };
-
-    const exitAR = () => {
-      camera.srcObject?.getTracks().forEach(t => t.stop());
-      bgOverlay.style.display = "none";
-      ar3DModel.style.display = "none";
-      arView.style.display = "none";
-
-      closeAR.classList.remove("active-btn");
-      btnExit3D.style.display = "none";
-
-      btnBgRocky.classList.remove("active-btn", "active-bg-btn");
-      btnBgTrack.classList.remove("active-btn", "active-bg-btn");
-      btnBackAR.classList.remove("active-btn");
-    };
-
-    closeAR.onclick = exitAR;
-    btnExit3D.onclick = exitAR;
-    btnBackAR.onclick = exitAR;
+    // Stop camera when leaving
+    window.addEventListener('beforeunload', () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+    });
   </script>
 </body>
 </html>
