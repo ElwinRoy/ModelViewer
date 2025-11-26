@@ -83,13 +83,13 @@
       background: transparent;
     }
     
-    /* Glow container to keep glows within video screen only */
-    .glow-container {
+    /* Glow effect contained only around the video container */
+    .video-glow-wrapper {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px; height: 500px;
       pointer-events: none;
-      overflow: hidden;
       z-index: 0;
     }
     
@@ -97,73 +97,53 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 400px; height: 600px;
-      border-radius: 50px;
+      width: 280px; height: 420px;
+      border-radius: 40px;
       background: radial-gradient(ellipse at center, 
-        rgba(0, 212, 255, 0.7) 0%, 
-        rgba(0, 180, 255, 0.5) 25%,
-        rgba(0, 150, 255, 0.35) 40%,
-        rgba(0, 100, 200, 0.2) 55%,
+        rgba(0, 212, 255, 0.5) 0%, 
+        rgba(0, 180, 255, 0.35) 30%,
+        rgba(0, 150, 255, 0.2) 50%,
         transparent 70%);
-      filter: blur(50px);
+      filter: blur(40px);
       animation: bgGlowPulse 3s ease-in-out infinite;
     }
     .background-glow-secondary {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 500px; height: 700px;
-      border-radius: 60px;
+      width: 320px; height: 480px;
+      border-radius: 50px;
       background: radial-gradient(ellipse at center, 
-        rgba(0, 255, 136, 0.45) 0%, 
-        rgba(0, 220, 120, 0.3) 30%,
-        rgba(0, 200, 100, 0.15) 50%,
-        transparent 70%);
-      filter: blur(60px);
+        rgba(0, 255, 136, 0.35) 0%, 
+        rgba(0, 220, 120, 0.2) 35%,
+        transparent 65%);
+      filter: blur(50px);
       animation: bgGlowPulse2 4s ease-in-out infinite;
     }
     .background-glow-accent {
       position: absolute;
       top: 40%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 350px; height: 450px;
-      border-radius: 50%;
+      width: 250px; height: 350px;
+      border-radius: 40px;
       background: radial-gradient(ellipse at center, 
-        rgba(255, 107, 53, 0.5) 0%, 
-        rgba(247, 147, 30, 0.35) 30%,
-        rgba(255, 180, 100, 0.2) 50%,
-        transparent 70%);
-      filter: blur(45px);
+        rgba(255, 107, 53, 0.4) 0%, 
+        rgba(247, 147, 30, 0.25) 35%,
+        transparent 65%);
+      filter: blur(35px);
       animation: bgGlowPulse3 5s ease-in-out infinite;
     }
-    .background-glow-outer {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 550px; height: 750px;
-      border-radius: 80px;
-      background: radial-gradient(ellipse at center, 
-        rgba(100, 200, 255, 0.3) 0%, 
-        rgba(50, 150, 200, 0.15) 40%,
-        transparent 65%);
-      filter: blur(70px);
-      animation: bgGlowPulse4 6s ease-in-out infinite;
-    }
     @keyframes bgGlowPulse {
-      0%, 100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+      0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
     }
     @keyframes bgGlowPulse2 {
-      0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1) rotate(3deg); }
+      0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.08); }
     }
     @keyframes bgGlowPulse3 {
-      0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-    }
-    @keyframes bgGlowPulse4 {
       0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.08); }
+      50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.15); }
     }
     
     .particles-container {
@@ -182,15 +162,15 @@
     }
     .particle.glow {
       background: radial-gradient(circle, rgba(0, 212, 255, 1) 0%, rgba(0, 212, 255, 0.6) 40%, transparent 70%);
-      box-shadow: 0 0 8px rgba(0, 212, 255, 0.8), 0 0 15px rgba(0, 212, 255, 0.4);
+      box-shadow: 0 0 6px rgba(0, 212, 255, 0.7);
     }
     .particle.spark {
       background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 255, 136, 0.7) 50%, transparent 70%);
-      box-shadow: 0 0 6px rgba(255, 255, 255, 0.7), 0 0 12px rgba(0, 255, 136, 0.4);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
     }
     .particle.orb {
       background: radial-gradient(circle, rgba(255, 200, 100, 1) 0%, rgba(255, 107, 53, 0.6) 50%, transparent 70%);
-      box-shadow: 0 0 8px rgba(255, 200, 100, 0.7), 0 0 14px rgba(255, 107, 53, 0.4);
+      box-shadow: 0 0 6px rgba(255, 200, 100, 0.6);
     }
     @keyframes floatParticle {
       0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
@@ -205,9 +185,9 @@
     @keyframes floatParticleSway {
       0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
       10% { opacity: 1; }
-      25% { transform: translateY(75vh) translateX(30px) scale(0.8); }
-      50% { transform: translateY(50vh) translateX(-25px) scale(1); opacity: 1; }
-      75% { transform: translateY(25vh) translateX(20px) scale(0.9); }
+      25% { transform: translateY(75vh) translateX(20px) scale(0.8); }
+      50% { transform: translateY(50vh) translateX(-15px) scale(1); opacity: 1; }
+      75% { transform: translateY(25vh) translateX(15px) scale(0.9); }
       90% { opacity: 0.7; }
       100% { transform: translateY(-50px) translateX(0) scale(0.5); opacity: 0; }
     }
@@ -317,6 +297,17 @@
       overflow: hidden;
       background: transparent;
     }
+    
+    /* Added gentle fade-in and slide-up animations for models screen */
+    @keyframes fadeSlideIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardFadeIn {
+      0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
     .models-scroll-container {
       flex: 1;
       overflow-y: auto;
@@ -330,6 +321,7 @@
       background: rgba(0,0,0,0.5);
       backdrop-filter: blur(10px);
       border-radius: 15px;
+      animation: fadeSlideIn 0.5s ease-out forwards;
     }
     .models-header h2 { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
     .models-header p { font-size: 12px; opacity: 0.7; }
@@ -345,7 +337,13 @@
       background: transparent;
       border-radius: 20px;
       overflow: visible;
+      opacity: 0;
+      animation: cardFadeIn 0.6s ease-out forwards;
     }
+    .shoe-card:nth-child(1) { animation-delay: 0.1s; }
+    .shoe-card:nth-child(2) { animation-delay: 0.2s; }
+    .shoe-card:nth-child(3) { animation-delay: 0.3s; }
+    
     .model-wrap {
       height: 220px;
       background: transparent !important;
@@ -414,29 +412,31 @@
       overflow: visible;
     }
     
-    /* Container for model that can be moved without clipping */
+    /* Model container now uses much larger dimensions to prevent clipping */
     #arModelContainer {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 300vw;
+      height: 300vh;
+      top: -100vh;
+      left: -100vw;
       z-index: 111;
       pointer-events: none;
       overflow: visible;
     }
     
-    /* Model viewer with camera-controls enabled for rotation */
     #ar3DModel {
       position: absolute;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
+      top: 100vh;
+      left: 100vw;
       --poster-color: transparent;
       background-color: transparent !important;
       touch-action: none;
       pointer-events: auto;
     }
     
-    /* Touch overlay above model for drag detection */
+    /* Touch overlay to intercept 1-finger drag */
     #arTouchOverlay {
       position: fixed;
       top: 0; left: 0;
@@ -588,11 +588,11 @@
 
   <!-- VIDEO SCREEN -->
   <div id="videoScreen">
-    <div class="glow-container">
+    <!-- Glow wrapper positioned around video only -->
+    <div class="video-glow-wrapper">
       <div class="background-glow"></div>
       <div class="background-glow-secondary"></div>
       <div class="background-glow-accent"></div>
-      <div class="background-glow-outer"></div>
     </div>
     <div class="particles-container" id="particlesContainer"></div>
     <div class="sound-waves" id="soundWaves">
@@ -636,20 +636,18 @@
 
   <!-- AR VIEW -->
   <div id="arDetailView">
-    <!-- Container that moves with drag - prevents clipping -->
+    <!-- Container is 300vw x 300vh so model never clips -->
     <div id="arModelContainer">
-      <!-- camera-controls enabled for 2-finger rotation -->
+      <!-- camera-controls enabled, removed disable-zoom for proper rotation -->
       <model-viewer id="ar3DModel"
         ar ar-modes="webxr scene-viewer quick-look"
         camera-controls
         disable-tap
-        disable-zoom
         shadow-intensity="1" exposure="1.0"
         interaction-prompt="none" environment-image="neutral">
       </model-viewer>
     </div>
     
-    <!-- Touch overlay to handle 1-finger drag and 2-finger pinch -->
     <div id="arTouchOverlay"></div>
 
     <div class="top-bar">
@@ -772,7 +770,7 @@
       const c = el.particlesContainer; c.innerHTML = '';
       const particleTypes = ['glow', 'spark', 'orb'];
       const animationTypes = ['', 'sway'];
-      const particleCount = 12;
+      const particleCount = 10;
       
       for (let i = 0; i < particleCount; i++) {
         const p = document.createElement('div');
@@ -780,7 +778,7 @@
         const anim = animationTypes[Math.floor(Math.random() * animationTypes.length)];
         p.className = `particle ${type}${anim ? ' ' + anim : ''}`;
         
-        const s = Math.random() * 4 + 3;
+        const s = Math.random() * 3 + 2;
         p.style.width = s + 'px';
         p.style.height = s + 'px';
         p.style.left = Math.random() * 100 + '%';
@@ -882,7 +880,6 @@
 
     function applyModelTransform() {
       modelScale = Math.max(0.3, Math.min(3, modelScale));
-      // Move the container instead of the model to prevent clipping
       el.modelContainer.style.transform = `translate(${modelPosX}px, ${modelPosY}px) scale(${modelScale})`;
     }
 
@@ -897,22 +894,22 @@
 
     function initARTouchControls() {
       const overlay = el.touchOverlay;
+      const modelViewer = el.model3d;
       
       overlay.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
         if (e.touches.length === 2) {
-          // Two fingers - pinch to scale (rotation handled by model-viewer)
+          // Two fingers - let model-viewer handle rotation, we handle scale
           isTwoFingerGesture = true;
           isOneFingerDrag = false;
           initialPinchDistance = getTouchDistance(e.touches);
           initialScale = modelScale;
           
-          // Hide overlay to let model-viewer handle rotation
+          // Hide overlay so model-viewer can handle rotation
           overlay.style.pointerEvents = 'none';
         } else if (e.touches.length === 1) {
-          // One finger - drag to move position
+          // One finger - we handle drag, prevent rotation
+          e.preventDefault();
+          e.stopPropagation();
           isOneFingerDrag = true;
           isTwoFingerGesture = false;
           lastDragX = e.touches[0].clientX;
@@ -922,17 +919,10 @@
       }, { passive: false });
 
       overlay.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        if (isTwoFingerGesture && e.touches.length === 2) {
-          // Pinch to scale
-          const currentDistance = getTouchDistance(e.touches);
-          const scaleChange = currentDistance / initialPinchDistance;
-          modelScale = initialScale * scaleChange;
-          applyModelTransform();
-        } else if (isOneFingerDrag && e.touches.length === 1) {
-          // Drag to move
+        if (isOneFingerDrag && e.touches.length === 1) {
+          e.preventDefault();
+          e.stopPropagation();
+          // Drag to move - no boundaries
           const dx = e.touches[0].clientX - lastDragX;
           const dy = e.touches[0].clientY - lastDragY;
           modelPosX += dx;
@@ -959,6 +949,23 @@
           lastDragY = e.touches[0].clientY;
         }
       });
+
+      // Handle pinch scale when model-viewer gets touch events
+      modelViewer.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          initialPinchDistance = getTouchDistance(e.touches);
+          initialScale = modelScale;
+        }
+      }, { passive: true });
+
+      modelViewer.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+          const currentDistance = getTouchDistance(e.touches);
+          const scaleChange = currentDistance / initialPinchDistance;
+          modelScale = initialScale * scaleChange;
+          applyModelTransform();
+        }
+      }, { passive: true });
 
       // Mouse support for desktop testing
       let isMouseDragging = false;
