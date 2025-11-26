@@ -11,543 +11,92 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #000;
       color: white;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      width: 100%; height: 100%; overflow: hidden;
     }
-    #cameraBackground {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      object-fit: cover;
-      z-index: 1;
-    }
-    #introScreen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-    }
-    .intro-ripple {
-      position: absolute;
-      width: 300px; height: 300px;
-      border-radius: 50%;
-      border: 1px solid rgba(0, 212, 255, 0.3);
-      animation: rippleExpand 3s ease-out infinite;
-    }
+    #cameraBackground { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; }
+    #introScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; display: flex; align-items: center; justify-content: center; background: transparent; }
+    .intro-ripple { position: absolute; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(0, 212, 255, 0.3); animation: rippleExpand 3s ease-out infinite; }
     .intro-ripple:nth-child(2) { animation-delay: 1s; }
     .intro-ripple:nth-child(3) { animation-delay: 2s; }
-    @keyframes rippleExpand {
-      0% { transform: scale(0.5); opacity: 1; }
-      100% { transform: scale(2); opacity: 0; }
-    }
-    .press-button {
-      position: relative;
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(0, 255, 157, 0.3), rgba(0, 212, 255, 0.15), rgba(0, 100, 150, 0.2));
-      border: 2px solid rgba(0, 212, 255, 0.5);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: bold;
-      color: white;
-      text-align: center;
-      animation: pulseButton 2.5s infinite;
-      backdrop-filter: blur(10px);
-      z-index: 10;
-    }
-    @keyframes pulseButton {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(0, 212, 255, 0.5); }
-      50% { transform: scale(1.02); box-shadow: 0 0 60px rgba(0, 212, 255, 0.7); }
-    }
+    @keyframes rippleExpand { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+    .press-button { position: relative; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(0,255,157,0.3), rgba(0,212,255,0.15), rgba(0,100,150,0.2)); border: 2px solid rgba(0,212,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; color: white; text-align: center; animation: pulseButton 2.5s infinite; backdrop-filter: blur(10px); z-index: 10; }
+    @keyframes pulseButton { 0%,100% { transform: scale(1); box-shadow: 0 0 40px rgba(0,212,255,0.5); } 50% { transform: scale(1.02); box-shadow: 0 0 60px rgba(0,212,255,0.7); } }
     .press-button:active { transform: scale(0.95); }
 
     /* VIDEO SCREEN */
-    #videoScreen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 90;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      perspective: 1200px;
-      overflow: hidden;
-      background: transparent;
-    }
-    
-    .particles-container {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 2;
-    }
-    
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      animation: floatParticle linear infinite;
-    }
-    .particle.glow {
-      background: radial-gradient(circle, rgba(0, 212, 255, 1) 0%, rgba(0, 212, 255, 0.6) 40%, transparent 70%);
-      box-shadow: 0 0 6px rgba(0, 212, 255, 0.7);
-    }
-    .particle.spark {
-      background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 255, 136, 0.7) 50%, transparent 70%);
-      box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
-    }
-    .particle.orb {
-      background: radial-gradient(circle, rgba(255, 200, 100, 1) 0%, rgba(255, 107, 53, 0.6) 50%, transparent 70%);
-      box-shadow: 0 0 6px rgba(255, 200, 100, 0.6);
-    }
-    @keyframes floatParticle {
-      0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
-      10% { opacity: 1; }
-      50% { opacity: 1; transform: translateY(50vh) rotate(360deg) scale(1); }
-      90% { opacity: 0.8; }
-      100% { transform: translateY(-50px) rotate(720deg) scale(0.5); opacity: 0; }
-    }
-    .particle.sway {
-      animation: floatParticleSway linear infinite;
-    }
-    @keyframes floatParticleSway {
-      0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
-      10% { opacity: 1; }
-      25% { transform: translateY(75vh) translateX(20px) scale(0.8); }
-      50% { transform: translateY(50vh) translateX(-15px) scale(1); opacity: 1; }
-      75% { transform: translateY(25vh) translateX(15px) scale(0.9); }
-      90% { opacity: 0.7; }
-      100% { transform: translateY(-50px) translateX(0) scale(0.5); opacity: 0; }
-    }
-    
-    .sound-waves {
-      position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-      height: 35px;
-      z-index: 96;
-    }
-    .wave-bar {
-      width: 3px;
-      background: linear-gradient(to top, #00d4ff, #00ff88, #fff);
-      border-radius: 3px;
-      animation: waveAnimation 0.5s ease-in-out infinite alternate;
-      box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
-    }
-    @keyframes waveAnimation {
-      0% { height: 5px; }
-      100% { height: 28px; }
-    }
-    .spatial-container {
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.1s ease-out;
-      will-change: transform;
-      z-index: 10;
-    }
-    .spatial-frame {
-      position: relative;
-      width: 220px; height: 390px;
-      transform-style: preserve-3d;
-    }
-    
-    .video-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 250px; height: 420px;
-      border-radius: 20px;
-      background: radial-gradient(ellipse at center, 
-        rgba(0, 212, 255, 0.4) 0%, 
-        rgba(0, 180, 255, 0.25) 30%,
-        rgba(0, 150, 255, 0.1) 50%,
-        transparent 70%);
-      filter: blur(30px);
-      animation: bgGlowPulse 3s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-    .video-glow-secondary {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 280px; height: 450px;
-      border-radius: 25px;
-      background: radial-gradient(ellipse at center, 
-        rgba(0, 255, 136, 0.25) 0%, 
-        rgba(0, 220, 120, 0.15) 35%,
-        transparent 65%);
-      filter: blur(40px);
-      animation: bgGlowPulse2 4s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-    @keyframes bgGlowPulse {
-      0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-    }
-    @keyframes bgGlowPulse2 {
-      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.05); }
-    }
-    
+    #videoScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 90; display: none; align-items: center; justify-content: center; perspective: 1200px; overflow: hidden; background: transparent; }
+    .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; }
+    .particle { position: absolute; border-radius: 50%; animation: floatParticle linear infinite; }
+    .particle.glow { background: radial-gradient(circle, rgba(0,212,255,1) 0%, rgba(0,212,255,0.6) 40%, transparent 70%); box-shadow: 0 0 6px rgba(0,212,255,0.7); }
+    .particle.spark { background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,255,136,0.7) 50%, transparent 70%); box-shadow: 0 0 5px rgba(255,255,255,0.6); }
+    .particle.orb { background: radial-gradient(circle, rgba(255,200,100,1) 0%, rgba(255,107,53,0.6) 50%, transparent 70%); box-shadow: 0 0 6px rgba(255,200,100,0.6); }
+    @keyframes floatParticle { 0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; } 10% { opacity: 1; } 50% { opacity: 1; transform: translateY(50vh) rotate(360deg) scale(1); } 90% { opacity: 0.8; } 100% { transform: translateY(-50px) rotate(720deg) scale(0.5); opacity: 0; } }
+    .particle.sway { animation: floatParticleSway linear infinite; }
+    @keyframes floatParticleSway { 0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; } 10% { opacity: 1; } 25% { transform: translateY(75vh) translateX(20px) scale(0.8); } 50% { transform: translateY(50vh) translateX(-15px) scale(1); opacity: 1; } 75% { transform: translateY(25vh) translateX(15px) scale(0.9); } 90% { opacity: 0.7; } 100% { transform: translateY(-50px) translateX(0) scale(0.5); opacity: 0; } }
+    .sound-waves { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; align-items: flex-end; gap: 4px; height: 35px; z-index: 96; }
+    .wave-bar { width: 3px; background: linear-gradient(to top, #00d4ff, #00ff88, #fff); border-radius: 3px; animation: waveAnimation 0.5s ease-in-out infinite alternate; box-shadow: 0 0 8px rgba(0,212,255,0.6); }
+    @keyframes waveAnimation { 0% { height: 5px; } 100% { height: 28px; } }
+    .spatial-container { position: relative; transform-style: preserve-3d; transition: transform 0.1s ease-out; will-change: transform; z-index: 10; }
+    .spatial-frame { position: relative; width: 220px; height: 390px; transform-style: preserve-3d; }
+    .video-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 250px; height: 420px; border-radius: 20px; background: radial-gradient(ellipse at center, rgba(0,212,255,0.4) 0%, rgba(0,180,255,0.25) 30%, rgba(0,150,255,0.1) 50%, transparent 70%); filter: blur(30px); animation: bgGlowPulse 3s ease-in-out infinite; pointer-events: none; z-index: -1; }
+    .video-glow-secondary { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 280px; height: 450px; border-radius: 25px; background: radial-gradient(ellipse at center, rgba(0,255,136,0.25) 0%, rgba(0,220,120,0.15) 35%, transparent 65%); filter: blur(40px); animation: bgGlowPulse2 4s ease-in-out infinite; pointer-events: none; z-index: -1; }
+    @keyframes bgGlowPulse { 0%,100% { opacity: 0.7; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.05); } }
+    @keyframes bgGlowPulse2 { 0%,100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 0.9; transform: translate(-50%,-50%) scale(1.05); } }
     .depth-layer-back { position: absolute; top: 8px; left: 8px; width: 204px; height: 374px; background: rgba(0,0,0,0.3); border-radius: 12px; transform: translateZ(-60px); }
     .depth-layer-mid { position: absolute; top: 4px; left: 4px; width: 212px; height: 382px; background: rgba(0,0,0,0.2); border-radius: 14px; transform: translateZ(-30px); }
-    .video-spatial-container {
-      position: relative;
-      width: 220px; height: 390px;
-      transform-style: preserve-3d;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0, 212, 255, 0.2);
-    }
-    #videoPlayer {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      border-radius: 15px;
-    }
-    .visualize-button {
-      position: absolute;
-      bottom: 15px; left: 50%;
-      transform: translateX(-50%);
-      padding: 8px 18px;
-      font-size: 10px;
-      font-weight: 500;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(10px);
-      color: rgba(255,255,255,0.8);
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 10;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.5s ease;
-    }
+    .video-spatial-container { position: relative; width: 220px; height: 390px; transform-style: preserve-3d; border-radius: 15px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,212,255,0.2); }
+    #videoPlayer { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
+    .visualize-button { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); padding: 8px 18px; font-size: 10px; font-weight: 500; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); color: rgba(255,255,255,0.8); cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; z-index: 10; opacity: 0; visibility: hidden; transition: all 0.5s ease; }
     .visualize-button.visible { opacity: 1; visibility: visible; }
     .visualize-button:active { transform: translateX(-50%) scale(0.95); }
-    .floor-shadow {
-      position: absolute;
-      bottom: -60px; left: 50%;
-      transform: translateX(-50%);
-      width: 180px; height: 80px;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, transparent 70%);
-      filter: blur(15px);
-    }
-    .gyro-hint {
-      position: fixed;
-      bottom: 130px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      color: rgba(255,255,255,0.7);
-      text-align: center;
-      background: rgba(0,0,0,0.4);
-      padding: 6px 14px;
-      border-radius: 20px;
-      backdrop-filter: blur(5px);
-      transition: opacity 0.5s ease;
-      z-index: 95;
-    }
+    .floor-shadow { position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%); width: 180px; height: 80px; background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, transparent 70%); filter: blur(15px); }
+    .gyro-hint { position: fixed; bottom: 130px; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255,255,255,0.7); text-align: center; background: rgba(0,0,0,0.4); padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(5px); transition: opacity 0.5s ease; z-index: 95; }
 
     /* MODELS SCREEN */
-    #modelsScreen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 80;
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      background: transparent;
-    }
-    
-    @keyframes fadeSlideIn {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes cardFadeIn {
-      0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
-    .shimmer-border {
-      position: absolute;
-      inset: -2px;
-      border-radius: 22px;
-      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), rgba(0, 255, 136, 0.3), transparent);
-      background-size: 200% 100%;
-      animation: shimmer 3s linear infinite;
-      z-index: -1;
-      opacity: 0.6;
-    }
-    
-    .models-scroll-container {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px 12px;
-      padding-bottom: 100px;
-    }
-    .models-header {
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 20px 15px;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      animation: fadeSlideIn 0.5s ease-out forwards;
-    }
+    #modelsScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 80; display: none; flex-direction: column; overflow: hidden; background: transparent; }
+    @keyframes fadeSlideIn { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes cardFadeIn { 0% { opacity: 0; transform: translateY(20px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    .shimmer-border { position: absolute; inset: -2px; border-radius: 22px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), rgba(0,255,136,0.3), transparent); background-size: 200% 100%; animation: shimmer 3s linear infinite; z-index: -1; opacity: 0.6; }
+    .models-scroll-container { flex: 1; overflow-y: auto; padding: 20px 12px; padding-bottom: 100px; }
+    .models-header { text-align: center; margin-bottom: 20px; padding: 20px 15px; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 15px; animation: fadeSlideIn 0.5s ease-out forwards; }
     .models-header h2 { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
     .models-header p { font-size: 12px; opacity: 0.7; }
-    .shoes-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      max-width: 400px;
-      margin: 0 auto;
-      padding-bottom: 20px;
-    }
-    .shoe-card {
-      background: transparent;
-      border-radius: 20px;
-      overflow: visible;
-      opacity: 0;
-      animation: cardFadeIn 0.6s ease-out forwards;
-      position: relative;
-    }
+    .shoes-grid { display: grid; grid-template-columns: 1fr; gap: 15px; max-width: 400px; margin: 0 auto; padding-bottom: 20px; }
+    .shoe-card { background: transparent; border-radius: 20px; overflow: visible; opacity: 0; animation: cardFadeIn 0.6s ease-out forwards; position: relative; }
     .shoe-card:nth-child(1) { animation-delay: 0.1s; }
     .shoe-card:nth-child(2) { animation-delay: 0.2s; }
     .shoe-card:nth-child(3) { animation-delay: 0.3s; }
-    
-    .model-wrap {
-      height: 220px;
-      background: transparent !important;
-      touch-action: pan-y;
-      position: relative;
-    }
-    .model-wrap model-viewer {
-      width: 100%; height: 100%;
-      background-color: transparent !important;
-      --poster-color: transparent;
-      --progress-bar-color: transparent;
-      touch-action: pan-y;
-    }
-    .info {
-      padding: 18px 15px;
-      text-align: center;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      margin-top: 10px;
-    }
+    .model-wrap { height: 220px; background: transparent !important; touch-action: pan-y; position: relative; }
+    .model-wrap model-viewer { width: 100%; height: 100%; background-color: transparent !important; --poster-color: transparent; --progress-bar-color: transparent; touch-action: pan-y; }
+    .info { padding: 18px 15px; text-align: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 15px; margin-top: 10px; }
     .info h3 { font-size: 18px; margin-bottom: 5px; font-weight: 600; }
     .info .price { opacity: 0.7; font-size: 15px; margin-bottom: 15px; }
-    .btn-3d-home {
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 0 auto;
-      width: 100%;
-    }
+    .btn-3d-home { background: #fff; color: #000; border: none; padding: 14px 20px; border-radius: 30px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto; width: 100%; }
     .btn-3d-home:active { transform: scale(0.97); background: #eee; }
-    .back-to-video-btn {
-      position: fixed;
-      bottom: 25px; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 12px 30px;
-      border-radius: 25px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      z-index: 86;
-      backdrop-filter: blur(10px);
-    }
+    .back-to-video-btn { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px 30px; border-radius: 25px; font-size: 12px; font-weight: 600; cursor: pointer; z-index: 86; backdrop-filter: blur(10px); }
     .back-to-video-btn:active { transform: translateX(-50%) scale(0.95); }
 
     /* AR DETAIL VIEW */
-    #arDetailView {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      display: none;
-      z-index: 110;
-      background: transparent;
-      overflow: hidden;
-    }
-    
-    #arModelContainer {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 111;
-      touch-action: none;
-    }
-    
-    #ar3DModel {
-      width: 100%;
-      height: 100%;
-      --poster-color: transparent;
-      background-color: transparent !important;
-      touch-action: none !important;
-    }
-    
-    .top-bar {
-      position: fixed;
-      top: 20px; left: 15px; right: 15px;
-      display: flex;
-      justify-content: center;
-      z-index: 115;
-      pointer-events: none;
-    }
-    .model-name-badge {
-      background: rgba(0,0,0,0.6);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      backdrop-filter: blur(10px);
-      pointer-events: auto;
-    }
-
-    .gesture-hint {
-      position: fixed;
-      top: 70px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      color: rgba(255,255,255,0.8);
-      text-align: center;
-      background: rgba(0,0,0,0.5);
-      padding: 8px 16px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      z-index: 115;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-    }
+    #arDetailView { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: none; z-index: 110; background: transparent; overflow: hidden; }
+    #arModelContainer { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 111; touch-action: none; }
+    #ar3DModel { width: 100%; height: 100%; --poster-color: transparent; background-color: transparent !important; touch-action: none !important; camera-controls interaction-prompt="none"; }
+    .top-bar { position: fixed; top: 20px; left: 15px; right: 15px; display: flex; justify-content: center; z-index: 115; pointer-events: none; }
+    .model-name-badge { background: rgba(0,0,0,0.6); padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; backdrop-filter: blur(10px); pointer-events: auto; }
+    .gesture-hint { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255,255,255,0.8); text-align: center; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(10px); z-index: 115; opacity: 1; transition: opacity 0.5s ease; pointer-events: none; }
     .gesture-hint.hidden { opacity: 0; }
-
-    .bottom-bar {
-      position: fixed;
-      bottom: 25px; left: 15px; right: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      z-index: 115;
-      pointer-events: none;
-    }
-    
-    .capture-btn {
-      background: rgba(0,0,0,0.6);
-      border: 2px solid rgba(255,255,255,0.4);
-      color: white;
-      padding: 14px 35px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      pointer-events: auto;
-    }
+    .bottom-bar { position: fixed; bottom: 25px; left: 15px; right: 15px; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 115; pointer-events: none; }
+    .capture-btn { background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.4); color: white; padding: 14px 35px; border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; gap: 8px; pointer-events: auto; }
     .capture-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
-
-    .order-btn {
-      background: linear-gradient(135deg, #ff6b35, #f7931e);
-      color: white;
-      border: none;
-      padding: 14px 40px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-      max-width: 280px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 20px rgba(255,107,53,0.4);
-      pointer-events: auto;
-    }
+    .order-btn { background: linear-gradient(135deg, #ff6b35, #f7931e); color: white; border: none; padding: 14px 40px; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; max-width: 280px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 20px rgba(255,107,53,0.4); pointer-events: auto; }
     .order-btn:active { transform: scale(0.97); }
-    .action-row {
-      display: flex;
-      gap: 10px;
-      width: 100%;
-      max-width: 280px;
-      justify-content: center;
-    }
-    .action-btn {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 10px 18px;
-      border-radius: 20px;
-      font-size: 11px;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      flex: 1;
-      text-align: center;
-      pointer-events: auto;
-    }
+    .action-row { display: flex; gap: 10px; width: 100%; max-width: 280px; justify-content: center; }
+    .action-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 20px; font-size: 11px; cursor: pointer; backdrop-filter: blur(10px); flex: 1; text-align: center; pointer-events: auto; }
     .action-btn:active { background: rgba(255,255,255,0.1); }
-
     #captureCanvas { display: none; }
-
-    .loading-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      flex-direction: column;
-      gap: 15px;
-    }
+    .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 200; flex-direction: column; gap: 15px; }
     .loading-overlay.active { display: flex; }
-    .loader {
-      width: 40px; height: 40px;
-      border: 3px solid rgba(255,255,255,0.2);
-      border-top-color: #00d4ff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
+    .loader { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.2); border-top-color: #00d4ff; border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
@@ -629,7 +178,7 @@
     </div>
     
     <div class="gesture-hint" id="gestureHint">
-      One finger → rotate • Two fingers → move • Pinch → zoom
+      One finger → move • Two fingers → rotate • Pinch → zoom
     </div>
 
     <div class="bottom-bar">
@@ -686,74 +235,92 @@
     let currentShoe = null;
     let vibrationInterval = null;
 
-    // ==================== FIXED & WORKING DRAG-TO-MOVE (PAN) ====================
-    function initARControls() {
+    // NEW GESTURE SYSTEM: 1-finger = pan/move, 2-finger = rotate
+    function initCustomARControls() {
       const mv = el.model3d;
+
+      // Disable default camera-controls for rotation
+      mv.cameraControls = false;
+
+      let isPanning = false;
       let startX, startY, startTargetX, startTargetY;
 
-      const updateCamera = () => {
-        const orbit = `${mv.cameraOrbit.theta}deg ${mv.cameraOrbit.phi}deg ${mv.cameraOrbit.radius}%`;
-        const target = `${mv.cameraTarget.x.toFixed(3)}m ${mv.cameraTarget.y.toFixed(3)}m ${mv.cameraTarget.z.toFixed(3)}m`;
-        mv.cameraOrbit = orbit;
-        mv.cameraTarget = target;
+      // 1-finger pan (move model)
+      const panStart = (x, y) => {
+        isPanning = true;
+        startX = x;
+        startY = y;
+        startTargetX = mv.cameraTarget.x;
+        startTargetY = mv.cameraTarget.y;
+      };
+      const panMove = (x, y) => {
+        if (!isPanning) return;
+        const deltaX = (x - startX) * 0.003;
+        const deltaY = (y - startY) * 0.003;
+        mv.cameraTarget = `${(startTargetX + deltaX).toFixed(3)}m ${(startTargetY - deltaY).toFixed(3)}m ${mv.cameraTarget.z.toFixed(3)}m`;
+        startX = x;
+        startY = y;
+        startTargetX = mv.cameraTarget.x;
+        startTargetY = mv.cameraTarget.y;
+      };
+      const panEnd = () => { isPanning = false; };
+
+      // 2-finger rotate
+      let lastAngle = 0;
+      const rotateStart = (touches) => {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        lastAngle = Math.atan2(dy, dx);
+      };
+      const rotateMove = (touches) => {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        const angle = Math.atan2(dy, dx);
+        const delta = angle - lastAngle;
+        lastAngle = angle;
+        const currentOrbit = mv.getCameraOrbit();
+        mv.cameraOrbit = `${currentOrbit.theta + delta * 180 / Math.PI}deg ${currentOrbit.phi}deg ${currentOrbit.radius}m`;
       };
 
+      // Touch events
       el.arContainer.addEventListener('touchstart', e => {
         if (e.touches.length === 1) {
-          // One finger = rotate (default model-viewer behavior)
+          e.preventDefault();
+          panStart(e.touches[0].clientX, e.touches[0].clientY);
         } else if (e.touches.length === 2) {
           e.preventDefault();
-          startX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-          startY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
+          rotateStart(e.touches);
         }
       }, { passive: false });
 
       el.arContainer.addEventListener('touchmove', e => {
-        if (e.touches.length === 2) {
+        if (e.touches.length === 1 && isPanning) {
           e.preventDefault();
-          const currentX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-          const currentY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-
-          const deltaX = (currentX - startX) * 0.003;
-          const deltaY = (currentY - startY) * 0.003;
-
-          mv.cameraTarget = `${(startTargetX + deltaX).toFixed(3)}m ${(startTargetY - deltaY).toFixed(3)}m ${mv.cameraTarget.z.toFixed(3)}m`;
-
-          startX = currentX;
-          startY = currentY;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
+          panMove(e.touches[0].clientX, e.touches[0].clientY);
+        } else if (e.touches.length === 2) {
+          e.preventDefault();
+          rotateMove(e.touches);
         }
       }, { passive: false });
 
-      // Mouse drag for desktop testing
-      let isDragging = false;
+      el.arContainer.addEventListener('touchend', e => {
+        if (e.touches.length < 2) panEnd();
+      });
+
+      // Mouse support for desktop testing
+      let mouseDown = false;
       el.arContainer.addEventListener('mousedown', e => {
         if (e.button === 0) {
-          isDragging = true;
-          startX = e.clientX;
-          startY = e.clientY;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
+          mouseDown = true;
+          panStart(e.clientX, e.clientY);
         }
       });
       document.addEventListener('mousemove', e => {
-        if (isDragging) {
-          const deltaX = (e.clientX - startX) * 0.003;
-          const deltaY = (e.clientY - startY) * 0.003;
-          mv.cameraTarget = `${(startTargetX + deltaX).toFixed(3)}m ${(startTargetY - deltaY).toFixed(3)}m ${mv.cameraTarget.z.toFixed(3)}m`;
-          startX = e.clientX;
-          startY = e.clientY;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
-        }
+        if (mouseDown) panMove(e.clientX, e.clientY);
       });
-      document.addEventListener('mouseup', () => isDragging = false);
+      document.addEventListener('mouseup', () => { mouseDown = false; panEnd(); });
     }
 
-    // Reset position
     function resetModelPosition() {
       el.model3d.cameraTarget = "0m 0m 0m";
       el.model3d.cameraOrbit = "0deg 75deg 105%";
@@ -761,9 +328,9 @@
       setTimeout(() => el.gestureHint.classList.add('hidden'), 5000);
     }
 
-    initARControls();
+    initCustomARControls();
 
-    // Rest of your original features (camera, particles, haptics, etc.)
+    // Haptics
     const Haptic = {
       supported: 'vibrate' in navigator,
       tap(ms = 50) { if (this.supported) navigator.vibrate(ms); },
@@ -856,10 +423,7 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      // Background from camera
       ctx.drawImage(el.camera, 0, 0, canvas.width, canvas.height);
-
-      // Model overlay
       const blob = await el.model3d.toBlob();
       const img = new Image();
       img.src = URL.createObjectURL(blob);
