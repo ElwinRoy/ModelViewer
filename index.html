@@ -83,69 +83,6 @@
       background: transparent;
     }
     
-    /* Glow effect contained only around the video container */
-    .video-glow-wrapper {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 320px; height: 500px;
-      pointer-events: none;
-      z-index: 0;
-    }
-    
-    .background-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 280px; height: 420px;
-      border-radius: 40px;
-      background: radial-gradient(ellipse at center, 
-        rgba(0, 212, 255, 0.5) 0%, 
-        rgba(0, 180, 255, 0.35) 30%,
-        rgba(0, 150, 255, 0.2) 50%,
-        transparent 70%);
-      filter: blur(40px);
-      animation: bgGlowPulse 3s ease-in-out infinite;
-    }
-    .background-glow-secondary {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 320px; height: 480px;
-      border-radius: 50px;
-      background: radial-gradient(ellipse at center, 
-        rgba(0, 255, 136, 0.35) 0%, 
-        rgba(0, 220, 120, 0.2) 35%,
-        transparent 65%);
-      filter: blur(50px);
-      animation: bgGlowPulse2 4s ease-in-out infinite;
-    }
-    .background-glow-accent {
-      position: absolute;
-      top: 40%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 250px; height: 350px;
-      border-radius: 40px;
-      background: radial-gradient(ellipse at center, 
-        rgba(255, 107, 53, 0.4) 0%, 
-        rgba(247, 147, 30, 0.25) 35%,
-        transparent 65%);
-      filter: blur(35px);
-      animation: bgGlowPulse3 5s ease-in-out infinite;
-    }
-    @keyframes bgGlowPulse {
-      0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-    }
-    @keyframes bgGlowPulse2 {
-      0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.08); }
-    }
-    @keyframes bgGlowPulse3 {
-      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.15); }
-    }
-    
     .particles-container {
       position: absolute;
       top: 0; left: 0;
@@ -226,6 +163,48 @@
       width: 220px; height: 390px;
       transform-style: preserve-3d;
     }
+    
+    /* Glow contained within spatial-frame only */
+    .video-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 250px; height: 420px;
+      border-radius: 20px;
+      background: radial-gradient(ellipse at center, 
+        rgba(0, 212, 255, 0.4) 0%, 
+        rgba(0, 180, 255, 0.25) 30%,
+        rgba(0, 150, 255, 0.1) 50%,
+        transparent 70%);
+      filter: blur(30px);
+      animation: bgGlowPulse 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .video-glow-secondary {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px; height: 450px;
+      border-radius: 25px;
+      background: radial-gradient(ellipse at center, 
+        rgba(0, 255, 136, 0.25) 0%, 
+        rgba(0, 220, 120, 0.15) 35%,
+        transparent 65%);
+      filter: blur(40px);
+      animation: bgGlowPulse2 4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+    @keyframes bgGlowPulse {
+      0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    }
+    @keyframes bgGlowPulse2 {
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.05); }
+    }
+    
     .depth-layer-back { position: absolute; top: 8px; left: 8px; width: 204px; height: 374px; background: rgba(0,0,0,0.3); border-radius: 12px; transform: translateZ(-60px); }
     .depth-layer-mid { position: absolute; top: 4px; left: 4px; width: 212px; height: 382px; background: rgba(0,0,0,0.2); border-radius: 14px; transform: translateZ(-30px); }
     .video-spatial-container {
@@ -298,7 +277,6 @@
       background: transparent;
     }
     
-    /* Added gentle fade-in and slide-up animations for models screen */
     @keyframes fadeSlideIn {
       0% { opacity: 0; transform: translateY(30px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -306,6 +284,20 @@
     @keyframes cardFadeIn {
       0% { opacity: 0; transform: translateY(20px) scale(0.95); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-border {
+      position: absolute;
+      inset: -2px;
+      border-radius: 22px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), rgba(0, 255, 136, 0.3), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+      z-index: -1;
+      opacity: 0.6;
     }
     
     .models-scroll-container {
@@ -339,6 +331,7 @@
       overflow: visible;
       opacity: 0;
       animation: cardFadeIn 0.6s ease-out forwards;
+      position: relative;
     }
     .shoe-card:nth-child(1) { animation-delay: 0.1s; }
     .shoe-card:nth-child(2) { animation-delay: 0.2s; }
@@ -409,40 +402,25 @@
       display: none;
       z-index: 110;
       background: transparent;
-      overflow: visible;
+      overflow: hidden;
     }
     
-    /* Model container now uses much larger dimensions to prevent clipping */
+    /* Model container now centered and uses transform for position/scale */
     #arModelContainer {
-      position: fixed;
-      width: 300vw;
-      height: 300vh;
-      top: -100vh;
-      left: -100vw;
-      z-index: 111;
-      pointer-events: none;
-      overflow: visible;
-    }
-    
-    #ar3DModel {
       position: absolute;
       width: 100vw;
       height: 100vh;
-      top: 100vh;
-      left: 100vw;
-      --poster-color: transparent;
-      background-color: transparent !important;
-      touch-action: none;
-      pointer-events: auto;
+      top: 0;
+      left: 0;
+      z-index: 111;
+      transform-origin: center center;
     }
     
-    /* Touch overlay to intercept 1-finger drag */
-    #arTouchOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 112;
-      background: transparent;
+    #ar3DModel {
+      width: 100%;
+      height: 100%;
+      --poster-color: transparent;
+      background-color: transparent !important;
       touch-action: none;
     }
     
@@ -588,12 +566,6 @@
 
   <!-- VIDEO SCREEN -->
   <div id="videoScreen">
-    <!-- Glow wrapper positioned around video only -->
-    <div class="video-glow-wrapper">
-      <div class="background-glow"></div>
-      <div class="background-glow-secondary"></div>
-      <div class="background-glow-accent"></div>
-    </div>
     <div class="particles-container" id="particlesContainer"></div>
     <div class="sound-waves" id="soundWaves">
       <div class="wave-bar" style="animation-delay: 0s;"></div>
@@ -609,6 +581,9 @@
     <div class="gyro-hint" id="gyroHint">Tilt or drag to explore depth</div>
     <div class="spatial-container" id="spatialContainer">
       <div class="spatial-frame">
+        <!-- Glow is inside spatial-frame, only around the video container -->
+        <div class="video-glow"></div>
+        <div class="video-glow-secondary"></div>
         <div class="depth-layer-back"></div>
         <div class="depth-layer-mid"></div>
         <div class="video-spatial-container">
@@ -634,28 +609,28 @@
     <button class="back-to-video-btn" id="backToVideoBtn">Back to Video</button>
   </div>
 
-  <!-- AR VIEW -->
+  <!-- AR VIEW - Removed disable-tap, added proper camera-controls -->
   <div id="arDetailView">
-    <!-- Container is 300vw x 300vh so model never clips -->
     <div id="arModelContainer">
-      <!-- camera-controls enabled, removed disable-zoom for proper rotation -->
       <model-viewer id="ar3DModel"
         ar ar-modes="webxr scene-viewer quick-look"
         camera-controls
-        disable-tap
-        shadow-intensity="1" exposure="1.0"
-        interaction-prompt="none" environment-image="neutral">
+        touch-action="none"
+        shadow-intensity="1" 
+        exposure="1.0"
+        interaction-prompt="none" 
+        environment-image="neutral"
+        min-camera-orbit="auto auto 50%"
+        max-camera-orbit="auto auto 200%">
       </model-viewer>
     </div>
-    
-    <div id="arTouchOverlay"></div>
 
     <div class="top-bar">
       <div class="model-name-badge" id="modelName">Sneaker</div>
     </div>
     
     <div class="gesture-hint" id="gestureHint">
-      1 finger: Move | 2 fingers: Rotate & Scale
+      Drag to rotate | Pinch to zoom | 2 fingers to pan
     </div>
 
     <div class="bottom-bar">
@@ -690,8 +665,7 @@
       models: $("modelsScreen"),
       ar: $("arDetailView"),
       model3d: $("ar3DModel"),
-      modelContainer: $("arModelContainer"),
-      touchOverlay: $("arTouchOverlay"),
+      arModelContainer: $("arModelContainer"),
       startBtn: $("startBtn"),
       visualizeBtn: $("visualizeBtn"),
       videoPlayer: $("videoPlayer"),
@@ -722,16 +696,7 @@
     let isGyroActive = false, isDragging = false;
     let lastTouchX = 0, lastTouchY = 0;
 
-    // AR model transform state
-    let modelScale = 1;
-    let modelPosX = 0;
-    let modelPosY = 0;
-    let initialPinchDistance = 0;
-    let initialScale = 1;
-    let isTwoFingerGesture = false;
-    let isOneFingerDrag = false;
-    let lastDragX = 0;
-    let lastDragY = 0;
+    let containerScale = 1;
 
     function initGyroscope() {
       if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -770,7 +735,7 @@
       const c = el.particlesContainer; c.innerHTML = '';
       const particleTypes = ['glow', 'spark', 'orb'];
       const animationTypes = ['', 'sway'];
-      const particleCount = 10;
+      const particleCount = 12;
       
       for (let i = 0; i < particleCount; i++) {
         const p = document.createElement('div');
@@ -857,10 +822,11 @@
       buttonTimeout = setTimeout(showViewModelsButton, 10000);
     };
 
-    // Generate shoe cards
+    // Generate shoe cards with shimmer effect
     shoes.forEach((shoe, i) => {
       const card = document.createElement("div"); card.className = "shoe-card";
       card.innerHTML = `
+        <div class="shimmer-border"></div>
         <div class="model-wrap">
           <model-viewer src="${shoe.model}" auto-rotate rotation-per-second="25deg" interaction-prompt="none" shadow-intensity="0" exposure="1.0" camera-orbit="0deg 75deg auto" field-of-view="auto" loading="eager" touch-action="pan-y" style="background-color: transparent;"></model-viewer>
         </div>
@@ -872,137 +838,23 @@
       el.shoesGrid.appendChild(card);
     });
 
-    function getTouchDistance(touches) {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    function applyModelTransform() {
-      modelScale = Math.max(0.3, Math.min(3, modelScale));
-      el.modelContainer.style.transform = `translate(${modelPosX}px, ${modelPosY}px) scale(${modelScale})`;
-    }
-
-    function resetModelTransform() {
-      modelScale = 1;
-      modelPosX = 0;
-      modelPosY = 0;
-      el.modelContainer.style.transform = 'translate(0px, 0px) scale(1)';
+    function resetModelView() {
+      // Reset camera to default position
+      el.model3d.cameraOrbit = "0deg 75deg 105%";
+      el.model3d.fieldOfView = "auto";
       el.gestureHint.classList.remove('hidden');
       setTimeout(() => el.gestureHint.classList.add('hidden'), 4000);
     }
 
-    function initARTouchControls() {
-      const overlay = el.touchOverlay;
-      const modelViewer = el.model3d;
-      
-      overlay.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 2) {
-          // Two fingers - let model-viewer handle rotation, we handle scale
-          isTwoFingerGesture = true;
-          isOneFingerDrag = false;
-          initialPinchDistance = getTouchDistance(e.touches);
-          initialScale = modelScale;
-          
-          // Hide overlay so model-viewer can handle rotation
-          overlay.style.pointerEvents = 'none';
-        } else if (e.touches.length === 1) {
-          // One finger - we handle drag, prevent rotation
-          e.preventDefault();
-          e.stopPropagation();
-          isOneFingerDrag = true;
-          isTwoFingerGesture = false;
-          lastDragX = e.touches[0].clientX;
-          lastDragY = e.touches[0].clientY;
-          el.gestureHint.classList.add('hidden');
-        }
-      }, { passive: false });
-
-      overlay.addEventListener('touchmove', (e) => {
-        if (isOneFingerDrag && e.touches.length === 1) {
-          e.preventDefault();
-          e.stopPropagation();
-          // Drag to move - no boundaries
-          const dx = e.touches[0].clientX - lastDragX;
-          const dy = e.touches[0].clientY - lastDragY;
-          modelPosX += dx;
-          modelPosY += dy;
-          lastDragX = e.touches[0].clientX;
-          lastDragY = e.touches[0].clientY;
-          applyModelTransform();
-        }
-      }, { passive: false });
-
-      overlay.addEventListener('touchend', (e) => {
-        if (e.touches.length < 2) {
-          isTwoFingerGesture = false;
-          // Re-enable overlay after two-finger gesture ends
-          overlay.style.pointerEvents = 'auto';
-        }
-        if (e.touches.length === 0) {
-          isOneFingerDrag = false;
-        }
-        // If switching from 2 to 1 finger, start tracking as drag
-        if (e.touches.length === 1 && !isOneFingerDrag) {
-          isOneFingerDrag = true;
-          lastDragX = e.touches[0].clientX;
-          lastDragY = e.touches[0].clientY;
-        }
-      });
-
-      // Handle pinch scale when model-viewer gets touch events
-      modelViewer.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 2) {
-          initialPinchDistance = getTouchDistance(e.touches);
-          initialScale = modelScale;
-        }
-      }, { passive: true });
-
-      modelViewer.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2) {
-          const currentDistance = getTouchDistance(e.touches);
-          const scaleChange = currentDistance / initialPinchDistance;
-          modelScale = initialScale * scaleChange;
-          applyModelTransform();
-        }
-      }, { passive: true });
-
-      // Mouse support for desktop testing
-      let isMouseDragging = false;
-      overlay.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        isMouseDragging = true;
-        lastDragX = e.clientX;
-        lastDragY = e.clientY;
-      });
-
-      window.addEventListener('mousemove', (e) => {
-        if (!isMouseDragging) return;
-        const dx = e.clientX - lastDragX;
-        const dy = e.clientY - lastDragY;
-        modelPosX += dx;
-        modelPosY += dy;
-        lastDragX = e.clientX;
-        lastDragY = e.clientY;
-        applyModelTransform();
-      });
-
-      window.addEventListener('mouseup', () => { isMouseDragging = false; });
-
-      overlay.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        const delta = e.deltaY > 0 ? 0.9 : 1.1;
-        modelScale *= delta;
-        applyModelTransform();
-      }, { passive: false });
-    }
-
-    initARTouchControls();
+    // Hide hint on first interaction
+    el.model3d.addEventListener('camera-change', () => {
+      el.gestureHint.classList.add('hidden');
+    }, { once: true });
 
     document.querySelectorAll('.btn-3d-home').forEach(btn => {
       btn.onclick = e => {
         e.stopPropagation();
-        Haptic.stop(); // Stop vibration when entering AR
+        Haptic.stop();
         Haptic.tap(30);
         const i = parseInt(btn.dataset.i);
         currentShoe = shoes[i];
@@ -1011,13 +863,9 @@
         el.models.style.display = "none";
         el.ar.style.display = "block";
         el.model3d.src = currentShoe.model;
-        el.model3d.cameraOrbit = "0deg 75deg 105%";
-        el.model3d.removeAttribute("auto-rotate");
         
-        // Re-enable touch overlay
-        el.touchOverlay.style.pointerEvents = 'auto';
+        resetModelView();
         
-        resetModelTransform();
         el.model3d.addEventListener('load', () => { 
           el.loading.classList.remove('active'); 
         }, { once: true });
@@ -1071,12 +919,7 @@
           modelImg.src = URL.createObjectURL(modelBlob);
         });
         
-        // Apply same transforms as on screen
-        ctx.save();
-        ctx.translate(width / 2 + modelPosX, height / 2 + modelPosY);
-        ctx.scale(modelScale, modelScale);
-        ctx.drawImage(modelImg, -width / 2, -height / 2, width, height);
-        ctx.restore();
+        ctx.drawImage(modelImg, 0, 0, width, height);
         
         URL.revokeObjectURL(modelImg.src);
         
