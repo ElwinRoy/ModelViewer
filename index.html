@@ -413,25 +413,9 @@
       top: 0;
       left: 0;
       z-index: 111;
-      touch-action: none;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
-    }
-    
-    /* Add transparent overlay to capture all touch events */
-    #arTouchOverlay {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 112;
-      touch-action: none;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-      background: transparent;
     }
     
     /* Model-viewer styling for proper touch response */
@@ -440,7 +424,6 @@
       height: 100%;
       --poster-color: transparent;
       background-color: transparent !important;
-      touch-action: none !important;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
@@ -452,6 +435,7 @@
       display: flex;
       justify-content: center;
       z-index: 115;
+      pointer-events: none;
     }
     .model-name-badge {
       background: rgba(0,0,0,0.6);
@@ -460,6 +444,7 @@
       font-size: 14px;
       font-weight: 600;
       backdrop-filter: blur(10px);
+      pointer-events: auto;
     }
 
     /* Make gesture hint not block touch events */
@@ -489,6 +474,7 @@
       align-items: center;
       gap: 12px;
       z-index: 115;
+      pointer-events: none;
     }
     
     .capture-btn {
@@ -505,6 +491,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      pointer-events: auto;
     }
     .capture-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
 
@@ -522,6 +509,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       box-shadow: 0 4px 20px rgba(255,107,53,0.4);
+      pointer-events: auto;
     }
     .order-btn:active { transform: scale(0.97); }
     .action-row {
@@ -542,6 +530,7 @@
       backdrop-filter: blur(10px);
       flex: 1;
       text-align: center;
+      pointer-events: auto;
     }
     .action-btn:active { background: rgba(255,255,255,0.1); }
 
@@ -635,8 +624,8 @@
 
   <!-- AR VIEW -->
   <div id="arDetailView">
+    
     <div id="arModelContainer">
-      <!-- Removed disable-tap and disable-zoom to allow proper touch handling -->
       <model-viewer id="ar3DModel"
         ar ar-modes="webxr scene-viewer quick-look"
         shadow-intensity="1" 
@@ -649,8 +638,6 @@
         max-field-of-view="90deg"
         field-of-view="30deg">
       </model-viewer>
-      <!-- Add transparent overlay to capture touches above model-viewer -->
-      <div id="arTouchOverlay"></div>
     </div>
 
     <div class="top-bar">
@@ -658,7 +645,7 @@
     </div>
     
     <div class="gesture-hint" id="gestureHint">
-      Drag to rotate | Pinch to zoom | 2 fingers to pan
+      One finger drag to rotate &amp; explore | Two finger drag to pan position | Pinch to zoom
     </div>
 
     <div class="bottom-bar">
@@ -694,7 +681,6 @@
       ar: $("arDetailView"),
       model3d: $("ar3DModel"),
       arModelContainer: $("arModelContainer"),
-      arTouchOverlay: $("arTouchOverlay"),
       startBtn: $("startBtn"),
       visualizeBtn: $("visualizeBtn"),
       videoPlayer: $("videoPlayer"),
@@ -727,185 +713,11 @@
 
     let containerScale = 1;
 
-    let arTouchState = {
-      isRotating: false,
-      isPanning: false,
-      isPinching: false,
-      lastX: 0,
-      lastY: 0,
-      lastPinchDist: 0,
-      lastPinchMidX: 0,
-      lastPinchMidY: 0,
-      // Camera orbit values
-      theta: 0,      // horizontal angle (degrees)
-      phi: 75,       // vertical angle (degrees)
-      radius: 105,   // zoom percentage
-      rotateSensitivity: 1.2,  // was 0.5
-      zoomSensitivity: 2.5,    // was 0.8
-      minPhi: 5,
-      maxPhi: 175,
-      minRadius: 20,
-      maxRadius: 400
-    };
-
-    function initARTouchControls() {
-      const overlay = el.arTouchOverlay;
-      
-      overlay.addEventListener('touchstart', handleARTouchStart, { passive: false });
-      overlay.addEventListener('touchmove', handleARTouchMove, { passive: false });
-      overlay.addEventListener('touchend', handleARTouchEnd, { passive: false });
-      overlay.addEventListener('touchcancel', handleARTouchEnd, { passive: false });
-      
-      // Mouse support for desktop testing
-      overlay.addEventListener('mousedown', handleARMouseDown);
-      document.addEventListener('mousemove', handleARMouseMove);
-      document.addEventListener('mouseup', handleARMouseUp);
-      overlay.addEventListener('wheel', handleARWheel, { passive: false });
-      
-      console.log('[v0] AR touch controls initialized on overlay');
-    }
-
-    function handleARTouchStart(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const touches = e.touches;
-      console.log('[v0] Touch start, touches:', touches.length);
-      
-      if (touches.length === 1) {
-        // Single finger - rotate
-        arTouchState.isRotating = true;
-        arTouchState.isPinching = false;
-        arTouchState.lastX = touches[0].clientX;
-        arTouchState.lastY = touches[0].clientY;
-        console.log('[v0] Started rotating at:', arTouchState.lastX, arTouchState.lastY);
-      } else if (touches.length === 2) {
-        // Two fingers - pinch zoom
-        arTouchState.isRotating = false;
-        arTouchState.isPinching = true;
-        arTouchState.lastPinchDist = getPinchDistance(touches);
-        console.log('[v0] Started pinching, distance:', arTouchState.lastPinchDist);
-      }
-      
-      // Hide gesture hint on first interaction
-      el.gestureHint.classList.add('hidden');
-    }
-
-    function handleARTouchMove(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const touches = e.touches;
-      
-      if (arTouchState.isRotating && touches.length === 1) {
-        // Single finger rotate
-        const currentX = touches[0].clientX;
-        const currentY = touches[0].clientY;
-        const deltaX = currentX - arTouchState.lastX;
-        const deltaY = currentY - arTouchState.lastY;
-        
-        arTouchState.theta -= deltaX * 0.8;
-        arTouchState.phi += deltaY * 0.8;
-        
-        // Clamp phi (vertical angle) - allow almost full rotation
-        arTouchState.phi = Math.max(arTouchState.minPhi, Math.min(arTouchState.maxPhi, arTouchState.phi));
-        
-        // Normalize theta to keep it reasonable
-        while (arTouchState.theta > 180) arTouchState.theta -= 360;
-        while (arTouchState.theta < -180) arTouchState.theta += 360;
-        
-        arTouchState.lastX = currentX;
-        arTouchState.lastY = currentY;
-        
-        updateModelCamera();
-        console.log('[v0] Rotating: theta=' + arTouchState.theta.toFixed(1) + ', phi=' + arTouchState.phi.toFixed(1));
-        
-      } else if (arTouchState.isPinching && touches.length === 2) {
-        // Pinch zoom
-        const currentDist = getPinchDistance(touches);
-        const delta = currentDist - arTouchState.lastPinchDist;
-        
-        arTouchState.radius -= delta * 0.5;
-        arTouchState.radius = Math.max(arTouchState.minRadius, Math.min(arTouchState.maxRadius, arTouchState.radius));
-        
-        arTouchState.lastPinchDist = currentDist;
-        
-        updateModelCamera();
-        console.log('[v0] Zooming: radius=' + arTouchState.radius.toFixed(1));
-      }
-    }
-
-    function handleARTouchEnd(e) {
-      e.preventDefault();
-      console.log('[v0] Touch end');
-      arTouchState.isRotating = false;
-      arTouchState.isPinching = false;
-    }
-
-    function getPinchDistance(touches) {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    // Mouse support for desktop testing
-    function handleARMouseDown(e) {
-      arTouchState.isRotating = true;
-      arTouchState.lastX = e.clientX;
-      arTouchState.lastY = e.clientY;
-      el.gestureHint.classList.add('hidden');
-    }
-
-    function handleARMouseMove(e) {
-      if (!arTouchState.isRotating) return;
-      
-      const deltaX = e.clientX - arTouchState.lastX;
-      const deltaY = e.clientY - arTouchState.lastY;
-      
-      arTouchState.theta -= deltaX * arTouchState.rotateSensitivity;
-      arTouchState.phi += deltaY * arTouchState.rotateSensitivity;
-      arTouchState.phi = Math.max(arTouchState.minPhi, Math.min(arTouchState.maxPhi, arTouchState.phi));
-      
-      while (arTouchState.theta > 180) arTouchState.theta -= 360;
-      while (arTouchState.theta < -180) arTouchState.theta += 360;
-      
-      arTouchState.lastX = e.clientX;
-      arTouchState.lastY = e.clientY;
-      
-      updateModelCamera();
-    }
-
-    function handleARMouseUp() {
-      arTouchState.isRotating = false;
-    }
-
-    function handleARWheel(e) {
-      e.preventDefault();
-      arTouchState.radius += e.deltaY * 0.3;
-      arTouchState.radius = Math.max(arTouchState.minRadius, Math.min(arTouchState.maxRadius, arTouchState.radius));
-      updateModelCamera();
-      el.gestureHint.classList.add('hidden');
-    }
-
-    function updateModelCamera() {
-      const orbit = `${arTouchState.theta.toFixed(2)}deg ${arTouchState.phi.toFixed(2)}deg ${arTouchState.radius.toFixed(2)}%`;
-      el.model3d.cameraOrbit = orbit;
-    }
-
     function resetModelView() {
-      // Reset camera state
-      arTouchState.theta = 0;
-      arTouchState.phi = 75;
-      arTouchState.radius = 105;
-      updateModelCamera();
+      el.model3d.setAttribute('camera-orbit', '0deg 75deg 105%');
+      el.model3d.setAttribute('camera-target', '0m 0m 0m');
       el.gestureHint.classList.remove('hidden');
       setTimeout(() => el.gestureHint.classList.add('hidden'), 4000);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initARTouchControls);
-    } else {
-      initARTouchControls();
     }
 
     function initGyroscope() {
@@ -1032,7 +844,6 @@
       buttonTimeout = setTimeout(showViewModelsButton, 10000);
     };
 
-    // Generate shoe cards with shimmer effect
     shoes.forEach((shoe, i) => {
       const card = document.createElement("div"); card.className = "shoe-card";
       card.innerHTML = `
@@ -1081,7 +892,6 @@
         canvas.width = width;
         canvas.height = height;
         
-        // Draw camera background first
         if (el.camera.srcObject && el.camera.videoWidth > 0) {
           const videoRatio = el.camera.videoWidth / el.camera.videoHeight;
           const canvasRatio = width / height;
@@ -1105,7 +915,7 @@
           ctx.fillRect(0, 0, width, height);
         }
         
-        // Get model snapshot and overlay
+        
         const modelBlob = await modelViewer.toBlob({ idealAspect: false });
         const modelImg = new Image();
         modelImg.crossOrigin = 'anonymous';
