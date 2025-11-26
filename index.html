@@ -83,19 +83,20 @@
       background: transparent;
     }
     
-    /* Enhanced multi-layer glowing background effect */
+    /* Enhanced multi-layer glowing background with stronger effect */
     .background-glow {
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 400px; height: 600px;
+      width: 500px; height: 700px;
       border-radius: 50px;
       background: radial-gradient(ellipse at center, 
-        rgba(0, 212, 255, 0.4) 0%, 
-        rgba(0, 150, 255, 0.25) 30%,
-        rgba(0, 100, 200, 0.15) 50%,
-        transparent 70%);
-      filter: blur(50px);
+        rgba(0, 212, 255, 0.6) 0%, 
+        rgba(0, 180, 255, 0.4) 25%,
+        rgba(0, 150, 255, 0.3) 40%,
+        rgba(0, 100, 200, 0.2) 55%,
+        transparent 75%);
+      filter: blur(60px);
       animation: bgGlowPulse 3s ease-in-out infinite;
       pointer-events: none;
       z-index: 1;
@@ -104,13 +105,14 @@
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 500px; height: 700px;
+      width: 600px; height: 800px;
       border-radius: 60px;
       background: radial-gradient(ellipse at center, 
-        rgba(0, 255, 136, 0.2) 0%, 
-        rgba(0, 200, 100, 0.1) 40%,
-        transparent 70%);
-      filter: blur(60px);
+        rgba(0, 255, 136, 0.35) 0%, 
+        rgba(0, 220, 120, 0.25) 30%,
+        rgba(0, 200, 100, 0.15) 50%,
+        transparent 75%);
+      filter: blur(70px);
       animation: bgGlowPulse2 4s ease-in-out infinite;
       pointer-events: none;
       z-index: 0;
@@ -119,28 +121,49 @@
       position: fixed;
       top: 40%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 300px; height: 400px;
+      width: 450px; height: 550px;
       border-radius: 50%;
       background: radial-gradient(ellipse at center, 
-        rgba(255, 107, 53, 0.25) 0%, 
-        rgba(247, 147, 30, 0.15) 40%,
-        transparent 70%);
-      filter: blur(45px);
+        rgba(255, 107, 53, 0.4) 0%, 
+        rgba(247, 147, 30, 0.3) 30%,
+        rgba(255, 180, 100, 0.2) 50%,
+        transparent 75%);
+      filter: blur(55px);
       animation: bgGlowPulse3 5s ease-in-out infinite;
       pointer-events: none;
       z-index: 0;
     }
+    /* Additional outer glow layer */
+    .background-glow-outer {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 900px;
+      border-radius: 80px;
+      background: radial-gradient(ellipse at center, 
+        rgba(100, 200, 255, 0.2) 0%, 
+        rgba(50, 150, 200, 0.1) 40%,
+        transparent 70%);
+      filter: blur(80px);
+      animation: bgGlowPulse4 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
     @keyframes bgGlowPulse {
-      0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+      0%, 100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
     }
     @keyframes bgGlowPulse2 {
-      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-      50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.1) rotate(5deg); }
+      0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15) rotate(5deg); }
     }
     @keyframes bgGlowPulse3 {
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.25); }
+    }
+    @keyframes bgGlowPulse4 {
       0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
+      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
     }
     
     .particles-container {
@@ -152,56 +175,42 @@
       z-index: 2;
     }
     
-    /* Much more visible particle styles */
+    /* Reduced particle sizes */
     .particle {
       position: absolute;
       border-radius: 50%;
       animation: floatParticle linear infinite;
     }
     .particle.glow {
-      background: radial-gradient(circle, rgba(0, 212, 255, 1) 0%, rgba(0, 212, 255, 0.7) 30%, rgba(0, 180, 255, 0.4) 60%, transparent 70%);
-      box-shadow: 0 0 20px rgba(0, 212, 255, 1), 0 0 40px rgba(0, 212, 255, 0.7), 0 0 60px rgba(0, 212, 255, 0.4), 0 0 80px rgba(0, 212, 255, 0.2);
+      background: radial-gradient(circle, rgba(0, 212, 255, 1) 0%, rgba(0, 212, 255, 0.6) 40%, transparent 70%);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.9), 0 0 20px rgba(0, 212, 255, 0.5);
     }
     .particle.spark {
-      background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 255, 136, 0.9) 40%, rgba(0, 200, 100, 0.5) 60%, transparent 70%);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(0, 255, 136, 0.8), 0 0 50px rgba(0, 255, 136, 0.5);
+      background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 255, 136, 0.7) 50%, transparent 70%);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(0, 255, 136, 0.5);
     }
     .particle.orb {
-      background: radial-gradient(circle, rgba(255, 200, 100, 1) 0%, rgba(255, 107, 53, 0.8) 40%, rgba(247, 147, 30, 0.5) 60%, transparent 70%);
-      box-shadow: 0 0 18px rgba(255, 200, 100, 0.9), 0 0 35px rgba(255, 107, 53, 0.7), 0 0 55px rgba(247, 147, 30, 0.4);
-    }
-    .particle.large {
-      background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 212, 255, 0.8) 30%, rgba(0, 150, 255, 0.4) 60%, transparent 70%);
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 50px rgba(0, 212, 255, 0.6), 0 0 80px rgba(0, 212, 255, 0.3);
+      background: radial-gradient(circle, rgba(255, 200, 100, 1) 0%, rgba(255, 107, 53, 0.6) 50%, transparent 70%);
+      box-shadow: 0 0 10px rgba(255, 200, 100, 0.8), 0 0 18px rgba(255, 107, 53, 0.5);
     }
     @keyframes floatParticle {
-      0% { transform: translateY(100vh) rotate(0deg) scale(0.3); opacity: 0; }
-      5% { opacity: 1; transform: translateY(95vh) rotate(36deg) scale(1); }
-      50% { opacity: 1; transform: translateY(50vh) rotate(360deg) scale(1.3); }
-      95% { opacity: 0.9; transform: translateY(5vh) rotate(684deg) scale(1); }
-      100% { transform: translateY(-50px) rotate(720deg) scale(0.3); opacity: 0; }
+      0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+      10% { opacity: 1; }
+      50% { opacity: 1; transform: translateY(50vh) rotate(360deg) scale(1); }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-50px) rotate(720deg) scale(0.5); opacity: 0; }
     }
     .particle.sway {
       animation: floatParticleSway linear infinite;
     }
     @keyframes floatParticleSway {
-      0% { transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.3); opacity: 0; }
-      5% { opacity: 1; transform: translateY(95vh) translateX(10px) scale(1); }
-      25% { transform: translateY(75vh) translateX(40px) rotate(180deg) scale(1.2); }
-      50% { transform: translateY(50vh) translateX(-30px) rotate(360deg) scale(1.4); opacity: 1; }
-      75% { transform: translateY(25vh) translateX(35px) rotate(540deg) scale(1.1); }
-      95% { opacity: 0.8; transform: translateY(5vh) translateX(-10px) rotate(680deg) scale(0.8); }
-      100% { transform: translateY(-50px) translateX(0) rotate(720deg) scale(0.3); opacity: 0; }
-    }
-    .particle.drift {
-      animation: floatParticleDrift linear infinite;
-    }
-    @keyframes floatParticleDrift {
-      0% { transform: translateY(100vh) translateX(-50px) scale(0.5); opacity: 0; }
+      0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
       10% { opacity: 1; }
-      50% { transform: translateY(50vh) translateX(50px) scale(1.5); opacity: 1; }
+      25% { transform: translateY(75vh) translateX(30px) scale(0.8); }
+      50% { transform: translateY(50vh) translateX(-25px) scale(1); opacity: 1; }
+      75% { transform: translateY(25vh) translateX(20px) scale(0.9); }
       90% { opacity: 0.7; }
-      100% { transform: translateY(-50px) translateX(-30px) scale(0.5); opacity: 0; }
+      100% { transform: translateY(-50px) translateX(0) scale(0.5); opacity: 0; }
     }
     
     .sound-waves {
@@ -403,16 +412,30 @@
       display: none;
       z-index: 110;
       background: transparent;
+      overflow: visible;
     }
-    #ar3DModel {
+    
+    /* Model wrapper to prevent clipping during drag */
+    #arModelWrapper {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
       z-index: 111;
+      overflow: visible;
+      pointer-events: none;
+    }
+    
+    #ar3DModel {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       --poster-color: transparent;
       background-color: transparent !important;
       touch-action: none;
+      pointer-events: auto;
+      transform-origin: center center;
     }
+    
     .top-bar {
       position: fixed;
       top: 20px; left: 15px; right: 15px;
@@ -555,10 +578,11 @@
 
   <!-- VIDEO SCREEN -->
   <div id="videoScreen">
-    <!-- Added multiple glow layers for enhanced effect -->
+    <!-- Enhanced glow layers -->
     <div class="background-glow"></div>
     <div class="background-glow-secondary"></div>
     <div class="background-glow-accent"></div>
+    <div class="background-glow-outer"></div>
     <div class="particles-container" id="particlesContainer"></div>
     <div class="sound-waves" id="soundWaves">
       <div class="wave-bar" style="animation-delay: 0s;"></div>
@@ -601,13 +625,16 @@
 
   <!-- AR VIEW -->
   <div id="arDetailView">
-    <model-viewer id="ar3DModel"
-      ar ar-modes="webxr scene-viewer quick-look"
-      camera-controls
-      shadow-intensity="1" exposure="1.0"
-      interaction-prompt="none" environment-image="neutral"
-      touch-action="none">
-    </model-viewer>
+    <!-- Wrapper div to prevent model clipping -->
+    <div id="arModelWrapper">
+      <model-viewer id="ar3DModel"
+        ar ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        shadow-intensity="1" exposure="1.0"
+        interaction-prompt="none" environment-image="neutral"
+        touch-action="none">
+      </model-viewer>
+    </div>
 
     <div class="top-bar">
       <div class="model-name-badge" id="modelName">Sneaker</div>
@@ -649,6 +676,7 @@
       models: $("modelsScreen"),
       ar: $("arDetailView"),
       model3d: $("ar3DModel"),
+      arModelWrapper: $("arModelWrapper"),
       startBtn: $("startBtn"),
       visualizeBtn: $("visualizeBtn"),
       videoPlayer: $("videoPlayer"),
@@ -672,6 +700,7 @@
     let cameraStream = null;
     let currentShoe = null;
     let buttonTimeout = null;
+    let vibrationInterval = null;
 
     // Parallax for video screen
     let rotateX = 0, rotateY = 0, targetRotateX = 0, targetRotateY = 0;
@@ -724,9 +753,9 @@
 
     function createParticles() {
       const c = el.particlesContainer; c.innerHTML = '';
-      const particleTypes = ['glow', 'spark', 'orb', 'large'];
-      const animationTypes = ['', 'sway', 'drift'];
-      const particleCount = 45; // Increased particle count
+      const particleTypes = ['glow', 'spark', 'orb'];
+      const animationTypes = ['', 'sway'];
+      const particleCount = 18;
       
       for (let i = 0; i < particleCount; i++) {
         const p = document.createElement('div');
@@ -734,12 +763,12 @@
         const anim = animationTypes[Math.floor(Math.random() * animationTypes.length)];
         p.className = `particle ${type}${anim ? ' ' + anim : ''}`;
         
-        // Larger sizes for better visibility (8-25px)
-        const s = type === 'large' ? (Math.random() * 15 + 18) : (Math.random() * 12 + 8);
+        // Smaller sizes (4-10px)
+        const s = Math.random() * 6 + 4;
         p.style.width = s + 'px';
         p.style.height = s + 'px';
         p.style.left = Math.random() * 100 + '%';
-        p.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        p.style.animationDuration = (Math.random() * 5 + 6) + 's';
         p.style.animationDelay = (Math.random() * 6) + 's';
         c.appendChild(p);
       }
@@ -750,8 +779,20 @@
       tap(ms = 50) { if (this.supported) navigator.vibrate(ms); },
       startup() { if (this.supported) navigator.vibrate([100,50,100,50,200]); },
       success() { if (this.supported) navigator.vibrate([30,30,30,30,60]); },
-      videoStart() { if (this.supported) { const p = () => navigator.vibrate([40,80,40,80,40,80]); p(); setInterval(p, 800); } },
-      stop() { if (this.supported) navigator.vibrate(0); }
+      videoStart() { 
+        if (this.supported) { 
+          const p = () => navigator.vibrate([40,80,40,80,40,80]); 
+          p(); 
+          vibrationInterval = setInterval(p, 800); 
+        } 
+      },
+      stop() { 
+        if (this.supported) navigator.vibrate(0); 
+        if (vibrationInterval) {
+          clearInterval(vibrationInterval);
+          vibrationInterval = null;
+        }
+      }
     };
 
     async function initCamera() {
@@ -779,7 +820,8 @@
     };
 
     el.visualizeBtn.onclick = () => {
-      Haptic.stop(); Haptic.tap(30);
+      Haptic.stop();
+      Haptic.tap(30);
       clearTimeout(buttonTimeout);
       el.videoPlayer.pause();
       el.visualizeBtn.classList.remove('visible');
@@ -793,6 +835,7 @@
       el.video.style.display = "flex";
       el.videoPlayer.currentTime = 0;
       el.videoPlayer.play();
+      Haptic.videoStart();
       createParticles();
       targetRotateX = targetRotateY = 0;
       el.gyroHint.style.opacity = '1';
@@ -823,16 +866,15 @@
 
     function applyModelTransform() {
       modelScale = Math.max(0.3, Math.min(3, modelScale));
-      modelPosX = Math.max(-150, Math.min(150, modelPosX));
-      modelPosY = Math.max(-200, Math.min(200, modelPosY));
-      el.model3d.style.transform = `translate(${modelPosX}px, ${modelPosY}px) scale(${modelScale})`;
+      // No position limits - allow free movement
+      el.arModelWrapper.style.transform = `translate(${modelPosX}px, ${modelPosY}px) scale(${modelScale})`;
     }
 
     function resetModelTransform() {
       modelScale = 1;
       modelPosX = 0;
       modelPosY = 0;
-      el.model3d.style.transform = '';
+      el.arModelWrapper.style.transform = '';
       el.gestureHint.classList.remove('hidden');
       setTimeout(() => el.gestureHint.classList.add('hidden'), 4000);
     }
@@ -843,28 +885,33 @@
       modelViewer.addEventListener('touchstart', (e) => {
         if (e.touches.length === 2) {
           e.preventDefault();
+          e.stopPropagation();
           isPinching = true;
           isDraggingModel = false;
           initialPinchDistance = getTouchDistance(e.touches);
           initialScale = modelScale;
         } else if (e.touches.length === 1) {
+          e.preventDefault();
+          e.stopPropagation();
           isDraggingModel = true;
           isPinching = false;
           lastDragX = e.touches[0].clientX;
           lastDragY = e.touches[0].clientY;
           el.gestureHint.classList.add('hidden');
         }
-      }, { passive: false });
+      }, { passive: false, capture: true });
 
       modelViewer.addEventListener('touchmove', (e) => {
         if (isPinching && e.touches.length === 2) {
           e.preventDefault();
+          e.stopPropagation();
           const currentDistance = getTouchDistance(e.touches);
           const scaleChange = currentDistance / initialPinchDistance;
           modelScale = initialScale * scaleChange;
           applyModelTransform();
         } else if (isDraggingModel && e.touches.length === 1) {
           e.preventDefault();
+          e.stopPropagation();
           const dx = e.touches[0].clientX - lastDragX;
           const dy = e.touches[0].clientY - lastDragY;
           modelPosX += dx;
@@ -873,16 +920,17 @@
           lastDragY = e.touches[0].clientY;
           applyModelTransform();
         }
-      }, { passive: false });
+      }, { passive: false, capture: true });
 
       modelViewer.addEventListener('touchend', (e) => {
         if (e.touches.length < 2) isPinching = false;
         if (e.touches.length === 0) isDraggingModel = false;
-      });
+      }, { capture: true });
 
       // Mouse support for desktop
       let isMouseDragging = false;
       modelViewer.addEventListener('mousedown', (e) => {
+        e.preventDefault();
         isMouseDragging = true;
         lastDragX = e.clientX;
         lastDragY = e.clientY;
@@ -911,11 +959,11 @@
 
     initARTouchControls();
 
-    // AR View Entry
     document.querySelectorAll('.btn-3d-home').forEach(btn => {
       btn.onclick = e => {
         e.stopPropagation();
-        Haptic.tap(30);
+        Haptic.stop(); // Stop any ongoing vibration
+        Haptic.tap(30); // Just a quick tap feedback
         const i = parseInt(btn.dataset.i);
         currentShoe = shoes[i];
         el.modelName.textContent = currentShoe.name;
@@ -926,7 +974,10 @@
         el.model3d.cameraOrbit = "0deg 75deg 105%";
         el.model3d.removeAttribute("auto-rotate");
         resetModelTransform();
-        el.model3d.addEventListener('load', () => { el.loading.classList.remove('active'); Haptic.success(); }, { once: true });
+        el.model3d.addEventListener('load', () => { 
+          el.loading.classList.remove('active'); 
+          // No vibration feedback in AR
+        }, { once: true });
       };
     });
 
@@ -992,7 +1043,7 @@
           a.download = `${currentShoe.name.replace(/ /g, '_')}_AR.png`;
           a.click();
           URL.revokeObjectURL(url);
-          Haptic.success();
+          Haptic.tap(30);
         }, 'image/png');
         
       } catch (err) {
@@ -1001,20 +1052,27 @@
       }
     };
 
-    el.orderBtn.onclick = () => { Haptic.success(); window.open(ORDER_URL, '_blank'); };
+    el.orderBtn.onclick = () => { Haptic.tap(30); window.open(ORDER_URL, '_blank'); };
+    
     el.replayBtn.onclick = () => {
       Haptic.tap(30);
       el.ar.style.display = "none";
       el.video.style.display = "flex";
       el.videoPlayer.currentTime = 0;
       el.videoPlayer.play();
+      Haptic.videoStart();
       createParticles();
       targetRotateX = targetRotateY = 0;
       el.gyroHint.style.opacity = '1';
       setTimeout(() => el.gyroHint.style.opacity = '0', 4000);
       buttonTimeout = setTimeout(showViewModelsButton, 10000);
     };
-    el.backBtn.onclick = () => { Haptic.tap(30); el.ar.style.display = "none"; el.models.style.display = "flex"; };
+    
+    el.backBtn.onclick = () => { 
+      Haptic.tap(30); 
+      el.ar.style.display = "none"; 
+      el.models.style.display = "flex"; 
+    };
 
     window.addEventListener('beforeunload', () => { Haptic.stop(); if (cameraStream) cameraStream.getTracks().forEach(t => t.stop()); });
     document.addEventListener('visibilitychange', async () => { if (document.hidden && cameraStream) cameraStream.getTracks().forEach(t => t.stop()); else await initCamera(); });
