@@ -69,7 +69,6 @@
     }
     .press-button:active { transform: scale(0.95); }
 
-    /* VIDEO SCREEN */
     #videoScreen {
       position: fixed;
       top: 0; left: 0;
@@ -602,7 +601,7 @@
           <video id="videoPlayer" playsinline loop>
             <source src="https://github.com/ElwinRoy/ModelViewer/raw/main/nike.mp4" type="video/mp4">
           </video>
-          <button class="visualize-button" id="visualizeBtn">View Models</button>
+          <button class="visualize-button" id="visualizeBtn">View Products</button>
         </div>
         <div class="floor-shadow"></div>
       </div>
@@ -613,8 +612,8 @@
   <div id="modelsScreen">
     <div class="models-scroll-container" id="scrollContainer">
       <div class="models-header">
-        <h2>Choose Your Sneaker</h2>
-        <p>Select a model to view in AR</p>
+        <h2>Choose Your Product</h2>
+        <p>Select a Product to view in AR</p>
       </div>
       <div class="shoes-grid" id="shoesGrid"></div>
     </div>
@@ -783,7 +782,6 @@
 
     initARControls();
 
-    // Rest of your original features (camera, particles, haptics, etc.)
     const Haptic = {
       supported: 'vibrate' in navigator,
       tap(ms = 50) { if (this.supported) navigator.vibrate(ms); },
@@ -822,7 +820,7 @@
       el.videoPlayer.play();
       Haptic.videoStart();
       createParticles();
-      setTimeout(() => el.visualizeBtn.classList.add('visible'), 10000);
+      setTimeout(() => el.visualizeBtn.classList.add('visible'), 5000);
     };
 
     el.visualizeBtn.onclick = () => {
@@ -876,10 +874,8 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      // Background from camera
       ctx.drawImage(el.camera, 0, 0, canvas.width, canvas.height);
 
-      // Model overlay
       const blob = await el.model3d.toBlob();
       const img = new Image();
       img.src = URL.createObjectURL(blob);
