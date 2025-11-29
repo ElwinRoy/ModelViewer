@@ -228,7 +228,7 @@
       border: 1px solid rgba(255,255,255,0.2);
       background: rgba(0,0,0,0.3);
       backdrop-filter: blur(10px);
-      color: #00ffcc;
+      color: #f7faf9;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -252,7 +252,7 @@
       bottom: 130px; left: 50%;
       transform: translateX(-50%);
       font-size: 11px;
-      color: #00ffcc;
+      color: #0effcf;
       text-align: center;
       background: rgba(0,0,0,0.4);
       padding: 6px 14px;
@@ -348,8 +348,9 @@
     .shoe-card:nth-child(12) { animation-delay: 1.2s; }
     .shoe-card:nth-child(13) { animation-delay: 1.3s; }
    
+    /* REDUCED HEIGHT HERE FOR SMOOTHER SCROLL */
     .model-wrap {
-      height: 220px;
+      height: 190px;  /* ← reduced from 220px to 190px */
       background: transparent !important;
       touch-action: pan-y;
       position: relative;
@@ -418,7 +419,7 @@
       transform: translateX(-50%);
       background: rgba(0,0,0,0.4);
       border: 1px solid rgba(255,255,255,0.2);
-      color: #00ffcc;
+      color: #e6e6e6;
       padding: 12px 30px;
       border-radius: 25px;
       font-size: 12px;
@@ -480,7 +481,7 @@
       top: 70px; left: 50%;
       transform: translateX(-50%);
       font-size: 11px;
-      color: #00ffcc;
+      color: #f9f9f9;
       text-align: center;
       background: rgba(0,0,0,0.3);
       padding: 8px 16px;
@@ -506,7 +507,7 @@
     .capture-btn {
       background: rgba(0,0,0,0.4);
       border: 2px solid rgba(255,255,255,0.4);
-      color: #00ffcc;
+      color: #f8f8f8;
       padding: 14px 35px;
       border-radius: 30px;
       font-size: 13px;
@@ -582,7 +583,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
-<body>
+<body>  
   <video id="cameraBackground" autoplay playsinline muted></video>
   <canvas id="captureCanvas"></canvas>
   <div class="loading-overlay" id="loadingOverlay">
@@ -595,7 +596,7 @@
     <div class="intro-ripple"></div>
     <button class="press-button" id="startBtn">TAP TO<br>START</button>
   </div>
-  <!-- VIDEO SCREEN -->
+
   <div id="videoScreen">
     <div class="particles-container" id="particlesContainer"></div>
     <div class="sound-waves" id="soundWaves">
