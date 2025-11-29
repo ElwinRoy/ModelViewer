@@ -348,9 +348,8 @@
     .shoe-card:nth-child(12) { animation-delay: 1.2s; }
     .shoe-card:nth-child(13) { animation-delay: 1.3s; }
    
-    /* REDUCED HEIGHT HERE FOR SMOOTHER SCROLL */
     .model-wrap {
-      height: 190px;  /* ← reduced from 220px to 190px */
+      height: 190px;
       background: transparent !important;
       touch-action: pan-y;
       position: relative;
@@ -610,7 +609,6 @@
       <div class="wave-bar" style="animation-delay: 0.15s;"></div>
       <div class="wave-bar" style="animation-delay: 0.05s;"></div>
     </div>
-    <div class="gyro-hint" id="gyroHint">Tilt or drag to explore depth</div>
     <div class="spatial-container" id="spatialContainer">
       <div class="spatial-frame">
         <div class="video-glow"></div>
@@ -655,7 +653,7 @@
     </div>
    
     <div class="gesture-hint" id="gestureHint">
-      One finger → rotate • Two fingers → move • Pinch → zoom
+      One finger to move • Two fingers to rotate • Pinch to zoom
     </div>
     <div class="bottom-bar">
       <button class="capture-btn" id="captureBtn">
@@ -717,56 +715,83 @@
     };
     let currentShoe = null;
     let vibrationInterval = null;
+
     function initARControls() {
       const mv = el.model3d;
-      let startX, startY, startTargetX, startTargetY;
+      let startX, startY, startTargetX, startTargetY, startTheta, startPhi;
+
+      // ONE FINGER = MOVE (cameraTarget)
       el.arContainer.addEventListener('touchstart', e => {
         if (e.touches.length === 1) {
-        } else if (e.touches.length === 2) {
           e.preventDefault();
-          startX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-          startY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          startTargetX = mv.cameraTarget.split(' ')[0].replace('m','');
+          startTargetY = mv.cameraTarget.split(' ')[1].replace('m','');
         }
       }, { passive: false });
+
+      el.arContainer.addEventListener('touchmove', e => {
+        if (e.touches.length === 1) {
+          e.preventDefault();
+          const dx = (e.touches[0].clientX - startX) * 0.003;
+          const dy = (e.touches[0].clientY - startY) * 0.003;
+          mv.cameraTarget = `${(parseFloat(startTargetX) + dx).toFixed(3)}m ${(parseFloat(startTargetY) - dy).toFixed(3)}m ${mv.cameraTarget.split(' ')[2]}`;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        }
+      }, { passive: false });
+
+      // TWO FINGERS = ROTATE (cameraOrbit)
+      el.arContainer.addEventListener('touchstart', e => {
+        if (e.touches.length === 2) {
+          e.preventDefault();
+          const orbit = mv.cameraOrbit.split(' ');
+          startTheta = parseFloat(orbit[0].replace('deg',''));
+          startPhi = parseFloat(orbit[1].replace('deg',''));
+          startX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+          startY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        }
+      }, { passive: false });
+
       el.arContainer.addEventListener('touchmove', e => {
         if (e.touches.length === 2) {
           e.preventDefault();
           const currentX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
           const currentY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-          const deltaX = (currentX - startX) * 0.003;
-          const deltaY = (currentY - startY) * 0.003;
-          mv.cameraTarget = `${(startTargetX + deltaX).toFixed(3)}m ${(startTargetY - deltaY).toFixed(3)}m ${mv.cameraTarget.z.toFixed(3)}m`;
+          const deltaX = (currentX - startX) * 0.3;
+          const deltaY = (currentY - startY) * 0.3;
+          const newTheta = (startTheta - deltaX) % 360;
+          const newPhi = Math.max(10, Math.min(165, startPhi + deltaY));
+          mv.cameraOrbit = `${newTheta}deg ${newPhi}deg 105%`;
           startX = currentX;
           startY = currentY;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
         }
       }, { passive: false });
+
+      // Mouse support (drag = move, but we keep default model-viewer rotation disabled via touch-action:none)
       let isDragging = false;
       el.arContainer.addEventListener('mousedown', e => {
         if (e.button === 0) {
           isDragging = true;
           startX = e.clientX;
           startY = e.clientY;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
+          startTargetX = mv.cameraTarget.split(' ')[0].replace('m','');
+          startTargetY = mv.cameraTarget.split(' ')[1].replace('m','');
         }
       });
       document.addEventListener('mousemove', e => {
         if (isDragging) {
-          const deltaX = (e.clientX - startX) * 0.003;
-          const deltaY = (e.clientY - startY) * 0.003;
-          mv.cameraTarget = `${(startTargetX + deltaX).toFixed(3)}m ${(startTargetY - deltaY).toFixed(3)}m ${mv.cameraTarget.z.toFixed(3)}m`;
+          const dx = (e.clientX - startX) * 0.003;
+          const dy = (e.clientY - startY) * 0.003;
+          mv.cameraTarget = `${(parseFloat(startTargetX) + dx).toFixed(3)}m ${(parseFloat(startTargetY) - dy).toFixed(3)}m ${mv.cameraTarget.split(' ')[2]}`;
           startX = e.clientX;
           startY = e.clientY;
-          startTargetX = mv.cameraTarget.x;
-          startTargetY = mv.cameraTarget.y;
         }
       });
       document.addEventListener('mouseup', () => isDragging = false);
     }
+
     function resetModelPosition() {
       el.model3d.cameraTarget = "0m 0m 0m";
       el.model3d.cameraOrbit = "0deg 75deg 105%";
@@ -774,6 +799,7 @@
       setTimeout(() => el.gestureHint.classList.add('hidden'), 5000);
     }
     initARControls();
+
     const Haptic = {
       supported: 'vibrate' in navigator,
       tap(ms = 50) { if (this.supported) navigator.vibrate(ms); },
@@ -782,6 +808,7 @@
       videoStart() { if (this.supported) { const p = () => navigator.vibrate([40,80,40,80,40,80]); p(); vibrationInterval = setInterval(p, 800); } },
       stop() { if (this.supported) navigator.vibrate(0); if (vibrationInterval) { clearInterval(vibrationInterval); vibrationInterval = null; } }
     };
+
     async function initCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
@@ -789,6 +816,7 @@
       } catch (e) { document.body.style.background = "#001a1a"; }
     }
     initCamera();
+
     function createParticles() {
       const c = el.particlesContainer; c.innerHTML = '';
       for (let i = 0; i < 12; i++) {
@@ -802,6 +830,7 @@
         c.appendChild(p);
       }
     }
+
     el.startBtn.onclick = () => {
       Haptic.startup();
       el.intro.style.display = "none";
@@ -811,11 +840,15 @@
       createParticles();
       setTimeout(() => el.visualizeBtn.classList.add('visible'), 5000);
     };
+
     el.visualizeBtn.onclick = () => {
-      Haptic.stop(); Haptic.tap();
+      Haptic.stop(); 
+      Haptic.tap();
+      el.videoPlayer.pause();
       el.video.style.display = "none";
       el.models.style.display = "flex";
     };
+
     el.backToVideoBtn.onclick = () => {
       el.models.style.display = "none";
       el.video.style.display = "flex";
@@ -824,6 +857,7 @@
       Haptic.videoStart();
       createParticles();
     };
+
     shoes.forEach((shoe, i) => {
       const card = document.createElement("div"); card.className = "shoe-card";
       card.innerHTML = `
@@ -838,6 +872,7 @@
         </div>`;
       el.shoesGrid.appendChild(card);
     });
+
     document.querySelectorAll('.btn-3d-home').forEach(btn => {
       btn.onclick = () => {
         const i = btn.dataset.i;
@@ -851,6 +886,7 @@
         el.model3d.addEventListener('load', () => el.loading.classList.remove('active'), { once: true });
       };
     });
+
     el.captureBtn.onclick = async () => {
       Haptic.tap(50);
       const canvas = el.captureCanvas;
@@ -871,8 +907,16 @@
         a.click();
       });
     };
+
     el.orderBtn.onclick = () => window.open(ORDER_URL, '_blank');
-    el.replayBtn.onclick = () => { el.ar.style.display = "none"; el.video.style.display = "flex"; el.videoPlayer.currentTime = 0; el.videoPlayer.play(); Haptic.videoStart(); createParticles(); };
+    el.replayBtn.onclick = () => { 
+      el.ar.style.display = "none"; 
+      el.video.style.display = "flex"; 
+      el.videoPlayer.currentTime = 0; 
+      el.videoPlayer.play(); 
+      Haptic.videoStart(); 
+      createParticles(); 
+    };
     el.backBtn.onclick = () => { el.ar.style.display = "none"; el.models.style.display = "flex"; };
   </script>
 </body>
